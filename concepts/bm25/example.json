@@ -1,0 +1,11 @@
+{
+  "query": "car repair",
+  "k1": 0.9,
+  "b": 0.4,
+  "docs": [
+    { "id": "A", "text": "Car repair shops fix a car quickly and cheaply." },
+    { "id": "B", "text": "The city council met on Tuesday to discuss bus routes, bike lanes, parking fees, school crossings, street lighting, tree planting, flood drains, library hours and the old bridge. One resident asked about car repair grants, but the council moved on to the budget." },
+    { "id": "C", "text": "Automobile mechanics fix engines, brakes and tires." },
+    { "id": "D", "text": "A good bike repair stand holds the frame steady." }
+  ]
+}

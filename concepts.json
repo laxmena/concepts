@@ -1,0 +1,12 @@
+{
+  "concepts": [
+    {
+      "slug": "bm25",
+      "title": "BM25 and the inverted index",
+      "idea": "BM25 ranks documents for a search: rare words count more, repeats count a little, and long documents lose points. An index finds the right documents fast.",
+      "area": "Retrieval",
+      "posts": [],
+      "reviewed": "2026-10-31"
+    }
+  ]
+}

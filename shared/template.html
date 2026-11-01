@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{title}} · Concepts</title>
+<meta name="description" content="{{idea}}">
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="../../shared/style.css">
+</head>
+<body data-slug="{{slug}}">
+<header class="site-head"><a href="../../">Concepts</a><a href="https://internals.laxmena.com">INTERNALS.md</a></header>
+<main>
+<div class="hero">
+<div class="hero-text">
+<h1>{{title}}</h1>
+<ul class="lede-list">
+<li>The idea, as a short full sentence.</li>
+<li>Three or four of these, no more.</li>
+</ul>
+<p class="try-this">Try this: one instruction for the picture.</p>
+</div>
+<section aria-labelledby="try">
+<h2 id="try" class="eyebrow">Try it</h2>
+<div class="widget" id="widget"><p>This page needs JavaScript.</p></div>
+</section>
+</div>
+
+<!-- Optional. Delete the section if the widget needs no prediction.
+<section aria-labelledby="predict">
+<h2 id="predict">Predict first</h2>
+<div class="qa"><p>Question.</p>
+<div class="reveal"><button type="button" data-closed="Show answer">Show answer</button><div class="answer"><p>Answer.</p></div></div></div>
+</section>
+-->
+
+<section aria-labelledby="happened">
+<h2 id="happened">What just happened</h2>
+<ol class="steps">
+<li>Step tied to something visible in the widget.</li>
+</ol>
+</section>
+
+<section aria-labelledby="breaks">
+<h2 id="breaks">Where it breaks</h2>
+<p>The blind spot, then a live demonstration of it.</p>
+</section>
+
+<section aria-labelledby="check">
+<h2 id="check">Check yourself</h2>
+<div class="qa"><p>Question.</p>
+<div class="reveal"><button type="button" data-closed="Show answer">Show answer</button><div class="answer"><p>Answer.</p></div></div></div>
+</section>
+
+<section aria-labelledby="used">
+<h2 id="used">Used in</h2>
+<ul class="refs" id="used-in"><li>Loading…</li></ul>
+</section>
+
+<section aria-labelledby="deeper">
+<h2 id="deeper">Go deeper</h2>
+<ul class="refs">
+<li><a href="https://example.org">Primary source</a>, with one line on what it adds.</li>
+</ul>
+</section>
+</main>
+<footer class="site-foot">Last reviewed <time id="reviewed"></time> · <a id="source" href="https://github.com/laxmena/concepts">Source for this page</a></footer>
+
+<script type="module">
+import { bootPage } from '../../shared/boot.js';
+import { mount } from './widget.js';
+await bootPage();
+const example = await (await fetch('example.json')).json();
+mount(document.getElementById('widget'), example);
+</script>
+</body>
+</html>

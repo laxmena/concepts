@@ -1,0 +1,30 @@
+{
+  "query": "fix a flat bike tire",
+  "k": 5,
+  "gradeNames": ["Not useful", "A little", "Good", "Perfect"],
+  "results": [
+    { "id": "e", "title": "Bike tire sizes explained", "grade": 1 },
+    { "id": "g", "title": "How to change a flat tire on your car", "grade": 0 },
+    { "id": "a", "title": "Patching a bike inner tube, step by step", "grade": 3 },
+    { "id": "c", "title": "Fix a flat: the tools you need", "grade": 2 },
+    { "id": "h", "title": "Best bike lights for night rides", "grade": 0 },
+    { "id": "d", "title": "Why does my bike tire keep going flat?", "grade": 2 },
+    { "id": "b", "title": "Quick roadside flat repair (video)", "grade": 3 },
+    { "id": "f", "title": "Tire pressure guide for mountain bikes", "grade": 1 },
+    { "id": "i", "title": "Bike shop opening hours", "grade": 0 },
+    { "id": "j", "title": "A short history of the bicycle", "grade": 0 }
+  ],
+  "breaks": {
+    "k": 5,
+    "docs": [
+      { "id": "p3", "title": "Patching a bike inner tube", "grade": 3 },
+      { "id": "p2", "title": "Fix a flat: the tools you need", "grade": 2 },
+      { "id": "p1", "title": "Bike tire sizes explained", "grade": 1 },
+      { "id": "p0", "title": "Bike shop opening hours", "grade": 0 },
+      { "id": "q0", "title": "A short history of the bicycle", "grade": 0 },
+      { "id": "new", "title": "A new repair guide nobody has judged yet", "grade": null, "hiddenGrade": 3 }
+    ],
+    "systemA": ["p3", "p2", "p1", "p0", "q0"],
+    "systemB": ["new", "p3", "p2", "p1", "p0"]
+  }
+}

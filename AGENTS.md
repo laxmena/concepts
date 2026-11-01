@@ -35,7 +35,7 @@ Look, writing and checks live in [STYLE.md](STYLE.md). Read it before building o
 - `concepts.json` is the manifest: `slug, title, idea, area, posts[{title,url}], reviewed (YYYY-MM-DD)`.
   The home page, each page's "Used in" list and its footer date all read from it. Only list pages that exist.
 - Helpers in `shared/lib.js`: `el`, `svg`, `slider`, `initReveals` (declarative `.reveal` boxes), `barChart`, `stackedBar` (one bar in pieces, plus a thin blue comparison bar), `editableList`.
-  A draggable list helper does not exist yet; add it to `lib.js` (with keyboard move up/down buttons) when the first page needs it.
+  `sortableList` is the draggable list: drag a row's handle, or focus it and press the arrow keys. Rows are built once and updated in place.
 - `scripts/check-links.mjs`: local links and manifest check; `--external` also fetches external links.
 
 ## Adding a page

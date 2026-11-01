@@ -7,6 +7,7 @@ Rules come first, then the parts. `shared/style.css` and `shared/lib.js` hold th
 - A reader who knows nothing gets the idea in about one minute, mostly from the picture.
 - The first screen has the title, the idea as 3 to 4 short bullets, one instruction, and the working picture.
 - The picture and its controls fit in one screen (1280x720 and 390x844) with no scrolling. Measure it: `npm run e2e`.
+  Exception: a ranked list of ten rows cannot fit a phone. On laptops it must still fit; on phones it may scroll (`--phone-may-scroll`).
 - Words are simple. If a hard word is needed, explain it where it first appears.
 
 ## 2. Colour
@@ -50,13 +51,16 @@ Reuse these meanings on every page so a reader learns them once.
 | Blue bar | the plain comparison (for example a simple word count) |
 | Tag "never read" | the item was skipped entirely |
 | Big mono number at the right | the exact value, always shown next to its bar |
+| Dashed line, dimmed rows | the cut-off: rows below it do not count |
+| Dashed square with "?" | a value nobody has supplied (for example an ungraded result) |
 
 ## 6. Parts (in `shared/`)
-- `lib.js`: `slider`, `editableList`, `initReveals`, `barChart`, `stackedBar({ segments, max, ghost, color })`, `el`, `svg`.
+- `lib.js`: `slider`, `editableList`, `sortableList` (drag a handle or use arrow keys), `segmented` (radio group drawn as buttons), `initReveals`,
+  `barChart`, `stackedBar({ segments, max, ghost, color })`, `meter` (HTML bar), `el`, `svg`.
   `lib.js` and `widget.js` must not touch `document` at import time, so Node tests can import them.
 - Classes: `.hero`, `.hero-text`, `.lede-list`, `.try-this`, `.eyebrow`, `.widget`, `.controls`, `.slider`, `.toggles`, `.check`,
   `.cards`, `.card`, `.strip`, `.sq`, `.tile.match`, `.score-line`, `.num`, `.story`, `.legend`, `.lessons`, `.lesson`, `.caption`, `.mini`,
-  `.qa`, `.reveal`, `.refs`, `.table-wrap`.
+  `.qa`, `.reveal`, `.refs`, `.table-wrap`, `.rank-row`, `.handle`, `.segmented`, `.meter`, `.stats`, `.systems`, `.gtile`.
 - Start a page from `shared/template.html` with `./new-concept.sh`.
 
 ## 7. Page order (fixed)

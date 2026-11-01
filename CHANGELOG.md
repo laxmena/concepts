@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Page: nDCG@k. Ten draggable results with grades, live DCG / best possible / nDCG, a k slider with a cut-off line, three small pictures, and the incomplete-judgments demo. Tests worked by hand, including the textbook example (nDCG6 = 0.961).
+- Shared helpers: `sortableList`, `segmented`, `meter`.
 - Shared layer: stylesheet, page template, helpers (DOM, slider, reveal, bar charts, editable list), offline service worker.
 - BM25 page, picture first: a 2x2 grid of cards (word squares, score bar split by search word, one plain sentence each), optional plain-count bar, index lookup view, "never read" tag. Fits one screen on laptop and phone. Tables and formula are folded away. Tests checked against bm25s 0.3.16.
 - "What just happened" is three small pictures (coins for rarity, a bar cut into shrinking pieces for repeats, one match in a short and a long text); the last two follow the k1 and b sliders.

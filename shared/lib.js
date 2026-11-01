@@ -155,3 +155,88 @@ export function stackedBar({ segments, max, ghost = null, label, color = 'orange
   }
   return root;
 }
+
+/** A bar built from HTML, so it stays crisp at any width. Orange fill, optional thin blue comparison bar under it. */
+export function meter({ value, max, ghost = null, label }) {
+  const pct = (v) => `${Math.max(0, Math.min(1, max > 0 ? v / max : 0)) * 100}%`;
+  const root = el('div', { class: 'meter', role: 'img', 'aria-label': label },
+    el('div', { class: 'fill', style: `width:${pct(value)}` }));
+  if (ghost != null) root.append(el('div', { class: 'ghost', style: `width:${pct(ghost)}` }));
+  return root;
+}
+
+/** A row of radio buttons drawn as a segmented control. Native radios: arrow keys work, every group has a legend. */
+export function segmented({ name, legend, options, value, onChange }) {
+  const root = el('fieldset', { class: 'segmented' }, el('legend', { class: 'sr-only' }, legend));
+  const inputs = [];
+  for (const o of options) {
+    const id = nextId('seg');
+    const input = el('input', { type: 'radio', name, id, value: String(o.value), class: 'seg-input' });
+    input.checked = o.value === value;
+    input.addEventListener('change', () => onChange(o.value));
+    inputs.push([o.value, input]);
+    root.append(input, el('label', { for: id, title: o.title }, o.label));
+  }
+  return { root, set(v) { for (const [val, input] of inputs) input.checked = val === v; } };
+}
+
+/**
+ * A list you can reorder by dragging a row's handle, or by focusing the handle and pressing the arrow keys.
+ * createRow(item, { handle }) builds a row once and returns { el, refs }. onReorder(ids) runs after every move.
+ * The caller updates each row's text (rank, scores) itself; rows are never rebuilt, so focus and drags survive.
+ */
+export function sortableList({ items, createRow, onReorder, announce }) {
+  const root = el('div', { class: 'sortable' });
+  const rows = new Map();
+  const order = items.map((i) => i.id);
+  const place = () => order.forEach((id) => root.append(rows.get(id).el));
+  function move(id, to) {
+    order.splice(order.indexOf(id), 1);
+    order.splice(to, 0, id);
+    place();
+    onReorder(order.slice());
+  }
+  function startDrag(event, id) {
+    if (event.button !== 0) return;
+    event.preventDefault();
+    const rowEl = rows.get(id).el;
+    rowEl.classList.add('dragging');
+    const onMove = (e) => {
+      const others = order.filter((x) => x !== id);
+      let to = 0;
+      for (const x of others) {
+        const r = rows.get(x).el.getBoundingClientRect();
+        if (e.clientY > r.top + r.height / 2) to++;
+      }
+      if (to !== order.indexOf(id)) move(id, to);
+    };
+    const stop = () => {
+      rowEl.classList.remove('dragging');
+      window.removeEventListener('pointermove', onMove);
+      window.removeEventListener('pointerup', stop);
+      window.removeEventListener('pointercancel', stop);
+      rows.get(id).handle.focus();
+      announce?.(`Moved to rank ${order.indexOf(id) + 1}`);
+    };
+    window.addEventListener('pointermove', onMove);
+    window.addEventListener('pointerup', stop);
+    window.addEventListener('pointercancel', stop);
+  }
+  for (const item of items) {
+    const handle = el('button', { type: 'button', class: 'handle' });
+    const made = createRow(item, { handle });
+    rows.set(item.id, { ...made, handle });
+    root.append(made.el);
+    handle.addEventListener('keydown', (e) => {
+      if (e.key !== 'ArrowUp' && e.key !== 'ArrowDown') return;
+      e.preventDefault();
+      const to = order.indexOf(item.id) + (e.key === 'ArrowUp' ? -1 : 1);
+      if (to < 0 || to >= order.length) return;
+      move(item.id, to);
+      handle.focus();
+      announce?.(`Moved to rank ${to + 1}`);
+    });
+    handle.addEventListener('pointerdown', (e) => startDrag(e, item.id));
+  }
+  return { root, rows, order: () => order.slice() };
+}

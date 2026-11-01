@@ -7,6 +7,14 @@
       "area": "Retrieval",
       "posts": [],
       "reviewed": "2026-10-31"
+    },
+    {
+      "slug": "ndcg",
+      "title": "nDCG@k",
+      "idea": "nDCG@k scores a ranked list: each result earns its grade, shrunk by its rank, divided by the best score the same results could earn.",
+      "area": "Evaluation",
+      "posts": [],
+      "reviewed": "2026-11-01"
     }
   ]
 }

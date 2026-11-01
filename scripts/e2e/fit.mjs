@@ -18,9 +18,9 @@ for (const scheme of ['light', 'dark']) {
     page.on('pageerror', (e) => errors.push(String(e)));
     page.on('console', (m) => m.type() === 'error' && errors.push(m.text()));
     await page.goto(`${base}/concepts/${slug}/`);
-    await page.waitForSelector('#widget .card, #widget .rank-row');
+    await page.waitForSelector('#widget .card, #widget .rank-row, #widget .side');
     const r = await page.evaluate(() => ({
-      bottom: Math.round(Math.max(...[...document.querySelectorAll('#widget .card, #widget .rank-row')].map((c) => c.getBoundingClientRect().bottom))),
+      bottom: Math.round(Math.max(...[...document.querySelectorAll('#widget .card, #widget .rank-row, #widget .side, #widget .axis-row')].map((c) => c.getBoundingClientRect().bottom))),
       sideways: document.documentElement.scrollWidth > document.documentElement.clientWidth,
     }));
     const fits = r.bottom <= h;

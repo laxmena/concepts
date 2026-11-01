@@ -157,10 +157,10 @@ export function stackedBar({ segments, max, ghost = null, label, color = 'orange
 }
 
 /** A bar built from HTML, so it stays crisp at any width. Orange fill, optional thin blue comparison bar under it. */
-export function meter({ value, max, ghost = null, label }) {
+export function meter({ value, max, ghost = null, label, color = 'orange' }) {
   const pct = (v) => `${Math.max(0, Math.min(1, max > 0 ? v / max : 0)) * 100}%`;
   const root = el('div', { class: 'meter', role: 'img', 'aria-label': label },
-    el('div', { class: 'fill', style: `width:${pct(value)}` }));
+    el('div', { class: `fill ${color}`, style: `width:${pct(value)}` }));
   if (ghost != null) root.append(el('div', { class: 'ghost', style: `width:${pct(ghost)}` }));
   return root;
 }

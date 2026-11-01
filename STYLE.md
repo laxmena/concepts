@@ -7,6 +7,7 @@ Rules come first, then the parts. `shared/style.css` and `shared/lib.js` hold th
 - A reader who knows nothing gets the idea in about one minute, mostly from the picture.
 - The first screen has the title, the idea as 3 to 4 short bullets, one instruction, and the working picture.
 - The picture and its controls fit in one screen (1280x720 and 390x844) with no scrolling. Measure it: `npm run e2e`.
+  The check measures the picture itself (cards, rows, diagram panels, chart axis). A one-line key or footnote under it may fall below the fold.
   Exception: a ranked list of ten rows cannot fit a phone. On laptops it must still fit; on phones it may scroll (`--phone-may-scroll`).
 - Words are simple. If a hard word is needed, explain it where it first appears.
 
@@ -36,7 +37,7 @@ Sections are separated by white space (4rem above a heading), not by lines. The 
 ## 4. Layout
 - Page width 72rem. On screens 64rem and wider the top is two columns: idea and instruction on the left (20rem), the picture on the right.
 - Below that, one column. Cards stay two per row, even on a phone, with smaller type.
-- Four items to compare: a 2x2 grid of cards. Strips reserve two rows so bars line up across cards.
+- Four items to compare: a 2x2 grid of cards. Two systems to compare: two side-by-side panels with the same stages in the same order. Strips reserve two rows so bars line up across cards.
 - Boxes: only cards have borders. Do not put a panel around the whole widget.
 - Extra detail (edit the data, the numbers behind the bars, the formula) goes inside `<details>`, closed by default.
 
@@ -52,6 +53,10 @@ Reuse these meanings on every page so a reader learns them once.
 | Tag "never read" | the item was skipped entirely |
 | Big mono number at the right | the exact value, always shown next to its bar |
 | Dashed line, dimmed rows | the cut-off: rows below it do not count |
+| Orange box "Model" | the bi-encoder side of a diagram; the blue box is the cross-encoder (the comparison) |
+| Dashed chip | a result or step with no model run of its own (a count, a score, a cheap comparison) |
+| Grey bar | a combined or third option that is neither the thing explained nor the comparison |
+| Log-scale bar with 1 ms, 1 s, 1 hour ticks | time over a huge range; always say "log scale" in the title |
 | Dashed square with "?" | a value nobody has supplied (for example an ungraded result) |
 
 ## 6. Parts (in `shared/`)
@@ -60,7 +65,7 @@ Reuse these meanings on every page so a reader learns them once.
   `lib.js` and `widget.js` must not touch `document` at import time, so Node tests can import them.
 - Classes: `.hero`, `.hero-text`, `.lede-list`, `.try-this`, `.eyebrow`, `.widget`, `.controls`, `.slider`, `.toggles`, `.check`,
   `.cards`, `.card`, `.strip`, `.sq`, `.tile.match`, `.score-line`, `.num`, `.story`, `.legend`, `.lessons`, `.lesson`, `.caption`, `.mini`,
-  `.qa`, `.reveal`, `.refs`, `.table-wrap`, `.rank-row`, `.handle`, `.segmented`, `.meter`, `.stats`, `.systems`, `.gtile`.
+  `.qa`, `.reveal`, `.refs`, `.table-wrap`, `.rank-row`, `.handle`, `.segmented`, `.meter`, `.stats`, `.systems`, `.gtile`, `.compare`, `.side`, `.stage`, `.flow`, `.pchip`, `.pbox`, `.vecs`, `.logchart`.
 - Start a page from `shared/template.html` with `./new-concept.sh`.
 
 ## 7. Page order (fixed)

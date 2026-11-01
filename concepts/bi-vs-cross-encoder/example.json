@@ -1,0 +1,8 @@
+{
+  "exponent": 3,
+  "maxExponent": 6,
+  "passMs": 10,
+  "compareMs": 0.001,
+  "queriesToShow": 6,
+  "break": { "n": 1000000, "k": 100 }
+}

@@ -15,6 +15,14 @@
       "area": "Evaluation",
       "posts": [],
       "reviewed": "2026-11-01"
+    },
+    {
+      "slug": "bi-vs-cross-encoder",
+      "title": "Bi-encoder vs cross-encoder",
+      "idea": "A bi-encoder reads the query and each document separately, so document vectors can be saved ahead of time; a cross-encoder reads them together, so it must run once per document, per search.",
+      "area": "Ranking",
+      "posts": [],
+      "reviewed": "2026-11-01"
     }
   ]
 }

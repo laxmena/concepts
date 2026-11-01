@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Page: bi-encoder vs cross-encoder. Side-by-side diagram, N slider (10 to 1,000,000), "Run a search" simulation with running totals, log-scale time bars, retrieve-and-rerank demo. No model runs; unit costs are made up and labelled. Tests worked by hand, including 10,000 sentences = 49,995,000 pairs (Sentence-BERT paper: about 50 million).
 - Page: nDCG@k. Ten draggable results with grades, live DCG / best possible / nDCG, a k slider with a cut-off line, three small pictures, and the incomplete-judgments demo. Tests worked by hand, including the textbook example (nDCG6 = 0.961).
 - Shared helpers: `sortableList`, `segmented`, `meter`.
 - Shared layer: stylesheet, page template, helpers (DOM, slider, reveal, bar charts, editable list), offline service worker.

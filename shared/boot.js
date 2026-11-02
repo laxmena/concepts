@@ -21,11 +21,7 @@ export async function bootPage() {
   const used = document.getElementById('used-in');
   if (used) {
     used.replaceChildren();
-    if (entry.posts.length === 0) {
-      const li = document.createElement('li');
-      li.textContent = 'No posts link here yet.';
-      used.append(li);
-    }
+    if (entry.posts.length === 0) used.closest('section')?.setAttribute('hidden', '');
     for (const p of entry.posts) {
       const li = document.createElement('li');
       const a = document.createElement('a');

@@ -12,6 +12,19 @@ export function tokenize(text) {
   return text.toLowerCase().match(/[\p{L}\p{N}_]{2,}/gu) ?? [];
 }
 
+/** Cut a text into pieces so the page can show the real words. A piece with match: true is a search word. */
+export function splitText(text, queryTerms) {
+  return text.split(/([\p{L}\p{N}_]{2,})/u).filter((x) => x !== '')
+    .map((part) => ({ text: part, match: queryTerms.includes(part.toLowerCase()) }));
+}
+
+/** Position of each result when sorted by score, best first. Ties keep the original order. */
+export function rankOrder(results) {
+  return results.map((r, i) => ({ i, score: r.score }))
+    .sort((a, b) => b.score - a.score || a.i - b.i)
+    .map((x) => x.i);
+}
+
 export function idf(N, df) {
   return Math.log(1 + (N - df + 0.5) / (df + 0.5));
 }
@@ -128,18 +141,22 @@ export function story(result, avgdl) {
 
 /** One card per document. The strip has one square per word, so length is easy to compare.
  *  Matching words become orange tiles that show the word. The bar is the score. */
-function docCard(result, text, queryTerms, max, maxCount, compare, avgdl) {
+function docCard(result, text, queryTerms, max, maxCount, compare, avgdl, rank = null) {
   const words = tokenize(text).map((w) => queryTerms.includes(w)
     ? el('span', { class: 'tile match' }, w)
     : el('span', { class: 'sq', title: w }));
+  const sentence = el('p', { class: 'words' }, splitText(text, queryTerms).map((p) => p.match
+    ? el('span', { class: 'tile match' }, p.text) : p.text));
   const hit = result.terms.filter((t) => t.tf > 0);
   const detail = hit.length ? hit.map((t) => `${t.term} ${fmt(t.contribution, 2)}`).join(' + ') : '';
   const label = `Score for document ${result.id}: ${fmt(result.score, 2)}, ${result.count} matching words`;
   return el('div', { class: 'card' },
     el('div', { class: 'card-head' },
+      rank ? el('span', { class: 'rank' }, `#${rank}`) : null,
       el('strong', {}, `Doc ${result.id}`),
       el('span', { class: 'meta' }, `${result.length} words`),
       !hit.length && queryTerms.length ? el('span', { class: 'tag' }, 'never read') : null),
+    sentence,
     el('div', { class: 'strip' }, words),
     el('div', { class: 'score-line' },
       stackedBar({ segments: hit.map((t) => ({ value: t.contribution })), max, ghost: compare ? { value: result.count, max: maxCount } : null, label }),
@@ -158,7 +175,7 @@ function renderRows(box, r, docs, compare = false) {
   const max = ceiling(r.results);
   const maxCount = Math.max(1, ...r.results.map((x) => x.count));
   box.replaceChildren(
-    el('div', { class: 'cards' }, r.results.map((res, i) => docCard(res, docs[i].text, r.queryTerms, max, maxCount, compare, r.index.avgdl))),
+    el('div', { class: 'cards' }, rankOrder(r.results).map((i, place) => docCard(r.results[i], docs[i].text, r.queryTerms, max, maxCount, compare, r.index.avgdl, r.queryTerms.length ? place + 1 : null))),
     legend(compare));
 }
 
@@ -213,13 +230,14 @@ export function mount(root, example) {
   list = editableList({ items: docs, noun: 'Document', min: 1, max: 6, onChange: () => render(), onRowChange: () => render() });
 
   root.replaceChildren(
-    el('div', { class: 'controls' },
-      el('div', { class: 'field' }, el('label', { for: queryId }, 'Search for'), queryInput), k1.root, b.root),
-    el('div', { class: 'toggles' },
-      el('div', { class: 'check' }, toggle, el('label', { for: 'bm25-index-toggle' }, 'Show the index lookup')),
-      el('div', { class: 'check' }, cmp, el('label', { for: 'bm25-compare-toggle' }, 'Compare with a plain word count'))),
+    el('div', { class: 'controls split' },
+      el('div', { class: 'field' }, el('label', { for: queryId }, 'Search for'), queryInput),
+      el('div', { class: 'toggles' },
+        el('div', { class: 'check' }, toggle, el('label', { for: 'bm25-index-toggle' }, 'Show the index lookup')),
+        el('div', { class: 'check' }, cmp, el('label', { for: 'bm25-compare-toggle' }, 'Compare with a plain word count')))),
+    el('div', { class: 'controls' }, k1.root, b.root),
     indexBox, rowsBox,
-    el('details', {}, el('summary', {}, 'Change the documents'), list.root),
+    el('details', {}, el('summary', {}, 'Try your own documents'), list.root),
     el('details', {}, el('summary', {}, 'Show the numbers'), mathsBox));
 
   function render() {

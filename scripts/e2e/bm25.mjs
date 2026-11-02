@@ -9,7 +9,7 @@ const p = await ctx.newPage();
 const errs = []; p.on('console', m => m.type()==='error' && errs.push(m.text())); p.on('pageerror', e => errs.push(String(e)));
 await p.goto(`${base}/concepts/bm25/`); await p.waitForSelector('.card');
 const nums = async () => p.$$eval('#widget .num', n => n.map(x => x.textContent));
-assert.deepEqual(await nums(), ['0.72','0.42','0.00','0.21']);
+assert.deepEqual(await nums(), ['0.72','0.42','0.21','0.00']);
 // keyboard: focus b slider via label, press Home -> 0
 const bs = p.getByLabel(/^b: how much/); await bs.focus(); await p.keyboard.press('Home');
 assert.equal(await bs.inputValue(), '0');
@@ -21,13 +21,16 @@ assert.match(await p.locator('.lookup').first().innerText(), /car.*A × 2.*B × 
 // compare toggle
 await p.getByLabel('Compare with a plain word count').check();
 assert.ok(await p.locator('#widget .bar-blue').count() >= 3);
+// cards are ranked best first, with a rank tag
+assert.deepEqual(await p.$$eval('#widget .rank', n => n.map(x => x.textContent)), ['#1','#2','#3','#4']);
+assert.deepEqual(await p.$$eval('#widget .card strong', n => n.map(x => x.textContent)), ['Doc A','Doc B','Doc D','Doc C']);
 // edit query to a synonym
 await p.getByLabel('Search for').first().fill('automobile');
-assert.deepEqual(await nums(), ['0.00','0.00','0.63','0.00']);
+assert.deepEqual(await nums(), ['0.63','0.00','0.00','0.00']);
 // edit a document, add and remove
-await p.locator('summary', { hasText: 'Change the documents' }).click();
+await p.locator('summary', { hasText: 'Try your own documents' }).click();
 await p.getByRole('textbox', { name: 'Document D' }).fill('automobile automobile automobile');
-{ const n = await nums(); assert.ok(Number(n[3]) > Number(n[2]), n.join()); };
+{ const n = await nums(); assert.ok(Number(n[0]) > Number(n[1]), n.join()); assert.match(await p.locator('#widget .card').first().innerText(), /Doc D/); };
 await p.getByRole('button', { name: 'Add document' }).click();
 assert.equal(await p.locator('#widget .card').count(), 5);
 await p.getByRole('button', { name: 'Remove document E' }).click();

@@ -1,7 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { tokenize, idf, termScore, buildIndex, scoreCorpus, story, idfCoins, repeatGains, sameMatch } from './widget.js';
+import { tokenize, idf, termScore, buildIndex, scoreCorpus, story, idfCoins, repeatGains, sameMatch, splitText, rankOrder } from './widget.js';
 
 const example = JSON.parse(readFileSync(new URL('./example.json', import.meta.url), 'utf8'));
 
@@ -118,4 +118,14 @@ test('same match: worth the same at b = 0, less in the long document when b > 0'
   assert.ok(m.long < m.short);
   // by hand, b = 0.4: short K = 0.7145 -> ln2 * 1/1.7145 = 0.4043; long K = 0.9*(0.6+0.4*43/16.5) = 1.4782 -> ln2 * 1/2.4782 = 0.2797
   assert.ok(Math.abs(m.short - 0.4043) < 1e-3 && Math.abs(m.long - 0.2797) < 1e-3);
+});
+
+test('splitText keeps the real text and marks search words (case-insensitive)', () => {
+  const parts = splitText('A car, a Car repair.', ['car', 'repair']);
+  assert.equal(parts.map((p) => p.text).join(''), 'A car, a Car repair.');
+  assert.deepEqual(parts.filter((p) => p.match).map((p) => p.text), ['car', 'Car', 'repair']);
+});
+
+test('rankOrder sorts by score, best first, ties in original order', () => {
+  assert.deepEqual(rankOrder([{ score: 0.2 }, { score: 0.7 }, { score: 0 }, { score: 0.2 }]), [1, 0, 3, 2]);
 });

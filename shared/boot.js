@@ -1,6 +1,6 @@
 // Runs on every concept page: reveals, manifest-driven footer and "Used in", offline cache.
 import { initReveals } from './lib.js';
-import './analytics.js';
+import { trackInteractions } from './analytics.js';
 
 const here = (path) => new URL(path, import.meta.url);
 
@@ -16,6 +16,7 @@ export async function bootPage() {
     navigator.serviceWorker.register(here('../sw.js')).catch(() => {});
   }
   const slug = document.body.dataset.slug;
+  trackInteractions(slug);
   const entry = (await loadManifest()).concepts.find((c) => c.slug === slug);
   if (!entry) return null;
 

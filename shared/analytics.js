@@ -56,4 +56,34 @@ export function initAnalytics() {
   footerLink();
 }
 
+/** Send a GA4 event. Does nothing until the reader has allowed analytics. */
+export function track(name, params = {}) {
+  if (typeof window !== 'undefined' && typeof window.gtag === 'function') { window.gtag('event', name, params); return true; }
+  return false;
+}
+
+/**
+ * Two events, nothing else:
+ *   widget_used    once per page load per widget, on the first control the reader touches ({ concept, widget: 'main' | 'breaks' })
+ *   answer_opened  when a "Check yourself" answer is opened ({ concept, question: 1, 2 or 3 })
+ */
+export function trackInteractions(slug) {
+  if (typeof document === 'undefined') return;
+  const seen = new Set();
+  document.addEventListener('click', (e) => {
+    const box = e.target.closest?.('.reveal');
+    const btn = e.target.closest?.('.reveal button');
+    if (box && btn && btn.getAttribute('aria-expanded') === 'true') {
+      track('answer_opened', { concept: slug, question: [...document.querySelectorAll('.qa')].indexOf(box.closest('.qa')) + 1 });
+    }
+  });
+  const used = (e) => {
+    if (e.type === 'click' && !e.target.closest?.('button, input, label, .handle')) return;
+    const w = e.target.closest?.('#widget, #breaks-widget');
+    if (!w || seen.has(w.id)) return;
+    if (track('widget_used', { concept: slug, widget: w.id === 'widget' ? 'main' : 'breaks' })) seen.add(w.id);
+  };
+  for (const type of ['input', 'change', 'click']) document.addEventListener(type, used);
+}
+
 initAnalytics();

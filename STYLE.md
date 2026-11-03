@@ -31,9 +31,11 @@ Rules come first, then the parts. `shared/style.css` and `shared/lib.js` hold th
 - No gradients, no decorative shadows, no emoji, no stock icons. White page, faintly warm cards and brown ink are what make it feel friendly; keep new colours inside that family.
 
 ## 3. Type
-System font stack only. Sizes: title 2.75rem (1.75rem on phones), section heading 1.625rem, body 1.125rem (1rem on phones),
-card text 1rem, small labels 0.875rem, scores in the monospace stack at 1.375rem. Text column about 70 characters; the picture uses the full width.
-Sections are separated by white space (4rem above a heading), not by lines. The only lines are card borders, table rules and the footer rule.
+System font stack only. Five sizes, set as tokens in `shared/style.css`: label 13px (`--t-label`: meta, legends, control labels, table text), interface 15px (`--t-ui`: card sentences, inputs, buttons, the "Try this" box),
+reading 17px (`--t-read`: body, steps, questions), section heading 22px (`--t-section`), page title 36px (`--t-title`). Numbers in cards use mono at 20px (`--t-num`). On phones the body is 16px, the title 28px and the section heading 20px.
+Mono is for numbers, code and formulas only; sentences are sans. Prose uses a line height of 1.65 and a column of about 65 to 70 characters; the picture uses the full width.
+Hero bullets and the "what it is" line are 16px, smaller than the body, so the picture leads. Sections are separated by white space (3rem above a heading), not by lines. The only lines are card borders, table rules and the footer rule.
+Do not add a sixth size; use one of these.
 
 ## 4. Layout
 - Page width 72rem. On screens 64rem and wider the top is two columns: idea and instruction on the left (20rem), the picture on the right.

@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LoRA · Concepts</title>
+<meta name="description" content="LoRA fine-tunes a large model by freezing its weights and learning a small low-rank update, a product of two thin matrices, so far fewer numbers are trained.">
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="../../shared/style.css">
+</head>
+<body data-slug="lora">
+<header class="site-head"><a href="../../">Concepts</a><a href="https://internals.laxmena.com">INTERNALS.md</a></header>
+<main>
+<div class="hero">
+<div class="hero-text">
+<h1>LoRA</h1>
+<p class="what">Low-rank adaptation. A way to fine-tune a large model by training a tiny add-on instead of the whole thing.</p>
+<ul class="lede-list">
+<li>Fine-tuning changes every weight, so you train and store as many numbers as the model has.</li>
+<li>LoRA freezes the weights and learns the change as the product of two thin matrices.</li>
+<li>The rank r is how thin: a sum of r simple patterns, each one a column times a row.</li>
+<li>If the change really is simple, a small r captures almost all of it.</li>
+</ul>
+<p class="try-this">Try this: drag <strong>r</strong> from 1 to 3 and watch “Missed” fade.</p>
+</div>
+<section aria-labelledby="try">
+<h2 id="try" class="eyebrow">Try it</h2>
+<div class="widget" id="widget"><p>This page needs JavaScript.</p></div>
+</section>
+</div>
+
+<section aria-labelledby="happened">
+<h2 id="happened">What just happened</h2>
+<ol class="steps">
+<li>The left grid is the update that full fine-tuning would make to one weight matrix, here 8 by 8. It has 64 numbers.</li>
+<li>LoRA writes the update as B times A, where B is 8 by r and A is r by 8. Rank <span data-bind="rank"></span> means 2 × 8 × <span data-bind="rank"></span> numbers to learn, not 64.</li>
+<li>The middle grid is the best that rank can do, and “Missed” is what is left over. For this update, rank 1 keeps <span data-bind="r1"></span> of its strength, rank <span data-bind="rank"></span> keeps <span data-bind="keptLow"></span> and rank 3 keeps <span data-bind="r3"></span>. Strength here is the sum of squares of the numbers.</li>
+<li>The saving is large because it grows with the matrix. For a real <span data-bind="d"></span> by <span data-bind="k"></span> layer, full fine-tuning trains <span data-bind="full"></span> numbers. Rank <span data-bind="rank"></span> trains <span data-bind="lora"></span>, which is <span data-bind="share"></span> of that.</li>
+</ol>
+<details>
+<summary>The formula, the start, and what LoRA does not do</summary>
+<p class="shorter">The layer computes x · (W + (α/r) · B A). W is frozen. B starts at zero and A starts random, so the update is zero at the start and training begins from the pretrained model. The α/r factor is a scale so that changing r does not change the size of the update much. After training, B A is added into W, so the model runs at the same speed as before, with no extra layers.</p>
+<p class="shorter">The grids use a fixed update built so its best low-rank approximation is known exactly. The best rank-r approximation keeps the r largest singular values (the Eckart–Young theorem). LoRA never computes that. It learns B and A by gradient descent, and the best rank is the most it could reach.</p>
+<p class="shorter">For a real layer the update is not a fixed grid. Whether it is low rank is an empirical question that depends on the task. The next section tries a spread-out update.</p>
+</details>
+</section>
+
+<section aria-labelledby="meet">
+<h2 id="meet">Where you meet it</h2>
+<p class="shorter">Fine-tuning a large model normally needs memory for a gradient and optimiser state for every weight. LoRA needs them only for B and A, and a LoRA add-on is small enough to store and swap per task.</p>
+<ul class="refs">
+<li>Hu and others (2021) report that for GPT-3 175B, LoRA can cut the trainable parameters by about 10,000 times and the GPU memory needed by about 3 times, while matching or beating full fine-tuning on the tasks they tried.</li>
+<li>The Hugging Face PEFT library implements LoRA and related methods for transformer models.</li>
+</ul>
+</section>
+
+<section aria-labelledby="breaks">
+<h2 id="breaks">Where it breaks</h2>
+<p class="shorter">LoRA only helps if the change you need is close to low rank. Here is the same slider on a different update, one whose strength is spread over many patterns. Switch the kind of update.</p>
+<div class="widget" id="breaks-widget"></div>
+<p class="shorter">At rank <span data-bind="bRank"></span> the spread-out update keeps only <span data-bind="bKept"></span> of its strength, against <span data-bind="keptLow"></span> for the low-rank one, and it needs about rank 6 to reach <span data-bind="flatR6"></span>. The grids are made up to show the idea. Real updates sit somewhere between these two. Biderman and others (2024) compared LoRA with full fine-tuning on code and maths and found LoRA learned less on those harder targets, and also forgot less of the original model.</p>
+</section>
+
+<section aria-labelledby="check">
+<h2 id="check">Check yourself</h2>
+<div class="qa"><p>A weight matrix is 1,000 by 1,000. How many numbers does LoRA train at rank 4?</p>
+<div class="reveal"><button type="button" data-closed="Show answer">Show answer</button><div class="answer"><p>4 × (1,000 + 1,000) = 8,000, against 1,000,000 for the full matrix: 0.8%.</p></div></div></div>
+<div class="qa"><p>Why start B at zero?</p>
+<div class="reveal"><button type="button" data-closed="Show answer">Show answer</button><div class="answer"><p>Then B A is zero, so the model begins exactly as the pretrained model. Training moves it away only as far as the data pushes it. If both started random, the first step would already be a random change to every layer.</p></div></div></div>
+<div class="qa"><p>Doubling r doubles the trainable numbers. Does it always double what you can express?</p>
+<div class="reveal"><button type="button" data-closed="Show answer">Show answer</button><div class="answer"><p>No. In the low-rank example rank 1 already keeps 75% and rank 2 keeps 94%. Later ranks add very little because the update has little left in those patterns. In the spread-out example each rank adds a similar share.</p></div></div></div>
+</section>
+
+<section aria-labelledby="used">
+<h2 id="used">Used in</h2>
+<ul class="refs" id="used-in"><li>Loading…</li></ul>
+</section>
+
+<section aria-labelledby="deeper">
+<h2 id="deeper">Go deeper</h2>
+<ul class="refs">
+<li><a href="https://arxiv.org/abs/2106.09685">Hu and others, “LoRA: Low-Rank Adaptation of Large Language Models”</a> (2021). The method, the initialisation, and the GPT-3 results.</li>
+<li><a href="https://arxiv.org/abs/2012.13255">Aghajanyan, Zettlemoyer and Gupta, “Intrinsic Dimensionality Explains the Effectiveness of Language Model Fine-Tuning”</a> (2020). Evidence that fine-tuning needs few degrees of freedom.</li>
+<li><a href="https://arxiv.org/abs/2405.09673">Biderman and others, “LoRA Learns Less and Forgets Less”</a> (2024). Where LoRA falls behind full fine-tuning.</li>
+</ul>
+</section>
+</main>
+<footer class="site-foot">Last reviewed <time id="reviewed"></time> · <a id="source" href="https://github.com/laxmena/concepts">Source for this page</a></footer>
+
+<script type="module">
+import { bootPage, bindFacts } from '../../shared/boot.js';
+import { mount, facts } from './widget.js';
+await bootPage();
+const example = await (await fetch('example.json')).json();
+bindFacts(facts(example));
+mount(document.getElementById('widget'), example);
+mount(document.getElementById('breaks-widget'), { ...example, breaksView: true });
+</script>
+</body>
+</html>

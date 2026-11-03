@@ -25,7 +25,7 @@ Look, writing and checks live in [STYLE.md](STYLE.md). Read it before building o
 - Plain HTML, CSS and ES-module JavaScript. No framework. No build step to view a page.
 - Pages are fetched over HTTP (`example.json`, `concepts.json`), so view them with `npm run serve` (port 8000), not `file://`.
 - Any library is vendored in `vendor/<name>-<version>/` with its licence; list it in `vendor/README.md`. None so far.
-- Offline once loaded: `sw.js` caches same-origin GETs (stale-while-revalidate). Do not add third-party requests. The one exception is Google Analytics (`shared/analytics.js`), which loads only after the reader allows it and never on localhost.
+- Offline once loaded: `sw.js` caches same-origin GETs but fetches from the network first (revalidating, so a deploy shows on the next load) and uses the cache only when offline. Do not add third-party requests. The one exception is Google Analytics (`shared/analytics.js`), which loads only after the reader allows it and never on localhost.
 - No cookies, trackers or external fonts, except Google Analytics page views behind a consent banner. The measurement ID is in `shared/analytics.js`.
 - Accessible: every control has a `<label>`, widgets work by keyboard, colour is never the only signal (print values, add text), usable at phone width. White theme only; there is no dark mode.
 

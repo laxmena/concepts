@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Service worker is now network first with revalidation (`concepts-v2`). Before, it served the cached copy first, so a deploy needed two reloads and GitHub Pages' 10 minute cache made it worse. Offline still works from the cache.
+- LoRA page: a toy update built from known orthogonal vectors so the best rank-r approximation is exact (checked against the Eckart–Young sum of squares), real-layer parameter counts, and a spread-out update as the break.
 - Google Analytics 4 (page views only), loaded by `shared/analytics.js` after the reader clicks Allow on a small banner. Off on localhost, Google signals and ad personalisation off, a footer link changes the choice. The measurement ID is shared with the author's other site; filter by hostname in GA.
 - RLHF page: the KL-penalised optimum over five replies (p ∝ ref · e^(r/β)), checked against Python numbers and a brute-force search, plus a live over-optimisation break where the reward model score keeps rising while the quality people would give peaks and falls. New helpers in CSS: `.cards.rl` (a wide card beside two stacked ones), `.controls.one`.
 - Reinforcement learning page: a 3 by 5 grid world with Q-learning, a live reward-hacking break (a coin that pays on every visit, solved exactly by value iteration, flips near +0.16 at γ 0.9). Tests check the closed form γ^(d−1), a hand-worked update, and Python value-iteration numbers. Attention: the sentence toggle now has words and a visible label (`.segmented.wide`).

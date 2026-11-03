@@ -144,6 +144,14 @@
       "area": "Machine learning",
       "posts": [],
       "reviewed": "2026-11-03"
+    },
+    {
+      "slug": "lora",
+      "title": "LoRA",
+      "idea": "LoRA fine-tunes a large model by freezing its weights and learning a small low-rank update, a product of two thin matrices, so far fewer numbers are trained.",
+      "area": "Machine learning",
+      "posts": [],
+      "reviewed": "2026-11-03"
     }
   ]
 }

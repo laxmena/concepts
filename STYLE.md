@@ -99,7 +99,7 @@ Link the newsletter at `https://internals.laxmena.com`. Do not link the author's
 - Everything works by keyboard. Sliders are native range inputs. Toggles are native checkboxes. Reveal boxes use `aria-expanded`.
 - Charts are `role="img"` with an `aria-label` that states the values. Do not reuse a form control's label text for a chart.
 - Works at 390px wide, in light only (no dark mode, by choice), with no horizontal page scroll. Wide tables sit in a focusable scroll region.
-- No cookies, no third-party requests, no external fonts. The page works offline once loaded (service worker).
+- No cookies, no third-party requests and no external fonts, except Google Analytics page views, which load only after the reader allows them (`shared/analytics.js`). The page works offline once loaded (service worker).
 
 ## 10. Checks before you finish a page
 1. `npm test` (maths against independent values) and `npm run links`.

@@ -1,5 +1,6 @@
 // Runs on every concept page: reveals, manifest-driven footer and "Used in", offline cache.
 import { initReveals } from './lib.js';
+import './analytics.js';
 
 const here = (path) => new URL(path, import.meta.url);
 

@@ -457,3 +457,8 @@ tr.miss td { color: var(--ink-2); }
 
 .controls.one { grid-template-columns: 1fr; }
 .controls.one .slider input[type=range] { min-width: 0; }
+
+/* analytics consent */
+.consent { position: fixed; left: 1rem; right: 1rem; bottom: 1rem; max-width: 40rem; margin: 0 auto; z-index: 10; display: flex; flex-wrap: wrap; align-items: center; gap: .5rem .75rem; padding: .75rem 1rem; background: var(--card); border: 1px solid var(--sq); border-radius: var(--r); font-size: var(--t-ui); }
+.consent p { margin: 0; flex: 1 1 16rem; }
+.linklike { background: none; border: 0; padding: 0; font: inherit; color: inherit; text-decoration: underline; cursor: pointer; }

@@ -23,6 +23,30 @@
       "area": "Ranking",
       "posts": [],
       "reviewed": "2026-11-01"
+    },
+    {
+      "slug": "eval-error-bars",
+      "title": "Is 82% better than 80%?",
+      "idea": "An eval score is a guess from a sample of questions, so it has error bars; two models are only different when the range of their gap stays away from zero.",
+      "area": "Evaluation",
+      "posts": [],
+      "reviewed": "2026-11-03"
+    },
+    {
+      "slug": "pass-at-k",
+      "title": "pass@k",
+      "idea": "pass@k is the chance that at least one of k generated programs passes the tests; it is estimated from n samples by counting the ways to draw k without replacement.",
+      "area": "Evaluation",
+      "posts": [],
+      "reviewed": "2026-11-03"
+    },
+    {
+      "slug": "exact-match-f1",
+      "title": "Exact match and F1",
+      "idea": "Exact match checks whether an answer equals the reference after cleaning; F1 gives partial credit for the words they share.",
+      "area": "Evaluation",
+      "posts": [],
+      "reviewed": "2026-11-03"
     }
   ]
 }

@@ -1,0 +1,14 @@
+{
+  "n": 20,
+  "c": 4,
+  "k": 5,
+  "breaks": {
+    "suite": ["t1"],
+    "tests": [
+      { "id": "t1", "input": [9, 2, 5], "expect": 9 },
+      { "id": "t2", "input": [1, 2, 3], "expect": 3 },
+      { "id": "t3", "input": [2, 8, 4], "expect": 8 },
+      { "id": "t4", "input": [1, 2, 7, 3], "expect": 7 }
+    ]
+  }
+}

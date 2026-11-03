@@ -24,6 +24,7 @@ main, .site-head, .site-foot { max-width: 72rem; margin: 0 auto; padding-left: 1
 a { color: var(--ink); text-decoration-thickness: 1px; text-underline-offset: .18em; }
 a:hover { text-decoration-color: var(--orange); text-decoration-thickness: 2px; }
 :focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+[hidden] { display: none !important; }
 .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 .muted { color: var(--ink-2); }
 code, .mono { font-family: var(--mono); font-size: .9em; }
@@ -110,6 +111,7 @@ fieldset.field { display: flex; flex-wrap: wrap; gap: .25rem 1.25rem; align-item
 .key { display: inline-block; width: .7rem; height: .7rem; margin-right: .3rem; }
 .key.orange { background: var(--orange); }
 .key.blue { background: var(--blue); }
+.key.grey { background: var(--ink-2); }
 .index-box { border-left: 3px solid var(--ink); padding-left: .85rem; }
 .lookup { display: flex; flex-wrap: wrap; gap: .4rem; align-items: center; margin: .4rem 0; }
 .chip { font-family: var(--mono); font-size: .875rem; padding: 1px 8px; border: 1px solid var(--ink-2); }
@@ -125,6 +127,8 @@ summary:hover { text-decoration: underline; text-decoration-color: var(--orange)
 .chart .bar-orange { fill: var(--orange); }
 .chart .bar-blue { fill: var(--blue); }
 .chart .bar-grey { fill: var(--ink-2); }
+.chart .curve-orange { stroke: var(--orange); }
+.chart .curve-grey { stroke: var(--ink-2); }
 .chart .muted { fill: var(--ink-2); }
 
 /* Lessons: one small picture per rule */

@@ -1,0 +1,18 @@
+{
+  "question": "Who wrote Pride and Prejudice?",
+  "references": ["Jane Austen"],
+  "answers": [
+    { "id": "A", "text": "Jane Austen." },
+    { "id": "B", "text": "The author Jane Austen" },
+    { "id": "C", "text": "Austen" },
+    { "id": "D", "text": "The novelist Jane Austen wrote it in 1813" }
+  ],
+  "breaks": {
+    "answers": [
+      { "id": "A", "text": "The author of Emma", "right": true },
+      { "id": "B", "text": "Not Jane Austen", "right": false },
+      { "id": "C", "text": "Jane Austin", "right": false },
+      { "id": "D", "text": "She wrote Emma and Persuasion", "right": true }
+    ]
+  }
+}

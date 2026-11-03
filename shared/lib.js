@@ -240,3 +240,18 @@ export function sortableList({ items, createRow, onReorder, announce }) {
   }
   return { root, rows, order: () => order.slice() };
 }
+
+/** A labelled group of radio buttons with full-width labels. Use it when `segmented` is too narrow for the text. */
+export function radios({ name, legend, options, value, onChange }) {
+  const root = el('fieldset', { class: 'field' }, el('legend', {}, legend));
+  const inputs = [];
+  for (const o of options) {
+    const id = nextId('radio');
+    const input = el('input', { type: 'radio', name, id, value: String(o.value) });
+    input.checked = o.value === value;
+    input.addEventListener('change', () => onChange(o.value));
+    inputs.push([o.value, input]);
+    root.append(el('div', { class: 'check' }, input, el('label', { for: id }, o.label)));
+  }
+  return { root, set(v) { for (const [val, input] of inputs) input.checked = val === v; } };
+}

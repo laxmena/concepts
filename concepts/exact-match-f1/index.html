@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Exact match and F1 · Concepts</title>
+<meta name="description" content="Exact match checks whether an answer equals the reference after cleaning; F1 gives partial credit for the words they share.">
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="../../shared/style.css">
+</head>
+<body data-slug="exact-match-f1">
+<header class="site-head"><a href="../../">Concepts</a><a href="https://internals.laxmena.com">INTERNALS.md</a></header>
+<main>
+<div class="hero">
+<div class="hero-text">
+<h1>Exact match and F1</h1>
+<p class="what">Exact match and F1 compare a model’s answer to a reference answer. The SQuAD reading benchmark scores answers this way.</p>
+<ul class="lede-list">
+<li>Exact match gives 1 when the answer equals the reference after cleaning, and 0 otherwise.</li>
+<li>Cleaning means lowercase, no punctuation, and no “a”, “an” or “the”.</li>
+<li>F1 gives partial credit for the words the answer and the reference share.</li>
+<li>Both compare words, not meaning.</li>
+</ul>
+<p class="try-this">Try this: change the reference to <strong>Austen | Jane Austen</strong> and watch Answer C reach 1.</p>
+</div>
+<section aria-labelledby="try">
+<h2 id="try" class="eyebrow">Try it</h2>
+<div class="widget" id="widget"><p>This page needs JavaScript.</p></div>
+</section>
+</div>
+
+<section aria-labelledby="happened">
+<h2 id="happened">What just happened</h2>
+<ol class="steps">
+<li>Each card cleans the answer first. “Jane Austen.” becomes “jane austen”, which equals the cleaned reference, so exact match is 1 and so is F1.</li>
+<li>Orange words are the ones the answer shares with the reference. Answer B, “The author Jane Austen”, keeps one extra word, “author”. Exact match drops to <span data-bind="em.B"></span>. F1 stays high at <span data-bind="f1.B"></span>, because every reference word was found.</li>
+<li>Answer C, “Austen”, has no extra words but misses one: precision 1.00, recall 0.50, F1 <span data-bind="f1.C"></span>. Answer D buries the right name in six other words and gets <span data-bind="f1.D"></span>.</li>
+<li>With several accepted answers, the best score wins. That is how SQuAD handles questions that have more than one right way to say it.</li>
+</ol>
+<details>
+<summary>Show the formula</summary>
+<div class="formula" tabindex="0" role="region" aria-label="F1 formula">precision = shared words / words in the answer
+recall    = shared words / words in the reference
+F1        = 2 × precision × recall / (precision + recall)</div>
+<p class="shorter">A word counts as shared as many times as it appears in both texts, so repeating a word does not help. F1 is the harmonic mean, which stays low if either precision or recall is low.</p>
+</details>
+</section>
+
+<section aria-labelledby="meet">
+<h2 id="meet">Where you meet it</h2>
+<p class="shorter">A question-answering team compares two models on a test of short factual questions. One answers in a few words. The other answers in full sentences. The short one wins on exact match, and the sentence writer loses, even when its sentences are right.</p>
+<ul class="refs">
+<li>The SQuAD paper (2016) has more than 100,000 questions on Wikipedia articles, and reports 51.0% F1 for a baseline model against a human score of 86.8%.</li>
+<li>BLEU (2002) and ROUGE (2004) are the same kind of check. BLEU was made for machine translation and ROUGE for summaries. Both count shared word groups with a reference text.</li>
+<li>The Codex paper tested whether BLEU tracks working code. It found that programs that are not equivalent to the reference often had higher BLEU scores than programs that are, so it scored code by running unit tests instead.</li>
+</ul>
+</section>
+
+<section aria-labelledby="breaks">
+<h2 id="breaks">Where it breaks</h2>
+<p class="shorter">These metrics count words, so they cannot see meaning. A right answer in other words scores 0. A wrong answer that reuses the right words scores high. Each card shows the score next to what a person would say.</p>
+<div class="widget" id="breaks-widget"></div>
+<p class="shorter">“The author of Emma” is right and scores <span data-bind="bf1.A"></span>. “Not Jane Austen” is wrong and scores <span data-bind="bf1.B"></span>. When meaning matters, people use a judge model or a human, which the next pages cover.</p>
+</section>
+
+<section aria-labelledby="check">
+<h2 id="check">Check yourself</h2>
+<div class="qa"><p>The reference is “the Eiffel Tower”. The answer is “Eiffel Tower!”. What are exact match and F1?</p>
+<div class="reveal"><button type="button" data-closed="Show answer">Show answer</button><div class="answer"><p>Both are 1. Cleaning removes the “the” and the “!”, so both texts become “eiffel tower”.</p></div></div></div>
+<div class="qa"><p>An answer has 10 words and contains the 2-word reference. What is its F1?</p>
+<div class="reveal"><button type="button" data-closed="Show answer">Show answer</button><div class="answer"><p>Shared words: 2. Precision 2/10 = 0.2, recall 2/2 = 1. F1 = 2 × 0.2 × 1 / 1.2 = 0.33. Long answers are punished even when they contain the right words.</p></div></div></div>
+<div class="qa"><p>Why might a team still use exact match when F1 gives partial credit?</p>
+<div class="reveal"><button type="button" data-closed="Show answer">Show answer</button><div class="answer"><p>When the answer is a short fixed thing, like a date or an ID, partial credit means nothing. “1813” and “1831” share no word, but a near miss is still wrong.</p></div></div></div>
+</section>
+
+<section aria-labelledby="used">
+<h2 id="used">Used in</h2>
+<ul class="refs" id="used-in"><li>Loading…</li></ul>
+</section>
+
+<section aria-labelledby="deeper">
+<h2 id="deeper">Go deeper</h2>
+<ul class="refs">
+<li><a href="https://arxiv.org/abs/1606.05250">Rajpurkar, Zhang, Lopyrev and Liang, “SQuAD: 100,000+ Questions for Machine Comprehension of Text”</a> (2016). The benchmark behind these two metrics.</li>
+<li><a href="https://aclanthology.org/P02-1040/">Papineni, Roukos, Ward and Zhu, “Bleu: a Method for Automatic Evaluation of Machine Translation”</a> (ACL 2002). The word-overlap metric for translation.</li>
+<li><a href="https://aclanthology.org/W04-1013/">Lin, “ROUGE: A Package for Automatic Evaluation of Summaries”</a> (2004). The same idea for summaries.</li>
+</ul>
+</section>
+</main>
+<footer class="site-foot">Last reviewed <time id="reviewed"></time> · <a id="source" href="https://github.com/laxmena/concepts">Source for this page</a></footer>
+
+<script type="module">
+import { bootPage, bindFacts } from '../../shared/boot.js';
+import { mount, facts } from './widget.js';
+await bootPage();
+const example = await (await fetch('example.json')).json();
+bindFacts(facts(example));
+mount(document.getElementById('widget'), example);
+mount(document.getElementById('breaks-widget'), { ...example, ...example.breaks, breaksView: true });
+</script>
+</body>
+</html>

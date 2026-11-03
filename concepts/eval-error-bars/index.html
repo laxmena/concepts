@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Is 82% better than 80%? · Concepts</title>
+<meta name="description" content="An eval score is a guess from a sample of questions, so it has error bars; two models are only different when the range of their gap stays away from zero.">
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="../../shared/style.css">
+</head>
+<body data-slug="eval-error-bars">
+<header class="site-head"><a href="../../">Concepts</a><a href="https://internals.laxmena.com">INTERNALS.md</a></header>
+<main>
+<div class="hero">
+<div class="hero-text">
+<h1>Is 82% better than 80%?</h1>
+<p class="what">Error bars show how far an eval score could move if you had asked different questions. Good eval reports print them next to every score.</p>
+<ul class="lede-list">
+<li>An eval score comes from a sample of questions, so another sample would give another score.</li>
+<li>The range around a score shrinks with the square root of the number of questions.</li>
+<li>A gap between two models counts only when its own range stays away from zero.</li>
+<li>Grading both models on the same questions makes that range smaller.</li>
+</ul>
+<p class="try-this">Try this: drag <strong>n</strong> up to 1,000 and watch the gap’s range leave zero.</p>
+</div>
+<section aria-labelledby="try">
+<h2 id="try" class="eyebrow">Try it</h2>
+<div class="widget" id="widget"><p>This page needs JavaScript.</p></div>
+</section>
+</div>
+
+<section aria-labelledby="happened">
+<h2 id="happened">What just happened</h2>
+<ol class="steps">
+<li>Each model card shows the share of questions answered right, and a bar for its 95% range: the score plus or minus 1.96 standard errors. With <span data-bind="n"></span> questions the standard error of model A is <span data-bind="seA"></span>, so its score could sit anywhere from <span data-bind="lowA"></span> to <span data-bind="highA"></span>.</li>
+<li>The gap card subtracts the two scores. Its range is wider than either model’s alone, because both scores are uncertain: it is <span data-bind="gap"></span> points, give or take <span data-bind="halfGap"></span>. The range runs from <span data-bind="gapLow"></span> to <span data-bind="gapHigh"></span> and includes 0, so the page cannot say B is better.</li>
+<li>Tick “paired”. Both models answer the same questions, so a question both get right or both get wrong adds nothing to the gap. The more the models agree on which questions are hard, the narrower the range.</li>
+<li>At 1,000 questions the unpaired range is <span data-bind="gapLow1000"></span> to <span data-bind="gapHigh1000"></span>, which is above 0. The last card shows how many questions this gap needs: about <span data-bind="needUnpaired"></span> unpaired, or <span data-bind="needPaired"></span> paired at agreement <span data-bind="rho"></span>.</li>
+</ol>
+<details>
+<summary>Show the formulas</summary>
+<p class="shorter">Each question scores 1 (right) or 0 (wrong). The score is the mean, <code>p</code>. The formulas below are from Miller (2024).</p>
+<div class="formula" tabindex="0" role="region" aria-label="Error bar formulas">standard error = sqrt(p × (1 − p) / n)
+95% range = p ± 1.96 × standard error
+gap range, unpaired = gap ± 1.96 × sqrt(SE_A² + SE_B²)
+gap range, paired = gap ± 1.96 × sqrt(Var(question-level difference) / n)
+questions needed = (z_α/2 + z_β)² × Var(difference) / gap²</div>
+<p class="shorter">With significance 5% and power 80%, z_α/2 + z_β is 1.96 + 0.84 = 2.80. This page assumes the models answer the same way every time, so the only noise is which questions were picked.</p>
+</details>
+</section>
+
+<section aria-labelledby="meet">
+<h2 id="meet">Where you meet it</h2>
+<p class="shorter">A team reports that model B scores 82% and model A 78% on a 200-question eval, and ships B. The numbers look clear. The page above says the gap could be anything from <span data-bind="gapLow"></span> to <span data-bind="gapHigh"></span> points.</p>
+<ul class="refs">
+<li>Miller recommends printing the standard error under each eval score, as other sciences do.</li>
+<li>When questions come in groups, such as several questions about one passage, he reports that clustered standard errors on two popular evals were over 3 times larger than the naive ones.</li>
+<li>A worked example in the paper needs about 969 questions to see a 3-point gap 8 times out of 10, and concludes that new evals should have at least 1,000 questions.</li>
+</ul>
+</section>
+
+<section aria-labelledby="breaks">
+<h2 id="breaks">Where it breaks</h2>
+<p class="shorter">The simple range assumes the score could land on either side. A model that answers every question right has nothing above it, so the formula gives it a range with no width, as if the test were perfect. Pick a perfect score and compare it with the Wilson range, which keeps the width.</p>
+<div class="widget" id="breaks-widget"></div>
+<p class="shorter">A perfect score on a test this small means little. The Wilson range for 20 of 20 starts at <span data-bind="wilsonLow.20"></span>. The fixes are more questions, or a range that does not assume a bell curve.</p>
+</section>
+
+<section aria-labelledby="check">
+<h2 id="check">Check yourself</h2>
+<div class="qa"><p>Model A scores 70% on 100 questions. About how wide is its 95% range?</p>
+<div class="reveal"><button type="button" data-closed="Show answer">Show answer</button><div class="answer"><p>The standard error is √(0.7 × 0.3 / 100) = 0.046, and 1.96 times that is about 0.09. The range is about 61% to 79%, nine points either side.</p></div></div></div>
+<div class="qa"><p>You double the number of questions. How much narrower does the range get?</p>
+<div class="reveal"><button type="button" data-closed="Show answer">Show answer</button><div class="answer"><p>The range shrinks with the square root of n, so it gets about 29% narrower (multiply by 1/√2, which is 0.71). To halve it you need four times the questions.</p></div></div></div>
+<div class="qa"><p>Two models, both near 80%, differ by 3 points on 500 questions. Is that enough?</p>
+<div class="reveal"><button type="button" data-closed="Show answer">Show answer</button><div class="answer"><p>No. Unpaired, the standard error of the gap is √(0.32 / 500) = 0.025, so the range is about ±5 points. Paired at agreement 0.5 it is √(0.16 / 500) = 0.018, about ±3.5 points. Both ranges include 0.</p></div></div></div>
+</section>
+
+<section aria-labelledby="used">
+<h2 id="used">Used in</h2>
+<ul class="refs" id="used-in"><li>Loading…</li></ul>
+</section>
+
+<section aria-labelledby="deeper">
+<h2 id="deeper">Go deeper</h2>
+<ul class="refs">
+<li><a href="https://arxiv.org/abs/2411.00640">Miller, “Adding Error Bars to Evals: A Statistical Approach to Language Model Evaluations”</a> (2024). Every formula on this page. It also covers resampling answers and next-token probabilities to cut variance.</li>
+<li><a href="https://en.wikipedia.org/wiki/Binomial_proportion_confidence_interval">Wikipedia: Binomial proportion confidence interval</a>. The Wilson interval and why the simple one fails near 0% and 100%.</li>
+</ul>
+</section>
+</main>
+<footer class="site-foot">Last reviewed <time id="reviewed"></time> · <a id="source" href="https://github.com/laxmena/concepts">Source for this page</a></footer>
+
+<script type="module">
+import { bootPage, bindFacts } from '../../shared/boot.js';
+import { mount, facts } from './widget.js';
+await bootPage();
+const example = await (await fetch('example.json')).json();
+bindFacts(facts(example));
+mount(document.getElementById('widget'), example);
+mount(document.getElementById('breaks-widget'), { ...example, ...example.breaks, breaksView: true });
+</script>
+</body>
+</html>

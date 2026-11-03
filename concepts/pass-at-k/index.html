@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>pass@k · Concepts</title>
+<meta name="description" content="pass@k is the chance that at least one of k generated programs passes the tests; it is estimated from n samples by counting the ways to draw k without replacement.">
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="../../shared/style.css">
+</head>
+<body data-slug="pass-at-k">
+<header class="site-head"><a href="../../">Concepts</a><a href="https://internals.laxmena.com">INTERNALS.md</a></header>
+<main>
+<div class="hero">
+<div class="hero-text">
+<h1>pass@k</h1>
+<p class="what">pass@k scores a code model by letting it try a problem k times and asking whether any try passes the tests. HumanEval and the Codex paper made it the standard code metric.</p>
+<ul class="lede-list">
+<li>A code eval runs the model’s program against unit tests, so a try either passes or fails.</li>
+<li>pass@k asks whether any of k tries passes, so more tries can only help.</li>
+<li>It is estimated from n samples with a count, not by running exactly k tries once.</li>
+<li>The reverse question, do all k tries pass, shows how reliable the model is.</li>
+</ul>
+<p class="try-this">Try this: drag <strong>k</strong> up to 20 and watch pass@k climb while “all pass” collapses.</p>
+</div>
+<section aria-labelledby="try">
+<h2 id="try" class="eyebrow">Try it</h2>
+<div class="widget" id="widget"><p>This page needs JavaScript.</p></div>
+</section>
+</div>
+
+<section aria-labelledby="happened">
+<h2 id="happened">What just happened</h2>
+<ol class="steps">
+<li>The model wrote <span data-bind="n"></span> programs for one problem and <span data-bind="c"></span> passed the tests. pass@1 is the share that pass, <span data-bind="p1"></span>.</li>
+<li>For pass@<span data-bind="k"></span>, pick <span data-bind="k"></span> of the <span data-bind="n"></span> samples at random without putting any back. The orange bar is the chance that at least one of them is a passing one: <span data-bind="pk"></span>, even though each single try passes only <span data-bind="p1"></span> of the time.</li>
+<li>The thin blue bar is the shortcut 1 − (1 − pass@1)<sup>k</sup>. It pretends the tries are independent, and it always reads lower, here <span data-bind="naive"></span>. The paper calls it a consistent underestimate.</li>
+<li>The grey bar asks the opposite: do all k tries pass? At k = <span data-bind="k"></span> that is <span data-bind="hat"></span>. As k grows pass@k heads to 100% and “all pass” heads to 0%.</li>
+</ol>
+<details>
+<summary>Show the formula</summary>
+<p class="shorter">Generate n samples per problem, count the c that pass the tests, then average this over problems.</p>
+<div class="formula" tabindex="0" role="region" aria-label="pass at k formula">pass@k = 1 − C(n − c, k) / C(n, k)
+all k pass = C(c, k) / C(n, k)</div>
+<p class="shorter">C(a, b) is the number of ways to choose b items from a. The fraction is the chance that k samples drawn without replacement are all failures, so one minus it is the chance of at least one pass. When fewer than k samples fail, pass@k is 1. The paper uses n = 200 and k up to 100, and computes the fraction as a running product so the numbers stay small.</p>
+</details>
+</section>
+
+<section aria-labelledby="meet">
+<h2 id="meet">Where you meet it</h2>
+<p class="shorter">A team says its code model “solves 70% of problems”. The first question to ask is how many tries it got.</p>
+<ul class="refs">
+<li>The Codex paper introduced HumanEval, 164 hand-written problems with an average of 7.7 unit tests each, and reports pass@k from n = 200 samples. Its abstract says the model solves 70.2% of problems with 100 samples per problem.</li>
+<li>SWE-bench scores a model by whether the tests pass after it edits a real code base, across 2,294 tasks from GitHub issues.</li>
+<li>τ-bench borrows the idea and flips it. Its pass^k counts a task only when all k runs succeed, which suits a customer-service agent that must work every time.</li>
+</ul>
+</section>
+
+<section aria-labelledby="breaks">
+<h2 id="breaks">Where it breaks</h2>
+<p class="shorter">pass@k trusts the tests. If the tests are weak, a wrong program passes and the score climbs for the wrong reason. Here are four solutions to “return the largest item in a list”. Only one is right. The functions run for real against the tests you tick.</p>
+<div class="widget" id="breaks-widget"></div>
+<p class="shorter">With one test, <span data-bind="passing"></span> of 4 solutions pass, so pass@1 reads <span data-bind="weakShare"></span>. With all four tests it is <span data-bind="strongShare"></span>. The model did not improve. The tests did.</p>
+</section>
+
+<section aria-labelledby="check">
+<h2 id="check">Check yourself</h2>
+<div class="qa"><p>n = 10 samples, c = 3 pass. What is pass@2?</p>
+<div class="reveal"><button type="button" data-closed="Show answer">Show answer</button><div class="answer"><p>The chance that two samples drawn without replacement are both failures is C(7,2) / C(10,2) = 21/45. So pass@2 = 1 − 21/45 = 24/45, about 0.53. The naive shortcut gives 1 − 0.7² = 0.51.</p></div></div></div>
+<div class="qa"><p>A model solves one problem every time and never solves another. What is its average pass@5 over the two?</p>
+<div class="reveal"><button type="button" data-closed="Show answer">Show answer</button><div class="answer"><p>0.5. Each problem gets its own estimate (1 and 0) and the estimates are averaged. More tries cannot help a problem the model never solves.</p></div></div></div>
+<div class="qa"><p>Why not run exactly k tries once and report whether any passed?</p>
+<div class="reveal"><button type="button" data-closed="Show answer">Show answer</button><div class="answer"><p>That is one noisy draw. The paper notes this way of computing pass@k can have high variance. Drawing n ≥ k samples and counting uses all of them and gives an unbiased estimate with less noise.</p></div></div></div>
+</section>
+
+<section aria-labelledby="used">
+<h2 id="used">Used in</h2>
+<ul class="refs" id="used-in"><li>Loading…</li></ul>
+</section>
+
+<section aria-labelledby="deeper">
+<h2 id="deeper">Go deeper</h2>
+<ul class="refs">
+<li><a href="https://arxiv.org/abs/2107.03374">Chen et al., “Evaluating Large Language Models Trained on Code”</a> (2021). Introduces HumanEval and the unbiased pass@k estimator; Appendix A shows why the naive shortcut is biased.</li>
+<li><a href="https://arxiv.org/abs/2406.12045">Yao, Shinn, Razavi and Narasimhan, “τ-bench”</a> (2024). Defines pass^k, the chance that all k runs succeed.</li>
+<li><a href="https://arxiv.org/abs/2310.06770">Jimenez et al., “SWE-bench: Can Language Models Resolve Real-World GitHub Issues?”</a> (2023). A code eval scored by running real tests on real repositories.</li>
+</ul>
+</section>
+</main>
+<footer class="site-foot">Last reviewed <time id="reviewed"></time> · <a id="source" href="https://github.com/laxmena/concepts">Source for this page</a></footer>
+
+<script type="module">
+import { bootPage, bindFacts } from '../../shared/boot.js';
+import { mount, facts } from './widget.js';
+await bootPage();
+const example = await (await fetch('example.json')).json();
+bindFacts(facts(example));
+mount(document.getElementById('widget'), example);
+mount(document.getElementById('breaks-widget'), { ...example, ...example.breaks, breaksView: true });
+</script>
+</body>
+</html>

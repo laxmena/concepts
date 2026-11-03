@@ -166,10 +166,21 @@ tr.miss td { color: var(--ink-2); }
 .doc-head label { font-weight: 600; font-size: 1rem; color: var(--ink); }
 .row-actions { display: flex; gap: .5rem; margin-top: .5rem; }
 
-/* Home page */
-.group h2 { margin: 2rem 0 .25rem; font-size: 1rem; color: var(--ink-2); text-transform: none; letter-spacing: 0; }
-.concept-list { list-style: none; padding: 0; margin: 0 0 1.5rem; }
-.concept-list li { padding: .35rem 0; font-size: 1.125rem; }
+/* Home page: titles only, areas side by side on wide screens, a series reads as a numbered list */
+.home h1 { font-size: 2rem; margin: 1.5rem 0 .5rem; }
+.home .lede { font-size: 1.125rem; margin-bottom: 2rem; }
+.home .site-foot { margin-top: 1.5rem; }
+.groups { columns: 2 22rem; column-gap: 5rem; }
+.group { break-inside: avoid; margin: 0 0 2.5rem; }
+.group h2 { margin: 0 0 .75rem; font-size: .8125rem; font-weight: 600; text-transform: uppercase; letter-spacing: .08em; color: var(--ink-2); }
+.concept-list { list-style: none; padding: 0; margin: 0; }
+.concept-list li { padding: .2rem 0; font-size: 1.0625rem; line-height: 1.45; }
+.concept-list.numbered { list-style: decimal; padding-left: 1.75rem; margin-top: .25rem; }
+.concept-list.numbered li::marker { color: var(--ink-2); font-size: .875rem; }
+.group a { text-decoration-color: var(--line); text-decoration-thickness: 1px; }
+.group a:hover { text-decoration-color: var(--orange); text-decoration-thickness: 2px; }
+.start { margin: 0 0 .5rem; font-size: 1.0625rem; font-weight: 600; display: flex; align-items: baseline; gap: .6rem; flex-wrap: wrap; }
+.start .tag { margin-left: 0; font-weight: 400; background: var(--orange); border-color: var(--orange); color: #2b2118; }
 
 @media (max-width: 40rem) {
   body { font-size: 1rem; }

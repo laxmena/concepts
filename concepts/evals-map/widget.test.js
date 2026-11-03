@@ -17,7 +17,8 @@ test('every page on the map exists, in the manifest and on disk', () => {
 
 test('every other eval page in the manifest is on the map', () => {
   const onMap = new Set(example.entries.map((e) => e.slug));
-  const evalArea = manifest.concepts.filter((c) => c.area === 'Evaluation' && c.slug !== 'evals-map');
+  const evalArea = manifest.concepts.filter((c) => c.area === 'Evals' && c.slug !== 'evals-map');
+  assert.ok(evalArea.length >= 11, 'the Evals area is not empty');
   for (const c of evalArea) assert.ok(onMap.has(c.slug), `${c.slug} is missing from the map`);
 });
 

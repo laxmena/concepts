@@ -90,7 +90,7 @@ Link the newsletter at `https://internals.laxmena.com`. Do not link the author's
 - Quote numbers in prose with `data-bind` from a facts function, so text cannot drift from the maths.
 - Avoid: "it's not X, it's Y"; "Not X. Not Y. Just Z."; stacks of one-line fragments for emphasis; bold-first bullets; "Here's the thing";
   announced counts ("three reasons"); a closing paragraph that repeats the page. First person only where the author gives an opinion; never invent one.
-- Home page: the title as a link, grouped by area, nothing else in the list.
+- Home page: the title as a link, grouped by area, nothing else in the list. A series (an area with a `start` page) opens with that page and a "Start here" tag, then numbers the rest in reading order. Two columns on wide screens, one on phones.
 
 ## 9. Accessibility
 - Every control has a visible `<label>` (or an `aria-label` where the label is hidden on phones).

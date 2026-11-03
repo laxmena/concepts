@@ -1,9 +1,11 @@
 # AGENTS.md
 
-Interactive explainers for search and ML concepts, served at concepts.laxmena.com (GitHub Pages, `CNAME` in the root).
-Link to the newsletter at https://internals.laxmena.com. Do not link the author's personal site.
-One concept per page, understood by interacting with it. Readers: senior engineers who follow the INTERNALS.md
-newsletter, and the author as a reference. Priorities, in order: correct, clear, durable, then pretty.
+Interactive explainers for computer science and engineering concepts, served at concepts.laxmena.com (GitHub Pages, `CNAME` in the root).
+The first pages are search, ML and evals; the scope is wider (systems, human factors, anything an engineer meets).
+Link to the newsletter at https://internals.laxmena.com where a page relates to a post (the "Used in" list). Not every page does.
+Do not link the author's personal site.
+One concept per page, understood by interacting with it. Readers: senior and principal engineers, and the author as a
+reference. No fluff. Priorities, in order: correct, clear, durable, then pretty.
 
 Look, writing and checks live in [STYLE.md](STYLE.md). Read it before building or changing a page.
 
@@ -32,7 +34,7 @@ Look, writing and checks live in [STYLE.md](STYLE.md). Read it before building o
 - `widget.js` exports the core maths as pure functions (no DOM, no globals) plus `mount(root, example)`.
   Tests import only the pure functions. `shared/lib.js` and `widget.js` must not touch `document` at import time.
 - `shared/style.css` (the only stylesheet), `shared/template.html`, `shared/lib.js` (helpers), `shared/boot.js`, `shared/home.js`.
-- `concepts.json` is the manifest: `slug, title, idea, area, posts[{title,url}], reviewed (YYYY-MM-DD)`.
+- `concepts.json` is the manifest: `slug, title, idea, area, posts[{title,url}], reviewed (YYYY-MM-DD)`, and optionally `start: true` for the first page of a series.
   The home page, each page's "Used in" list and its footer date all read from it. Only list pages that exist.
 - Helpers in `shared/lib.js`: `el`, `svg`, `slider`, `radios`, `segmented`, `initReveals` (declarative `.reveal` boxes), `barChart`, `stackedBar` (one bar in pieces, plus a thin blue comparison bar), `meter`, `editableList`.
   `shared/stats.js` has the maths several pages share (normal quantile and CDF, Wilson interval, seeded random numbers, `chooseRatio`).
@@ -60,7 +62,7 @@ Give a concrete example before any formula.
 ## Design
 White background, faintly warm cards, warm brown ink. Orange `#f0833a` marks the thing being explained, blue `#5b9bd0` the comparison, warm tans for everything else.
 System font stack. Text column about 70ch, widgets full width. Thin lines, soft rounded corners, direct labels. No gradients, decorative shadows, emoji or stock icons.
-Orange and blue are for fills and rules; set text in the ink colour. The home page is a plain list grouped by area: the title as a link, nothing else.
+Orange and blue are for fills and rules; set text in the ink colour. The home page is a plain list grouped by area: the title as a link, nothing else. An area with a `start` page is a series: that page first with a "Start here" tag, the rest numbered in reading order.
 
 ## Writing
 Plain words, sentences of varied length. First person only where the author gives an opinion; do not invent opinions.

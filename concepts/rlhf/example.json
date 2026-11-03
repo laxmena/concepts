@@ -1,0 +1,14 @@
+{
+  "prompt": "How do I reverse a list in Python?",
+  "replies": [
+    { "id": "idk", "label": "I’m not sure", "text": "I’m not sure.", "ref": 0.30, "reward": -0.8, "quality": 0.3 },
+    { "id": "short", "label": "One-line answer", "text": "Use my_list[::-1].", "ref": 0.30, "reward": 0.3, "quality": 0.9 },
+    { "id": "worked", "label": "Worked example", "text": "Use my_list.reverse() to flip it in place, or reversed(my_list) for a reversed iterator. For example, [1, 2, 3] becomes [3, 2, 1].", "ref": 0.20, "reward": 1.2, "quality": 1.0 },
+    { "id": "long", "label": "Long, flattering", "text": "Great question! Reversing a list is a fundamental skill, and it shows real curiosity. There are several approaches, so let us walk through each one in detail before arriving at a conclusion… (correct, but padded)", "ref": 0.12, "reward": 1.0, "quality": 0.7 },
+    { "id": "wrong", "label": "Polished, wrong", "text": "Definitely use my_list.sort(reverse=True). It is the standard, fastest way. (This sorts the list from largest to smallest. It does not reverse the order.)", "ref": 0.08, "reward": 1.5, "quality": 0.0 }
+  ],
+  "logBeta": 0,
+  "minLogBeta": -1.5,
+  "maxLogBeta": 1.5,
+  "breaks": { "logBeta": -0.5 }
+}

@@ -136,6 +136,14 @@
       "area": "Machine learning",
       "posts": [],
       "reviewed": "2026-11-03"
+    },
+    {
+      "slug": "rlhf",
+      "title": "RLHF",
+      "idea": "RLHF tunes a language model toward what people prefer by training a reward model on human comparisons, then pushing the model toward high reward while a KL penalty keeps it near where it started.",
+      "area": "Machine learning",
+      "posts": [],
+      "reviewed": "2026-11-03"
     }
   ]
 }

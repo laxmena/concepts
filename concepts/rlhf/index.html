@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RLHF · Concepts</title>
+<meta name="description" content="RLHF tunes a language model toward what people prefer by training a reward model on human comparisons, then pushing the model toward high reward while a KL penalty keeps it near where it started.">
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="../../shared/style.css">
+</head>
+<body data-slug="rlhf">
+<header class="site-head"><a href="../../">Concepts</a><a href="https://internals.laxmena.com">INTERNALS.md</a></header>
+<main>
+<div class="hero">
+<div class="hero-text">
+<h1>RLHF</h1>
+<p class="what">Reinforcement learning from human feedback. The tuning step behind InstructGPT and many chat assistants.</p>
+<ul class="lede-list">
+<li>People compare two replies, and a reward model learns to predict which one they pick.</li>
+<li>The language model is then trained to earn a high reward score.</li>
+<li>A penalty, β times KL, keeps it close to the model it started from.</li>
+<li>Set β and see which replies the tuned model gives.</li>
+</ul>
+<p class="try-this">Try this: drag <strong>β</strong> down from 1 to 0.1 and watch the reward score climb.</p>
+</div>
+<section aria-labelledby="try">
+<h2 id="try" class="eyebrow">Try it</h2>
+<div class="widget" id="widget"><p>This page needs JavaScript.</p></div>
+</section>
+</div>
+
+<section aria-labelledby="happened">
+<h2 id="happened">What just happened</h2>
+<ol class="steps">
+<li>A starting model answers “How do I reverse a list in Python?” in one of five ways. The blue bars are how often it picks each one.</li>
+<li>A reward model gives each reply a score. Pushing the model toward a high score alone would move all its probability onto the top-scoring reply.</li>
+<li>The penalty stops that. With a fixed set of replies the best trade-off has a closed form: new probability = starting probability × e<sup>score/β</sup>, scaled so the total is 100%. A large β changes almost nothing, and a small β lets the top score win.</li>
+<li>At β = <span data-bind="beta"></span> the average reward score goes from <span data-bind="proxyRef"></span> to <span data-bind="proxy"></span>. The worked example grows from <span data-bind="ref_worked"></span> to <span data-bind="p_worked"></span>, and the model has moved <span data-bind="kl"></span> nats (KL) from where it started.</li>
+</ol>
+<details>
+<summary>Where the reward model comes from, and what the real algorithm does</summary>
+<p class="shorter">Labellers see two replies and pick one. The reward model gives each reply a score r, and it is trained so that the chance it picks the chosen reply is the sigmoid of the score gap, the same Bradley-Terry form as on the <a href="../pairwise-elo/">pairwise votes and Elo</a> page. A gap of 1 means <span data-bind="winGood"></span>. The loss is −log of that chance: <span data-bind="lossGood"></span> when the model agrees with the label, <span data-bind="lossBad"></span> when it is equally confident the other way.</p>
+<p class="shorter">The page shows the exact optimum of expected reward minus β·KL for five replies. A real run cannot list every possible reply. InstructGPT approximates the optimum by sampling replies and updating with PPO, a policy-gradient method, with a KL penalty against the starting model. DPO reaches the same optimum straight from the comparisons, with no reinforcement learning loop.</p>
+<p class="shorter">The reward scores and the quality scores here are made up to show the shape. They are not measurements.</p>
+<p class="shorter">The five replies: <br>
+1. “I’m not sure.” <br>
+2. “Use my_list[::-1].” <br>
+3. “Use my_list.reverse() to flip it in place, or reversed(my_list) for a reversed iterator. For example, [1, 2, 3] becomes [3, 2, 1].” <br>
+4. A correct answer padded with flattery and filler. <br>
+5. “Definitely use my_list.sort(reverse=True). It is the standard, fastest way.” This sorts from largest to smallest. It does not reverse the order.</p>
+</details>
+</section>
+
+<section aria-labelledby="meet">
+<h2 id="meet">Where you meet it</h2>
+<p class="shorter">Some goals are easy to judge and hard to write as a rule: be helpful, be clear, do not make things up. People can compare two replies even when they cannot define quality. RLHF turns those comparisons into a number a <a href="../reinforcement-learning/">reinforcement learning</a> loop can chase.</p>
+<ul class="refs">
+<li>Christiano and others (2017) trained agents from human comparisons of short video clips of behaviour, without a hand-written reward.</li>
+<li>InstructGPT (Ouyang and others, 2022) applied the recipe to a language model: labellers ranked outputs, a reward model learned from the rankings, and PPO tuned the model with a KL penalty. Human raters preferred a 1.3 billion parameter tuned model to the 175 billion parameter base model.</li>
+</ul>
+</section>
+
+<section aria-labelledby="breaks">
+<h2 id="breaks">Where it breaks</h2>
+<p class="shorter">The reward model is a stand-in for what people want. It is only trained on a limited set of comparisons, so it can be fooled, and a model that chases its score will find the gaps. Here the reward model likes a confident, polished wrong answer. Drag β down and compare the two lines.</p>
+<div class="widget" id="breaks-widget"></div>
+<p class="shorter">At β = <span data-bind="bBeta"></span> the reward score is <span data-bind="bProxy"></span>, up from <span data-bind="proxyRef"></span>, while the quality people would give has fallen from <span data-bind="qualityRef"></span> to <span data-bind="bQuality"></span>, because the wrong reply is now <span data-bind="bWrong"></span> of the answers. Quality peaks near β = <span data-bind="peakBeta"></span> and drops below its starting value near β = <span data-bind="belowBeta"></span>. Gao and others (2022) measured this pattern with a larger reward model standing in for humans: the score of the model being optimised kept rising while the stand-in’s score eventually fell. They called it over-optimisation.</p>
+</section>
+
+<section aria-labelledby="check">
+<h2 id="check">Check yourself</h2>
+<div class="qa"><p>You set β very high. What does the tuned model do?</p>
+<div class="reveal"><button type="button" data-closed="Show answer">Show answer</button><div class="answer"><p>It stays the starting model. e to the power score/β goes to 1 for every reply, so the new probabilities equal the old ones and KL is 0. The penalty wins over the reward.</p></div></div></div>
+<div class="qa"><p>Why have the KL penalty at all? Why not just maximise the reward model’s score?</p>
+<div class="reveal"><button type="button" data-closed="Show answer">Show answer</button><div class="answer"><p>The score is a proxy, learned from a limited set of comparisons, and it is wrong in places nobody checked. Without the penalty the model moves all its probability to whichever reply the proxy rates highest, wrong ones included. The penalty keeps it where the reward model is still trustworthy.</p></div></div></div>
+<div class="qa"><p>The reward model scores reply A at 2.0 and reply B at 0.5. How often does it say people prefer A?</p>
+<div class="reveal"><button type="button" data-closed="Show answer">Show answer</button><div class="answer"><p>The sigmoid of the gap, 1.5: 1 / (1 + e<sup>−1.5</sup>) = 0.82, so 82% of the time.</p></div></div></div>
+</section>
+
+<section aria-labelledby="used">
+<h2 id="used">Used in</h2>
+<ul class="refs" id="used-in"><li>Loading…</li></ul>
+</section>
+
+<section aria-labelledby="deeper">
+<h2 id="deeper">Go deeper</h2>
+<ul class="refs">
+<li><a href="https://arxiv.org/abs/2203.02155">Ouyang and others, “Training language models to follow instructions with human feedback”</a> (2022). The InstructGPT recipe, step by step.</li>
+<li><a href="https://arxiv.org/abs/1706.03741">Christiano and others, “Deep reinforcement learning from human preferences”</a> (2017). Where learning a reward from comparisons began.</li>
+<li><a href="https://arxiv.org/abs/2210.10760">Gao, Schulman and Hilton, “Scaling Laws for Reward Model Overoptimization”</a> (2022). The proxy-versus-gold curves.</li>
+<li><a href="https://arxiv.org/abs/2305.18290">Rafailov and others, “Direct Preference Optimization”</a> (2023). Derives the closed form used on this page and skips the RL step.</li>
+</ul>
+</section>
+</main>
+<footer class="site-foot">Last reviewed <time id="reviewed"></time> · <a id="source" href="https://github.com/laxmena/concepts">Source for this page</a></footer>
+
+<script type="module">
+import { bootPage, bindFacts } from '../../shared/boot.js';
+import { mount, facts } from './widget.js';
+await bootPage();
+const example = await (await fetch('example.json')).json();
+bindFacts(facts(example));
+mount(document.getElementById('widget'), example);
+mount(document.getElementById('breaks-widget'), { ...example, breaksView: true });
+</script>
+</body>
+</html>

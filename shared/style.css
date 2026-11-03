@@ -451,3 +451,9 @@ tr.miss td { color: var(--ink-2); }
 @media (max-width: 40rem) { .cards.rl, .cards.rl:has(> :nth-child(3):last-child) { grid-template-columns: 1fr; } }
 @media (min-width: 40.01rem) { .gw .gcell { min-height: 4rem; } }
 @media (min-width: 40.01rem) { .cards.rl .gw { flex: 1; grid-auto-rows: 1fr; } }
+
+.rrows .wrow { grid-template-columns: 8.5rem minmax(0, 1fr) 3.4rem; }
+@media (max-width: 40rem) { .rrows .wrow { grid-template-columns: 7.2rem minmax(0, 1fr) 3rem; } }
+
+.controls.one { grid-template-columns: 1fr; }
+.controls.one .slider input[type=range] { min-width: 0; }

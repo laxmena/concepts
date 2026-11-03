@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Home footer: "Notes I keep for myself, added as I learn", a link to GitHub issues for mistakes, and the source link.
 - Two GA4 events, sent only after consent: `widget_used` (first control touched, once per widget per load; `concept`, `widget` = main or breaks) and `answer_opened` (`concept`, `question` = 1 to 3). Register `concept`, `widget` and `question` as custom dimensions in GA to see them in reports.
 - Service worker is now network first with revalidation (`concepts-v2`). Before, it served the cached copy first, so a deploy needed two reloads and GitHub Pages' 10 minute cache made it worse. Offline still works from the cache.
 - LoRA page: a toy update built from known orthogonal vectors so the best rank-r approximation is exact (checked against the Eckart–Young sum of squares), real-layer parameter counts, and a spread-out update as the break.

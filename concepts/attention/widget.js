@@ -99,13 +99,14 @@ function plane(state, ex, sentence, r) {
 export function mount(root, example) {
   if (example.breaksView) return mountBreaks(root, example);
   const state = { sentence: example.sentence, divisor: example.divisor };
-  const pick = segmented({ name: 'sentence', legend: 'Sentence: river or loan', value: state.sentence,
+  const pick = segmented({ name: 'sentence', legend: 'Sentence', value: state.sentence,
     options: Object.entries(example.sentences).map(([value, s]) => ({ value, label: s.short, title: s.label })),
     onChange: (v) => { state.sentence = v; render(); } });
+  pick.root.classList.add('wide');
   const div = slider({ label: 'Divide scores by', min: 0.5, max: 4, step: 0.25, value: state.divisor, format: (v) => String(v), onInput: (v) => { state.divisor = v; render(); } });
   const cards = { weights: el('div', { class: 'card' }), picture: el('div', { class: 'card' }), result: el('div', { class: 'card' }) };
   root.replaceChildren(
-    el('div', { class: 'controls' }, pick.root, div.root),
+    el('div', { class: 'controls' }, el('div', { class: 'seg-field' }, el('span', {}, 'Sentence'), pick.root), div.root),
     el('div', { class: 'cards three' }, cards.weights, cards.picture, cards.result),
     el('p', { class: 'legend' }, el('span', { class: 'key orange' }), 'Orange: how much “bank” looks at each word, and where its meaning ends up. ', el('span', { class: 'key blue' }), 'Blue: what plain averaging would give.'));
 

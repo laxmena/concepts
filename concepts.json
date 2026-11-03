@@ -128,6 +128,14 @@
       "area": "Machine learning",
       "posts": [],
       "reviewed": "2026-11-03"
+    },
+    {
+      "slug": "reinforcement-learning",
+      "title": "Reinforcement learning",
+      "idea": "An agent learns what to do by trying actions and seeing rewards, with credit for a late reward flowing back to the earlier steps that led to it.",
+      "area": "Machine learning",
+      "posts": [],
+      "reviewed": "2026-11-03"
     }
   ]
 }

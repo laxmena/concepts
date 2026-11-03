@@ -1,0 +1,15 @@
+{
+  "rows": 3,
+  "cols": 5,
+  "start": [2, 0],
+  "goal": [0, 4],
+  "pit": [1, 4],
+  "coin": [2, 2],
+  "alpha": 0.5,
+  "gamma": 0.9,
+  "epsilon": 0.3,
+  "seed": 7,
+  "maxSteps": 100,
+  "firstRun": 50,
+  "breaks": { "bonus": 0.2, "rolloutSteps": 30 }
+}

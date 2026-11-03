@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Reinforcement learning · Concepts</title>
+<meta name="description" content="An agent learns what to do by trying actions and seeing rewards, with credit for a late reward flowing back to the earlier steps that led to it.">
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="../../shared/style.css">
+</head>
+<body data-slug="reinforcement-learning">
+<header class="site-head"><a href="../../">Concepts</a><a href="https://internals.laxmena.com">INTERNALS.md</a></header>
+<main>
+<div class="hero">
+<div class="hero-text">
+<h1>Reinforcement learning</h1>
+<p class="what">Learning by trial and error from a reward signal, with no labelled answers. Used for game players, robots, and the tuning step of chat models.</p>
+<ul class="lede-list">
+<li>An agent sees a state, picks an action, and gets a reward.</li>
+<li>Here the only rewards are +1 at the goal and −1 in the pit.</li>
+<li>It keeps a table of how much reward it expects from each move, and nudges the table after every step.</li>
+<li>Credit for the goal flows backwards, one cell per update, to the moves that led there.</li>
+</ul>
+<p class="try-this">Try this: press <strong>Run 50 episodes</strong>, then drag <strong>γ</strong> down and run again.</p>
+</div>
+<section aria-labelledby="try">
+<h2 id="try" class="eyebrow">Try it</h2>
+<div class="widget" id="widget"><p>This page needs JavaScript.</p></div>
+</section>
+</div>
+
+<section aria-labelledby="happened">
+<h2 id="happened">What just happened</h2>
+<ol class="steps">
+<li>Every cell starts at 0, so the first episodes are random walks. Nothing is learned until the agent stumbles onto the goal or the pit, because those are the only places with a reward.</li>
+<li>After each move the agent nudges its estimate for that move toward <em>the reward it just got, plus γ times the best value of the cell it landed on</em>. The nudge size is α = <span data-bind="alpha"></span>. This is Q-learning.</li>
+<li>The goal cell is worth +1. The cell next to it learns that, then the cell next to that learns it from the neighbour, each time discounted by γ = <span data-bind="gamma"></span>. The start is <span data-bind="shortest"></span> moves from the goal, so its best possible value is γ to the power 5, <span data-bind="best"></span>.</li>
+<li>With the settings above, the first 10 episodes reach the goal <span data-bind="firstWins"></span> times and episodes 41 to 50 reach it <span data-bind="lastWins"></span> times, in about <span data-bind="lastSteps"></span> steps each. The start cell’s learned value after <span data-bind="runs"></span> episodes is <span data-bind="learned"></span>, against the best possible <span data-bind="best"></span>.</li>
+<li>ε = <span data-bind="epsilon"></span> means it ignores its table and moves at random <span data-bind="epsilon"></span> of the time. That is how it keeps finding out whether a different route is better.</li>
+</ol>
+<details>
+<summary>The update rule</summary>
+<p class="shorter">Q(s, a) ← Q(s, a) + α · (r + γ · max Q(s′, a′) − Q(s, a)). Q(s, a) is the expected total discounted reward for taking action a in state s and playing well afterwards. The bracket is the gap between what it expected and what it saw one step later. When the episode ends at s′ the max term is 0. This is the one-step rule of Watkins (1989), as given in chapter 6 of Sutton and Barto.</p>
+<p class="shorter">The grid is deterministic and tiny, so a table is enough. Real problems have too many states for a table, and the table is replaced by a neural network, which makes learning far less stable.</p>
+</details>
+</section>
+
+<section aria-labelledby="meet">
+<h2 id="meet">Where you meet it</h2>
+<p class="shorter">Reinforcement learning fits problems where you can score the outcome of a whole sequence of decisions but cannot write down the right decision at each step.</p>
+<ul class="refs">
+<li>Game playing. DeepMind’s DQN learned to play Atari games from screen pixels, with the game score as the reward (Mnih and others, Nature, 2015).</li>
+<li>Go. AlphaGo combined neural networks with tree search and reinforcement learning from self-play (Silver and others, Nature, 2016).</li>
+<li>Chat models. The tuning step called RLHF uses a reward that comes from human preferences. That has its own page next.</li>
+</ul>
+</section>
+
+<section aria-labelledby="breaks">
+<h2 id="breaks">Where it breaks</h2>
+<p class="shorter">The agent maximises the reward you wrote, not the one you meant. Here a coin sits in the bottom row and pays a small bonus every time the agent steps onto it. Nobody meant the coin to matter more than the goal. Drag the bonus up.</p>
+<div class="widget" id="breaks-widget"></div>
+<p class="shorter">At γ = <span data-bind="gamma"></span> the agent switches from finishing the task to farming the coin at a bonus of about <span data-bind="threshold"></span>. This is called reward hacking, or specification gaming. This page solves the grid exactly, so the switch is exact and not a lucky training run.</p>
+</section>
+
+<section aria-labelledby="check">
+<h2 id="check">Check yourself</h2>
+<div class="qa"><p>Why does the value spread outward from the goal one cell at a time, instead of reaching the start at once?</p>
+<div class="reveal"><button type="button" data-closed="Show answer">Show answer</button><div class="answer"><p>Each update looks only one step ahead. A cell learns about the goal only after its neighbour has already learned it. The start cell, six moves away, needs the chain to build up first.</p></div></div></div>
+<div class="qa"><p>You drag γ down to 0.5. What happens to the value of the start cell, and why does that matter?</p>
+<div class="reveal"><button type="button" data-closed="Show answer">Show answer</button><div class="answer"><p>It falls to 0.5⁵, about 0.03, because the +1 is halved for every step on the way. The agent still prefers the goal, but far from it the signal is tiny and learning is slow. A small γ makes an agent short-sighted.</p></div></div></div>
+<div class="qa"><p>Why can a +0.2 coin beat a +1 goal?</p>
+<div class="reveal"><button type="button" data-closed="Show answer">Show answer</button><div class="answer"><p>The goal pays once and the episode ends. The coin pays again every second step: 0.2 + 0.2·γ² + 0.2·γ⁴ and so on, which is 0.2 divided by (1 − 0.81), about 1.05. That is more than 1.</p></div></div></div>
+</section>
+
+<section aria-labelledby="used">
+<h2 id="used">Used in</h2>
+<ul class="refs" id="used-in"><li>Loading…</li></ul>
+</section>
+
+<section aria-labelledby="deeper">
+<h2 id="deeper">Go deeper</h2>
+<ul class="refs">
+<li><a href="http://incompleteideas.net/book/the-book-2nd.html">Sutton and Barto, “Reinforcement Learning: An Introduction”</a>, second edition (2018). The standard textbook. Free to read online.</li>
+<li><a href="https://link.springer.com/article/10.1007/BF00992698">Watkins and Dayan, “Q-learning”</a> (1992). The convergence proof for the update used here.</li>
+<li><a href="https://www.nature.com/articles/nature14236">Mnih and others, “Human-level control through deep reinforcement learning”</a> (2015). A neural network in place of the table.</li>
+<li><a href="https://arxiv.org/abs/1606.06565">Amodei and others, “Concrete Problems in AI Safety”</a> (2016). Reward hacking is one of its five problems.</li>
+</ul>
+</section>
+</main>
+<footer class="site-foot">Last reviewed <time id="reviewed"></time> · <a id="source" href="https://github.com/laxmena/concepts">Source for this page</a></footer>
+
+<script type="module">
+import { bootPage, bindFacts } from '../../shared/boot.js';
+import { mount, facts } from './widget.js';
+await bootPage();
+const example = await (await fetch('example.json')).json();
+bindFacts(facts(example));
+mount(document.getElementById('widget'), example);
+mount(document.getElementById('breaks-widget'), { ...example, breaksView: true });
+</script>
+</body>
+</html>

@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Reinforcement learning page: a 3 by 5 grid world with Q-learning, a live reward-hacking break (a coin that pays on every visit, solved exactly by value iteration, flips near +0.16 at γ 0.9). Tests check the closed form γ^(d−1), a hand-worked update, and Python value-iteration numbers. Attention: the sentence toggle now has words and a visible label (`.segmented.wide`).
 - Attention page (area "Machine learning"): one word attends to the others, two sentences, a divisor slider, and the n by n cost live. Tests use values computed in Python. New `.wrows` rows in the stylesheet.
 - Type scale: five sizes as tokens (13, 15, 17, 22, 36px), hero bullets smaller than the body, mono for numbers only, line height 1.65 for prose, tighter section spacing, three cards side by side instead of an orphan. The title now fits two lines and the hero column is about 200px shorter.
 - Home page: simpler and quieter. Titles only, areas side by side, a series (the evals) opens with "Start here" and numbers the rest in reading order. Areas renamed to "Evals" and "Search and ranking". Intro no longer ties every page to the newsletter; AGENTS.md and STYLE.md now describe the wider scope (computer science and engineering, senior and principal engineers).

@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RAG evals · Concepts</title>
+<meta name="description" content="A RAG answer can fail in the retrieval step, in the generation step, or in both, so a RAG eval grades the retrieved context, the answer’s faithfulness to it, and the answer’s relevance separately.">
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="../../shared/style.css">
+</head>
+<body data-slug="rag-evals">
+<header class="site-head"><span><a href="../../">Concepts</a> · <a href="../evals-map/">Map of evals</a></span><a href="https://internals.laxmena.com">INTERNALS.md</a></header>
+<main>
+<div class="hero">
+<div class="hero-text">
+<h1>RAG evals</h1>
+<p class="what">RAG finds passages and asks a language model to answer from them. A RAG eval says which of the two steps went wrong.</p>
+<ul class="lede-list">
+<li>A RAG answer can be wrong because retrieval found the wrong passages.</li>
+<li>It can be wrong because the model ignored good passages and made things up.</li>
+<li>Faithfulness asks whether the context supports each claim.</li>
+<li>An answer can be faithful and still wrong.</li>
+</ul>
+<p class="try-this">Try this: untick “Old notice” and watch Answer B.</p>
+</div>
+<section aria-labelledby="try">
+<h2 id="try" class="eyebrow">Try it</h2>
+<div class="widget" id="widget"><p>This page needs JavaScript.</p></div>
+</section>
+</div>
+
+<section aria-labelledby="happened">
+<h2 id="happened">What just happened</h2>
+<ol class="steps">
+<li>The retriever returned the passages that are ticked. Context relevance is the share of them that are needed to answer the question: <span data-bind="CR"></span> here, because the old notice is not needed. Context recall asks whether the needed passage was found at all: <span data-bind="recall"></span>.</li>
+<li>Faithfulness is the share of an answer’s claims that the retrieved context supports. Answer A makes one claim and the current notice supports it. Answer C adds an invented claim about coffee, so its faithfulness is <span data-bind="F.C"></span>.</li>
+<li>Answer B is faithful, <span data-bind="F.B"></span>, to the old notice, and wrong. Faithfulness only checks the answer against the context it was given. It cannot tell you the context was stale.</li>
+<li>Answer D is faithful to a passage about books, but answers a different question. That is a failure of relevance, which is a separate score.</li>
+</ol>
+<details>
+<summary>Show how RAGAS computes these</summary>
+<div class="formula" tabindex="0" role="region" aria-label="RAGAS scores">faithfulness       = supported statements / all statements in the answer
+context relevance  = sentences needed to answer / all sentences in the context
+answer relevance   = average similarity between the question and questions generated from the answer</div>
+<p class="shorter">RAGAS has a language model split the answer into statements and check each one against the context, and extract the needed sentences from the context. For answer relevance it generates questions from the answer and compares them to the real one with embeddings. This page uses one-sentence passages and labels done by hand, so the first two scores can be computed exactly. Answer relevance does not look at whether the answer is true, so an answer can be relevant and wrong.</p>
+</details>
+</section>
+
+<section aria-labelledby="meet">
+<h2 id="meet">Where you meet it</h2>
+<p class="shorter">A support bot answers “When does the library reopen?” with a date from an old notice. A retrieval score says the search found something relevant. A faithfulness score says the answer matches what it found. Neither says the date is out of date.</p>
+<ul class="refs">
+<li>The RAGAS paper names three things to grade: whether the retriever finds relevant and focused passages, whether the model uses them faithfully, and the quality of the generation itself. Its scores do not need human-written reference answers.</li>
+<li>The retrieval half can also be graded with the usual ranking scores, such as recall@k on the <a href="../retrieval-metrics/">retrieval metrics page</a>.</li>
+</ul>
+</section>
+
+<section aria-labelledby="breaks">
+<h2 id="breaks">Where it breaks</h2>
+<p class="shorter">Faithfulness is measured against whatever the retriever returned. If only the old notice comes back, the right answer is not supported and the wrong one is. Here the retriever returned only the old notice.</p>
+<div class="widget" id="breaks-widget"></div>
+<p class="shorter">The right answer scores <span data-bind="Fb.A"></span> for faithfulness and the wrong one <span data-bind="Fb.B"></span>. Context recall is <span data-bind="recallb"></span>: the needed passage was never retrieved. When faithfulness and correctness disagree, look at the retrieval step first.</p>
+</section>
+
+<section aria-labelledby="check">
+<h2 id="check">Check yourself</h2>
+<div class="qa"><p>An answer makes 4 claims and the context supports 3. What is its faithfulness?</p>
+<div class="reveal"><button type="button" data-closed="Show answer">Show answer</button><div class="answer"><p>3 / 4 = 0.75. One claim is not in the context, which means the model added it.</p></div></div></div>
+<div class="qa"><p>A model answers correctly from its own memory, without using the retrieved passages. What happens to faithfulness?</p>
+<div class="reveal"><button type="button" data-closed="Show answer">Show answer</button><div class="answer"><p>It drops, because the claims are not supported by the context. The answer may be right, but it is not grounded in what was retrieved, which matters when the context is what you trust.</p></div></div></div>
+<div class="qa"><p>Faithfulness is 1.00 and the answer is wrong. Where do you look first?</p>
+<div class="reveal"><button type="button" data-closed="Show answer">Show answer</button><div class="answer"><p>At the retrieval step. If the context was stale, off-topic or incomplete, a faithful model will repeat its mistakes. Check context relevance and recall.</p></div></div></div>
+</section>
+
+<section aria-labelledby="used">
+<h2 id="used">Used in</h2>
+<ul class="refs" id="used-in"><li>Loading…</li></ul>
+</section>
+
+<section aria-labelledby="deeper">
+<h2 id="deeper">Go deeper</h2>
+<ul class="refs">
+<li><a href="https://arxiv.org/abs/2309.15217">Es, James, Espinosa-Anke and Schockaert, “Ragas: Automated Evaluation of Retrieval Augmented Generation”</a> (2023). Defines the three scores used here.</li>
+<li><a href="../retrieval-metrics/">Precision, recall and reciprocal rank on this site</a>. The retrieval half, as a ranked list.</li>
+</ul>
+</section>
+</main>
+<footer class="site-foot">Last reviewed <time id="reviewed"></time> · <a id="source" href="https://github.com/laxmena/concepts">Source for this page</a></footer>
+
+<script type="module">
+import { bootPage, bindFacts } from '../../shared/boot.js';
+import { mount, facts } from './widget.js';
+await bootPage();
+const example = await (await fetch('example.json')).json();
+bindFacts(facts(example));
+mount(document.getElementById('widget'), example);
+mount(document.getElementById('breaks-widget'), { ...example, breaksView: true });
+</script>
+</body>
+</html>

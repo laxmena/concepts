@@ -1,0 +1,30 @@
+{
+  "who": "any",
+  "whoOptions": [
+    { "id": "any", "label": "Anyone" },
+    { "id": "rule", "label": "A fixed rule" },
+    { "id": "program", "label": "A program that runs" },
+    { "id": "llm", "label": "A language model" },
+    { "id": "people", "label": "People" },
+    { "id": "users", "label": "Real users" }
+  ],
+  "whatOptions": [
+    { "id": "retrieval", "label": "A search step" },
+    { "id": "answer", "label": "An answer" },
+    { "id": "agent", "label": "An agent run" }
+  ],
+  "entries": [
+    { "slug": "retrieval-metrics", "title": "Precision, recall, reciprocal rank", "use": "Did search return the right pages, and how early?", "what": ["retrieval"], "who": ["rule"], "blind": "Needs relevance labels, and precision caps below 1 when few pages are relevant." },
+    { "slug": "ndcg", "title": "nDCG@k", "use": "Rank a list when some results are better than others.", "what": ["retrieval"], "who": ["rule"], "blind": "A result nobody graded counts as 0." },
+    { "slug": "rag-evals", "title": "RAG evals", "use": "Was the answer grounded in what was retrieved?", "what": ["retrieval", "answer"], "who": ["llm"], "blind": "A faithful answer can still be wrong if the context is stale." },
+    { "slug": "exact-match-f1", "title": "Exact match and F1", "use": "Compare a short answer to a reference.", "what": ["answer"], "who": ["rule"], "blind": "It counts words, not meaning." },
+    { "slug": "pass-at-k", "title": "pass@k", "use": "Does generated code pass the tests?", "what": ["answer"], "who": ["program"], "blind": "Weak tests let wrong code pass." },
+    { "slug": "llm-as-judge", "title": "LLM as judge", "use": "Grade open-ended answers at scale.", "what": ["answer", "agent"], "who": ["llm"], "blind": "It favours the first answer shown and the longer answer." },
+    { "slug": "pairwise-elo", "title": "Pairwise preference and Elo", "use": "Rank models from head-to-head votes.", "what": ["answer"], "who": ["people", "llm", "users"], "blind": "A single rating cannot show a cycle of wins." },
+    { "slug": "human-agreement", "title": "Human agreement and kappa", "use": "Check that your labels can be trusted.", "what": ["answer"], "who": ["people"], "blind": "A rare label makes kappa unstable." },
+    { "slug": "agent-evals", "title": "Agent evals", "use": "Did the agent finish the task, every time?", "what": ["agent"], "who": ["program", "llm"], "blind": "An end-state check cannot see a broken rule on the way." },
+    { "slug": "online-evals", "title": "Online evals and A/B tests", "use": "What do real users prefer?", "what": ["answer", "agent"], "who": ["users"], "blind": "Checking early inflates false wins." },
+    { "slug": "eval-error-bars", "title": "Is 82% better than 80%?", "use": "How much to trust any score.", "what": [], "who": [], "always": true, "blind": "The simple range fails at 0% and 100%." },
+    { "slug": "contamination", "title": "Contamination and Goodhart", "use": "Whether the test is still a fair test.", "what": [], "who": [], "always": true, "blind": "A small leak hides in the noise." }
+  ]
+}

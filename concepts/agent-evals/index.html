@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Agent evals · Concepts</title>
+<meta name="description" content="An agent is graded on what it did, not just what it said: success is checked on the final state, reliability is checked by running each task many times and requiring all runs to work.">
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="../../shared/style.css">
+</head>
+<body data-slug="agent-evals">
+<header class="site-head"><span><a href="../../">Concepts</a> · <a href="../evals-map/">Map of evals</a></span><a href="https://internals.laxmena.com">INTERNALS.md</a></header>
+<main>
+<div class="hero">
+<div class="hero-text">
+<h1>Agent evals</h1>
+<p class="what">An agent is a model that takes actions, like calling tools, over many steps. Agent evals check the end result, how reliably it is reached, and whether the steps followed the rules.</p>
+<ul class="lede-list">
+<li>One successful run says little, because an agent can succeed on Monday and fail on Tuesday.</li>
+<li>pass^k asks whether all k runs of a task succeed, which measures reliability.</li>
+<li>The same one-run score can hide very different reliability.</li>
+<li>Checking only the end state can pass a run that broke a rule on the way.</li>
+</ul>
+<p class="try-this">Try this: drag <strong>k</strong> to 8 and compare the three task sets.</p>
+</div>
+<section aria-labelledby="try">
+<h2 id="try" class="eyebrow">Try it</h2>
+<div class="widget" id="widget"><p>This page needs JavaScript.</p></div>
+</section>
+</div>
+
+<section aria-labelledby="happened">
+<h2 id="happened">What just happened</h2>
+<ol class="steps">
+<li>Each tile is one task: the number of runs, out of <span data-bind="n"></span>, in which the agent succeeded. All three task sets total 50 successes in 80 runs, so all three score 62.5% on a single run.</li>
+<li>The orange bar, pass@k, asks whether any of k runs works. It climbs as k grows: with “Every task works 5 times in 8” it reaches <span data-bind="at.same.4"></span> by k = 4. That suits code with tests, where you can try again and check the answer.</li>
+<li>The grey bar, pass^k, asks whether all k runs work. Pick “Every task works 5 times in 8” and it falls to <span data-bind="hat.same.8"></span> at k = 8, because every task fails about 3 runs in 8. Pick “Tasks either always work or never” and pass^8 stays at <span data-bind="hat.split.8"></span>.</li>
+<li>The average one-run score hides this. What counts is how the failures are spread across tasks, which a single success rate does not show.</li>
+</ol>
+<details>
+<summary>Show the formula</summary>
+<p class="shorter">Run each task n times, count the c runs that succeed, and average over tasks. This is the estimator from the τ-bench paper.</p>
+<div class="formula" tabindex="0" role="region" aria-label="Formulas">pass^k = average over tasks of C(c, k) / C(n, k)
+pass@k = 1 − average over tasks of C(n − c, k) / C(n, k)</div>
+<p class="shorter">pass^k is the chance that k runs drawn without replacement are all successes. It is the mirror of the pass@k formula on the pass@k page.</p>
+</details>
+</section>
+
+<section aria-labelledby="meet">
+<h2 id="meet">Where you meet it</h2>
+<p class="shorter">A shop wants an agent that handles refunds. It scores 61% on a test of customer requests. The shop asks for the chance that it gets a given request right every time it is tried.</p>
+<ul class="refs">
+<li>τ-bench puts an agent in simulated conversations with a user played by a language model, gives it tools and policy rules, and compares the database at the end with the goal state. The paper reports gpt-4o succeeding on about <span data-bind="p1Retail"></span>% of the retail tasks and <span data-bind="p1Airline"></span>% of the airline tasks in a single run, and on only about <span data-bind="p8Retail"></span>% of retail tasks in all 8 runs.</li>
+<li>SWE-bench scores an agent that edits a real code base by whether the project’s tests pass afterwards.</li>
+</ul>
+</section>
+
+<section aria-labelledby="breaks">
+<h2 id="breaks">Where it breaks</h2>
+<p class="shorter">Checking the end state is cheap and objective, and it cannot see how the agent got there. Two runs end with the right refund in the database. In one the agent skipped an identity check. Tick the box to grade the steps too. These runs are made up to show the gap.</p>
+<div class="widget" id="breaks-widget"></div>
+<p class="shorter">With only the end state checked, the lucky run is graded <span data-bind="luckyOutcome"></span>. With steps graded it is <span data-bind="luckyBoth"></span>. A run that gets the right result by breaking a rule is a bug that has not yet cost anything. Add checks on the steps that matter, such as policy rules, or have a judge read the whole trajectory.</p>
+</section>
+
+<section aria-labelledby="check">
+<h2 id="check">Check yourself</h2>
+<div class="qa"><p>A task works in 6 of 8 runs. What is its pass^2 and its pass@2?</p>
+<div class="reveal"><button type="button" data-closed="Show answer">Show answer</button><div class="answer"><p>pass^2 = C(6,2)/C(8,2) = 15/28 = 0.54. pass@2 = 1 − C(2,2)/C(8,2) = 1 − 1/28 = 0.96. Two tries usually find a success, but two in a row work only about half the time.</p></div></div></div>
+<div class="qa"><p>An agent has a one-run success rate of 60% on every task, independently. What is pass^8?</p>
+<div class="reveal"><button type="button" data-closed="Show answer">Show answer</button><div class="answer"><p>About 0.6 to the power 8, which is 1.7%. In practice agents are rarely independent across runs of the same task, which is why real pass^8 is higher, but still far below pass^1.</p></div></div></div>
+<div class="qa"><p>Why use pass@k for code and pass^k for customer service?</p>
+<div class="reveal"><button type="button" data-closed="Show answer">Show answer</button><div class="answer"><p>Code can be checked by running tests, so a failed try costs little and one success is enough. A customer cannot be asked to retry: the agent has to be right every time.</p></div></div></div>
+</section>
+
+<section aria-labelledby="used">
+<h2 id="used">Used in</h2>
+<ul class="refs" id="used-in"><li>Loading…</li></ul>
+</section>
+
+<section aria-labelledby="deeper">
+<h2 id="deeper">Go deeper</h2>
+<ul class="refs">
+<li><a href="https://arxiv.org/abs/2406.12045">Yao, Shinn, Razavi and Narasimhan, “τ-bench: A Benchmark for Tool-Agent-User Interaction in Real-World Domains”</a> (2024). The pass^k metric and the numbers quoted here.</li>
+<li><a href="https://arxiv.org/abs/2310.06770">Jimenez et al., “SWE-bench”</a> (2023). Agents scored by tests on real repositories.</li>
+<li><a href="../pass-at-k/">pass@k on this site</a>. The estimator this page mirrors.</li>
+</ul>
+</section>
+</main>
+<footer class="site-foot">Last reviewed <time id="reviewed"></time> · <a id="source" href="https://github.com/laxmena/concepts">Source for this page</a></footer>
+
+<script type="module">
+import { bootPage, bindFacts } from '../../shared/boot.js';
+import { mount, facts } from './widget.js';
+await bootPage();
+const example = await (await fetch('example.json')).json();
+bindFacts(facts(example));
+mount(document.getElementById('widget'), example);
+mount(document.getElementById('breaks-widget'), { ...example, breaksView: true });
+</script>
+</body>
+</html>

@@ -59,3 +59,10 @@ export function chooseRatio(n, c, k) {
   for (let i = 0; i < k; i++) r *= (c - i) / (n - i);
   return r;
 }
+
+/** One standard normal draw from a uniform source (Box-Muller). */
+export function normalSample(rng) {
+  let u = 0;
+  while (u === 0) u = rng();
+  return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * rng());
+}

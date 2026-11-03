@@ -1,0 +1,21 @@
+{
+  "question": "When does the Wren Library reopen?",
+  "gold": "3 March 2026",
+  "passages": [
+    { "id": "P1", "label": "Current notice", "text": "The Wren Library will reopen on 3 March 2026 after repairs.", "needed": true },
+    { "id": "P2", "label": "Library facts", "text": "The Wren Library has 40,000 books and a reading room for children.", "needed": false },
+    { "id": "P3", "label": "Old notice", "text": "The Wren Library will reopen on 1 June 2024.", "needed": false }
+  ],
+  "retrieved": ["P1", "P3"],
+  "answers": [
+    { "id": "A", "text": "It reopens on 3 March 2026.", "relevant": true, "correct": true,
+      "statements": [{ "text": "It reopens on 3 March 2026.", "supportedBy": ["P1"] }] },
+    { "id": "B", "text": "It reopens on 1 June 2024.", "relevant": true, "correct": false,
+      "statements": [{ "text": "It reopens on 1 June 2024.", "supportedBy": ["P3"] }] },
+    { "id": "C", "text": "It reopens on 3 March 2026 and offers free coffee.", "relevant": true, "correct": true,
+      "statements": [{ "text": "It reopens on 3 March 2026.", "supportedBy": ["P1"] }, { "text": "It offers free coffee.", "supportedBy": [] }] },
+    { "id": "D", "text": "It has 40,000 books.", "relevant": false, "correct": false,
+      "statements": [{ "text": "It has 40,000 books.", "supportedBy": ["P2"] }] }
+  ],
+  "breaks": { "retrieved": ["P3"], "answers": ["A", "B"] }
+}

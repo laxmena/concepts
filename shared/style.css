@@ -25,6 +25,7 @@ a { color: var(--ink); text-decoration-thickness: 1px; text-underline-offset: .1
 a:hover { text-decoration-color: var(--orange); text-decoration-thickness: 2px; }
 :focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
 [hidden] { display: none !important; }
+.show-s { display: none; }
 .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 .muted { color: var(--ink-2); }
 code, .mono { font-family: var(--mono); font-size: .9em; }
@@ -66,7 +67,8 @@ ol.steps li { margin: .75rem 0; }
 .controls .field { grid-column: 1 / -1; }
 .field { display: grid; gap: .25rem; border: 0; padding: 0; margin: 0; }
 .field label, .slider label, legend { font-size: .875rem; color: var(--ink-2); }
-input[type=text], textarea { font: inherit; font-size: 1rem; color: var(--ink); background: var(--card); border: 1px solid var(--ink-2); border-radius: var(--r-s); padding: .45rem .6rem; width: 100%; min-width: 0; }
+select { font: inherit; font-size: 1rem; color: var(--ink); background: var(--card); border: 1px solid var(--ink-2); border-radius: var(--r-s); padding: .4rem .6rem; max-width: 100%; }
+input[type=text], input[type=number], textarea { font: inherit; font-size: 1rem; color: var(--ink); background: var(--card); border: 1px solid var(--ink-2); border-radius: var(--r-s); padding: .45rem .6rem; width: 100%; min-width: 0; }
 textarea { resize: vertical; min-height: 3.5rem; field-sizing: content; }
 button { font: inherit; font-size: .9375rem; color: var(--ink); background: transparent; border: 1px solid var(--ink); border-radius: 999px; padding: .4rem 1rem; cursor: pointer; }
 button:hover:not(:disabled) { background: var(--orange); border-color: var(--orange); color: #2b2118; }
@@ -196,6 +198,8 @@ tr.miss td { color: var(--ink-2); }
   .card-head strong { font-size: 1rem; }
   .tag { margin-left: 0; white-space: nowrap; }
   .hide-s { display: none; }
+  .show-s { display: block; }
+  .sr-s { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; float: none !important; }
   .hero { gap: .75rem; }
   .hero-text h1 { margin-top: .25rem; margin-bottom: .5rem; }
   .what { font-size: .875rem; line-height: 1.45; margin-bottom: .6rem; }
@@ -364,3 +368,35 @@ tr.miss td { color: var(--ink-2); }
 .dot.drop { background: transparent; border: 1px dashed var(--ink-2); color: var(--ink-2); opacity: .6; }
 @media (max-width: 40rem) { .dots { gap: 2px; } .dot { width: .8rem; height: .8rem; font-size: .5rem; border-radius: 3px; } }
 .score-line .meter { flex: 1; min-width: 0; }
+
+/* Two-by-two table of counts (human agreement page) */
+.agree-top { display: grid; grid-template-columns: auto 1fr; gap: .5rem 2rem; align-items: start; }
+.agree-grid { display: grid; grid-template-columns: auto 5.5rem 5.5rem; gap: .35rem .5rem; align-items: center; }
+.agree-grid input { padding: .3rem .4rem; text-align: right; font-family: var(--mono); }
+.agree-top .field { gap: .1rem; }
+@media (max-width: 40rem) { .agree-top { grid-template-columns: 1fr; gap: .5rem; } .agree-grid { grid-template-columns: auto 1fr 1fr; } .agree-top .field .check { font-size: .8125rem; } }
+
+/* RAG evals page */
+.passage { align-items: flex-start; }
+.claims { list-style: none; margin: 0; padding: 0; font-size: .875rem; }
+.claims li { margin: .1rem 0; }
+.answer-line { margin: 0; font-size: .8125rem; color: var(--ink-2); }
+@media (max-width: 40rem) { .stats { gap: 0 1rem; } .stats .stat-num { font-size: 1rem; } .stats .stat-label { font-size: .8125rem; } }
+
+/* Task tiles (agent evals page): number of passing runs per task */
+.dot.task-tile { width: 2rem; height: 1.6rem; font-size: .8125rem; }
+.dot.always { background: var(--orange); }
+.dot.never { background: var(--card); border: 1px solid var(--ink); }
+@media (max-width: 40rem) { .dot.task-tile { width: 1.7rem; height: 1.3rem; font-size: .75rem; } }
+
+/* Map of the eval pages */
+.map-list { list-style: none; margin: 0; padding: 0; display: grid; gap: .45rem; font-size: .9375rem; }
+.map-list li { line-height: 1.35; }
+.map-list li.off { opacity: .4; }
+.map-list a { font-weight: 600; }
+@media (min-width: 52rem) { .cards.three { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (max-width: 40rem) {
+  .cards.three .card:nth-child(3) { grid-column: 1 / -1; }
+  .cards.three .card:nth-child(3) .map-list { display: flex; flex-wrap: wrap; gap: .1rem 1rem; }
+  .map-list { font-size: .875rem; gap: .35rem; }
+}

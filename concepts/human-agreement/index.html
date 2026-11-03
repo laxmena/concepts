@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Human agreement and kappa · Concepts</title>
+<meta name="description" content="Cohen’s kappa measures how much two raters agree beyond what luck would give; raw percent agreement can look high when the labels are lopsided.">
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="../../shared/style.css">
+</head>
+<body data-slug="human-agreement">
+<header class="site-head"><span><a href="../../">Concepts</a> · <a href="../evals-map/">Map of evals</a></span><a href="https://internals.laxmena.com">INTERNALS.md</a></header>
+<main>
+<div class="hero">
+<div class="hero-text">
+<h1>Human agreement and kappa</h1>
+<p class="what">People disagree even when they label the same items. Cohen’s kappa measures how much two raters agree beyond luck.</p>
+<ul class="lede-list">
+<li>Two raters label the same items, and the table counts each answer pair.</li>
+<li>Some agreement is luck, and it depends on how often each rater says yes.</li>
+<li>Kappa is the agreement left after removing that luck.</li>
+<li>It is 1 for perfect agreement and 0 for no better than luck.</li>
+</ul>
+<p class="try-this">Try this: pick “Almost every item is good” and compare 90% agreement with the kappa.</p>
+</div>
+<section aria-labelledby="try">
+<h2 id="try" class="eyebrow">Try it</h2>
+<div class="widget" id="widget"><p>This page needs JavaScript.</p></div>
+</section>
+</div>
+
+<section aria-labelledby="happened">
+<h2 id="happened">What just happened</h2>
+<ol class="steps">
+<li>The grant readers agreed on 20 + 15 = 35 of <span data-bind="n.grant"></span> applications, which is <span data-bind="po.grant"></span>. That is the first card.</li>
+<li>Reader A said yes <span data-bind="aYes"></span> of the time and reader B <span data-bind="bYes"></span>. If each simply guessed with those habits, both would say yes <span data-bind="chanceYes"></span> of the time and both would say no <span data-bind="chanceNo"></span> of the time. Luck alone gives <span data-bind="pe.grant"></span> agreement.</li>
+<li>Kappa takes the agreement above luck, <span data-bind="po.grant"></span> minus <span data-bind="pe.grant"></span>, and divides it by the most that could be above luck, 100% minus <span data-bind="pe.grant"></span>. The result is <span data-bind="k.grant"></span>, which the usual bands call <span data-bind="word.grant"></span>.</li>
+<li>Change any count and all four cards follow. The bands come from Landis and Koch (1977). Wikipedia notes they were the authors’ opinion, not an evidence-based rule.</li>
+</ol>
+<details>
+<summary>Show the formula</summary>
+<div class="formula" tabindex="0" role="region" aria-label="Kappa formula">kappa = (observed agreement − chance agreement) / (1 − chance agreement)
+chance agreement = P(A yes) × P(B yes) + P(A no) × P(B no)</div>
+<p class="shorter">Chance agreement is computed from each rater’s own yes rate, so a rater who says yes to nearly everything makes luck agree more often.</p>
+</details>
+</section>
+
+<section aria-labelledby="meet">
+<h2 id="meet">Where you meet it</h2>
+<p class="shorter">You ask two people to label 100 model answers as “good” or “bad”, and a judge model to do the same. Before you trust the labels, you check how well the people agree with each other.</p>
+<ul class="refs">
+<li>The MT-bench paper measured agreement between GPT-4 and human experts at 85%, and between two experts at 81%, on pairs without ties. That is raw percent agreement, the first card here, not kappa.</li>
+<li>Percent agreement is easy to read and kappa corrects it for luck. Reporting both is common practice for label quality.</li>
+</ul>
+</section>
+
+<section aria-labelledby="breaks">
+<h2 id="breaks">Where it breaks</h2>
+<p class="shorter">Kappa has blind spots too. The Wikipedia article gives two cases where raters agree 60% of the time and kappa differs by a factor of two, because the raters use the labels differently. A lopsided set of labels is worse: nearly everything is “good”, the raters agree on 90%, and kappa is below zero.</p>
+<div class="widget" id="breaks-widget"></div>
+<p class="shorter">In the last case chance agreement is already <span data-bind="pe.skew"></span>, so 90% is worse than luck would give. Kappa is <span data-bind="k.skew"></span>. When one label is rare, a high percent agreement says little, and kappa can be unstable. Report the counts too.</p>
+</section>
+
+<section aria-labelledby="check">
+<h2 id="check">Check yourself</h2>
+<div class="qa"><p>Two raters agree on 70 of 100 items. Chance agreement is 50%. What is kappa?</p>
+<div class="reveal"><button type="button" data-closed="Show answer">Show answer</button><div class="answer"><p>(0.70 − 0.50) / (1 − 0.50) = 0.40.</p></div></div></div>
+<div class="qa"><p>Both raters say “good” for 95 of 100 items. They agree on 90. Why is kappa near 0 or below?</p>
+<div class="reveal"><button type="button" data-closed="Show answer">Show answer</button><div class="answer"><p>With both raters saying yes 95% of the time, luck gives 0.95 × 0.95 + 0.05 × 0.05 = 0.905. Their 90% is no better than that, so kappa is (0.90 − 0.905) / 0.095 = −0.05.</p></div></div></div>
+<div class="qa"><p>What does kappa = 0 mean?</p>
+<div class="reveal"><button type="button" data-closed="Show answer">Show answer</button><div class="answer"><p>The raters agree exactly as often as two raters with the same habits would by luck. It does not mean they disagree; it means their agreement carries no extra signal.</p></div></div></div>
+</section>
+
+<section aria-labelledby="used">
+<h2 id="used">Used in</h2>
+<ul class="refs" id="used-in"><li>Loading…</li></ul>
+</section>
+
+<section aria-labelledby="deeper">
+<h2 id="deeper">Go deeper</h2>
+<ul class="refs">
+<li><a href="https://en.wikipedia.org/wiki/Cohen%27s_kappa">Wikipedia: Cohen’s kappa</a>. The formula, the grant example used here, the Landis and Koch bands, and the prevalence and bias effects.</li>
+<li><a href="https://arxiv.org/abs/2306.05685">Zheng et al., “Judging LLM-as-a-Judge with MT-Bench and Chatbot Arena”</a> (2023). Agreement between a judge model and human experts, and between experts.</li>
+</ul>
+</section>
+</main>
+<footer class="site-foot">Last reviewed <time id="reviewed"></time> · <a id="source" href="https://github.com/laxmena/concepts">Source for this page</a></footer>
+
+<script type="module">
+import { bootPage, bindFacts } from '../../shared/boot.js';
+import { mount, facts } from './widget.js';
+await bootPage();
+const example = await (await fetch('example.json')).json();
+bindFacts(facts(example));
+mount(document.getElementById('widget'), example);
+mount(document.getElementById('breaks-widget'), { ...example, breaksView: true });
+</script>
+</body>
+</html>

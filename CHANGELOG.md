@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- Evals series, twelve pages, each with a live "where it breaks" widget, tests against independently computed values, and sources opened and checked: the map of evals; error bars and sample size (Miller 2024); exact match and F1 (SQuAD); precision, recall and reciprocal rank; pass@k (Chen et al. 2021); LLM as judge (Zheng et al. 2023, real counts of 80 questions); pairwise votes, Elo and Bradley-Terry (Chiang et al. 2024); human agreement and kappa; RAG evals (RAGAS); agent evals and pass^k (tau-bench); online evals and peeking; contamination and Goodhart (GSM1k).
+- Shared: `shared/stats.js` (normal quantile, Wilson interval, seeded random numbers), `radios` helper, tile grids, `[hidden]` rule, phone helper classes. `scripts/e2e/evals.mjs` smoke-tests every page of the series; `fit.mjs` ignores cards in a closed `<details>`.
+- Manifest order: the map first, then a reading order. Eval pages link to the map in the header.
 - Every page has a one-line "what it is" under the title (`.what`), also in the template and STYLE.md.
 - White theme only: white page, faintly warm cards, brown ink. Dark mode removed on purpose.
 - Warmer theme: cream page, brown ink, softer orange and blue, warm brown dark mode, rounded cards, inputs and pill buttons, a darker focus ring (`--focus`). Roles are unchanged (orange explains, blue compares). AGENTS.md and STYLE.md updated.

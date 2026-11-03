@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The map of evals · Concepts</title>
+<meta name="description" content="Every eval answers what is being graded, who or what grades it, and when; this map shows where each eval page fits and what each one cannot see.">
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="../../shared/style.css">
+</head>
+<body data-slug="evals-map">
+<header class="site-head"><span><a href="../../">Concepts</a></span><a href="https://internals.laxmena.com">INTERNALS.md</a></header>
+<main>
+<div class="hero">
+<div class="hero-text">
+<h1>The map of evals</h1>
+<p class="what">An eval is a test for an AI system. This is the map of the series: which eval fits which question.</p>
+<ul class="lede-list">
+<li>First decide what you are grading: a search step, an answer, or an agent’s whole run.</li>
+<li>Then decide who grades: a fixed rule, a program, a language model, people, or real users.</li>
+<li>Every eval has a blind spot, shown live on its page.</li>
+<li>Whatever you pick, ask how far to trust the number.</li>
+</ul>
+<p class="try-this">Try this: pick <strong>A language model</strong> and see which evals it can grade.</p>
+</div>
+<section aria-labelledby="try">
+<h2 id="try" class="eyebrow">Try it</h2>
+<div class="widget" id="widget"><p>This page needs JavaScript.</p></div>
+</section>
+</div>
+
+<section aria-labelledby="happened">
+<h2 id="happened">What just happened</h2>
+<ol class="steps">
+<li>The three cards are the three things you can grade. Each lists the eval pages that apply, with a line on when to use each one. There are <span data-bind="pages"></span> pages in all.</li>
+<li>The filter dims the evals that your choice of grader cannot do. A language model can grade <span data-bind="llm"></span> of them, from RAG context to open answers. Pick “A program that runs” and only the code and agent checks stay lit.</li>
+<li>A fresh reader can take this path. Start with “Is 82% better than 80%?”, because every later number needs error bars. Then read the grading you need: exact match for short answers, pass@k for code, LLM as judge and pairwise votes for open answers, and the retrieval pages for search.</li>
+<li>Finish with the pages on agents, online tests and contamination. They are about trust in the whole eval rather than in one metric.</li>
+</ol>
+</section>
+
+<section aria-labelledby="meet">
+<h2 id="meet">Where you meet it</h2>
+<p class="shorter">A team ships a support bot. They check retrieval with recall@k, grounding with a RAG eval, wording with a judge model, and the whole thing with an A/B test. No one of these tells them the bot is good.</p>
+<ul class="refs">
+<li>Most real eval suites combine a cheap offline check, such as a rule, a program or a judge model, with a slower online check on real users.</li>
+<li>Each page here quotes the paper or reference it is checked against, so you can read further.</li>
+</ul>
+</section>
+
+<section aria-labelledby="breaks">
+<h2 id="breaks">Where it breaks</h2>
+<p class="shorter">No single eval is enough. This table lists what each one cannot see. The blind spot is shown live on the page it belongs to.</p>
+<div class="widget" id="breaks-widget"></div>
+<p class="shorter">When two evals disagree, one of these blind spots is usually the reason. Look the disagreement up in this table first.</p>
+</section>
+
+<section aria-labelledby="check">
+<h2 id="check">Check yourself</h2>
+<div class="qa"><p>You have a code model and a test suite for each problem. Which eval fits, and what should you watch for?</p>
+<div class="reveal"><button type="button" data-closed="Show answer">Show answer</button><div class="answer"><p>pass@k, which runs the tests. Watch the tests themselves: weak tests let wrong code pass, so the score can rise without the model improving.</p></div></div></div>
+<div class="qa"><p>You want to compare two chat models on open questions, with no reference answers. What are your options?</p>
+<div class="reveal"><button type="button" data-closed="Show answer">Show answer</button><div class="answer"><p>Pairwise votes from people or a judge model, ranked with Elo or Bradley-Terry. Check a judge model for position and length bias, and check people for agreement with kappa.</p></div></div></div>
+<div class="qa"><p>Your offline eval says a change helped by 2 points on 300 questions. What do you do before you ship?</p>
+<div class="reveal"><button type="button" data-closed="Show answer">Show answer</button><div class="answer"><p>Ask whether 2 points is more than noise with 300 questions (it probably is not), then confirm on real users with an A/B test sized in advance.</p></div></div></div>
+</section>
+
+<section aria-labelledby="used">
+<h2 id="used">Used in</h2>
+<ul class="refs" id="used-in"><li>Loading…</li></ul>
+</section>
+
+<section aria-labelledby="deeper">
+<h2 id="deeper">Go deeper</h2>
+<ul class="refs">
+<li><a href="../eval-error-bars/">Is 82% better than 80%?</a> The best first page: error bars for every score.</li>
+<li><a href="https://arxiv.org/abs/2306.05685">Zheng et al., “Judging LLM-as-a-Judge with MT-Bench and Chatbot Arena”</a> (2023). A paper that touches several of these evals: judges, pairwise votes and human agreement.</li>
+<li><a href="https://arxiv.org/abs/2411.00640">Miller, “Adding Error Bars to Evals”</a> (2024). Statistics for eval scores.</li>
+</ul>
+</section>
+</main>
+<footer class="site-foot">Last reviewed <time id="reviewed"></time> · <a id="source" href="https://github.com/laxmena/concepts">Source for this page</a></footer>
+
+<script type="module">
+import { bootPage, bindFacts } from '../../shared/boot.js';
+import { mount, facts } from './widget.js';
+await bootPage();
+const example = await (await fetch('example.json')).json();
+bindFacts(facts(example));
+mount(document.getElementById('widget'), example);
+mount(document.getElementById('breaks-widget'), { ...example, breaksView: true });
+</script>
+</body>
+</html>

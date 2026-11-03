@@ -34,9 +34,13 @@ Look, writing and checks live in [STYLE.md](STYLE.md). Read it before building o
 - `shared/style.css` (the only stylesheet), `shared/template.html`, `shared/lib.js` (helpers), `shared/boot.js`, `shared/home.js`.
 - `concepts.json` is the manifest: `slug, title, idea, area, posts[{title,url}], reviewed (YYYY-MM-DD)`.
   The home page, each page's "Used in" list and its footer date all read from it. Only list pages that exist.
-- Helpers in `shared/lib.js`: `el`, `svg`, `slider`, `initReveals` (declarative `.reveal` boxes), `barChart`, `stackedBar` (one bar in pieces, plus a thin blue comparison bar), `editableList`.
+- Helpers in `shared/lib.js`: `el`, `svg`, `slider`, `radios`, `segmented`, `initReveals` (declarative `.reveal` boxes), `barChart`, `stackedBar` (one bar in pieces, plus a thin blue comparison bar), `meter`, `editableList`.
+  `shared/stats.js` has the maths several pages share (normal quantile and CDF, Wilson interval, seeded random numbers, `chooseRatio`).
   `sortableList` is the draggable list: drag a row's handle, or focus it and press the arrow keys. Rows are built once and updated in place.
 - `scripts/check-links.mjs`: local links and manifest check; `--external` also fetches external links.
+
+## Pages that show a blind spot live
+`mount(root, example)` may draw two ways. The page script calls it once for `#widget` and once for `#breaks-widget` with `{ ...example, breaksView: true }`, and the widget draws the blind-spot view from `example.breaks`. The evals series (start at `concepts/evals-map/`) uses this on every page. Do not spread `example.breaks` over the example.
 
 ## Adding a page
 1. `./new-concept.sh <slug> "<title>" "<one-sentence idea>" "<area>"`
@@ -45,7 +49,7 @@ Look, writing and checks live in [STYLE.md](STYLE.md). Read it before building o
 3. Build `mount()`. Default example must work on first load. Put the default state in `example.json`.
 4. Fill the page sections. Quote numbers in prose with `<span data-bind="key">` and compute them in an exported
    facts function (see `defaultFacts` in `concepts/bm25/widget.js`) so prose cannot drift from the maths.
-5. `npm test && npm run links`, view it with `npm run serve` at phone width, update `CHANGELOG.md`.
+5. `npm test && npm run links`, view it with `npm run serve` at phone width, update `CHANGELOG.md`. For the evals series add the slug to `scripts/e2e/evals.mjs` and to the map in `concepts/evals-map/example.json`.
 
 ## Page order (fixed)
 Title and the idea in one sentence; Try it (widget, good default, one instruction); Predict first (optional, skip it when the instruction does the same job); What just happened

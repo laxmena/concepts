@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { normalQuantile, normalCdf, zTwoSided, seBernoulli, wilson, mulberry32, chooseRatio } from './stats.js';
+import { normalQuantile, normalCdf, zTwoSided, seBernoulli, wilson, mulberry32, chooseRatio, normalSample } from './stats.js';
 
 const near = (a, b, tol = 1e-6) => assert.ok(Math.abs(a - b) <= tol, `${a} vs ${b}`);
 
@@ -44,4 +44,10 @@ test('chooseRatio equals C(c,k)/C(n,k): C(3,2)/C(10,2) = 3/45', () => {
   near(chooseRatio(10, 3, 2), 3 / 45, 1e-12);
   assert.equal(chooseRatio(10, 1, 2), 0);
   near(chooseRatio(8, 8, 8), 1, 1e-12);
+});
+
+test('normal draws have mean 0 and variance 1', () => {
+  const rng = mulberry32(11); let sum = 0, sq = 0; const n = 100000;
+  for (let i = 0; i < n; i++) { const x = normalSample(rng); sum += x; sq += x * x; }
+  near(sum / n, 0, 0.02); near(sq / n, 1, 0.03);
 });

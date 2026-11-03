@@ -40,7 +40,8 @@ Sections are separated by white space (4rem above a heading), not by lines. The 
 - Below that, one column. Cards stay two per row, even on a phone, with smaller type.
 - Four items to compare: a 2x2 grid of cards. Two systems to compare: two side-by-side panels with the same stages in the same order. Strips reserve two rows so bars line up across cards.
 - Boxes: only cards have borders. Do not put a panel around the whole widget.
-- Extra detail (edit the data, the numbers behind the bars, the formula) goes inside `<details>`, closed by default.
+- Extra detail (edit the data, the numbers behind the bars, the formula, a second row of fixes) goes inside `<details>`, closed by default. The layout check ignores cards inside a closed `<details>`.
+- On phones, secondary text takes `hide-s` (hidden on phones), a phone-only replacement takes `show-s`, and a label that can go away visually but must stay for screen readers takes `sr-s`.
 
 ## 5. Picture vocabulary
 Reuse these meanings on every page so a reader learns them once.
@@ -59,6 +60,8 @@ Reuse these meanings on every page so a reader learns them once.
 | Grey bar | a combined or third option that is neither the thing explained nor the comparison |
 | Log-scale bar with 1 ms, 1 s, 1 hour ticks | time over a huge range; always say "log scale" in the title |
 | Dashed square with "?" | a value nobody has supplied (for example an ungraded result) |
+| Tile with a mark inside (`=`, `1`, `2`, `!`, `✓`, `✗`, a number) | one case in a grid of cases (`.dots`, `.dot`); orange tile is the case that shows the effect, dashed tile is a case that was thrown away |
+| Grey line or bar for "all must succeed" | pass^k, next to the orange pass@k |
 
 ## 6. Parts (in `shared/`)
 - `lib.js`: `slider`, `editableList`, `sortableList` (drag a handle or use arrow keys), `segmented` (radio group drawn as buttons), `initReveals`,

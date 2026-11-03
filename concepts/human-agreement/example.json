@@ -1,0 +1,10 @@
+{
+  "preset": "grant",
+  "presets": [
+    { "id": "grant", "label": "Two grant readers (Wikipedia example)", "table": [[20, 5], [10, 15]] },
+    { "id": "case1", "label": "60% agree, case 1", "table": [[45, 15], [25, 15]] },
+    { "id": "case2", "label": "60% agree, case 2", "table": [[25, 35], [5, 35]] },
+    { "id": "skew", "label": "Almost every item is “good”", "table": [[90, 5], [5, 0]] }
+  ],
+  "breaks": { "ids": ["case1", "case2", "skew"] }
+}

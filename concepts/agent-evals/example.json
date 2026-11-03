@@ -1,0 +1,23 @@
+{
+  "trials": 8,
+  "k": 4,
+  "mix": "mixed",
+  "mixes": [
+    { "id": "same", "label": "Every task works 5 times in 8", "passes": [5, 5, 5, 5, 5, 5, 5, 5, 5, 5] },
+    { "id": "mixed", "label": "Some tasks easy, some hard", "passes": [8, 8, 8, 7, 6, 5, 4, 3, 1, 0] },
+    { "id": "split", "label": "Tasks either always work or never", "passes": [8, 8, 8, 8, 8, 8, 2, 0, 0, 0] }
+  ],
+  "paper": { "pass1Retail": 61, "pass1Airline": 35, "pass8Retail": 25 },
+  "breaks": {
+    "runs": [
+      { "name": "Run 1", "steps": [
+        { "text": "Looks up the customer", "ok": true },
+        { "text": "Checks the customer’s identity", "ok": true },
+        { "text": "Issues the refund", "ok": true } ], "endState": true },
+      { "name": "Run 2", "steps": [
+        { "text": "Looks up the customer", "ok": true },
+        { "text": "Issues the refund without checking identity", "ok": false },
+        { "text": "Confirms the refund", "ok": true } ], "endState": true }
+    ]
+  }
+}

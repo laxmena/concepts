@@ -1,0 +1,11 @@
+{
+  "questions": 1205,
+  "share": 0.1,
+  "ability": 0.7,
+  "paper": { "drop": 8, "problems": 1205, "spearman": 0.36 },
+  "breaks": {
+    "shares": [0, 0.1, 0.2, 0.3],
+    "x": { "name": "Model X", "ability": 0.65 },
+    "y": { "name": "Model Y", "ability": 0.7 }
+  }
+}

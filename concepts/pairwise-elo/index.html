@@ -9,7 +9,7 @@
 <link rel="stylesheet" href="../../shared/style.css">
 </head>
 <body data-slug="pairwise-elo">
-<header class="site-head"><a href="../../">Concepts</a><a href="https://internals.laxmena.com">INTERNALS.md</a></header>
+<header class="site-head"><span><a href="../../">Concepts</a> · <a href="../evals-map/">Map of evals</a></span><a href="https://internals.laxmena.com">INTERNALS.md</a></header>
 <main>
 <div class="hero">
 <div class="hero-text">
@@ -96,7 +96,7 @@ await bootPage();
 const example = await (await fetch('example.json')).json();
 bindFacts(facts(example));
 mount(document.getElementById('widget'), example);
-mount(document.getElementById('breaks-widget'), { ...example, ...example.breaks, breaksView: true });
+mount(document.getElementById('breaks-widget'), { ...example, breaksView: true });
 </script>
 </body>
 </html>

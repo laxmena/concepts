@@ -7,6 +7,6 @@
     "links": "node scripts/check-links.mjs",
     "links:external": "node scripts/check-links.mjs --external",
     "serve": "python3 -m http.server 8000",
-    "e2e": "node scripts/e2e/fit.mjs bm25 && node scripts/e2e/bm25.mjs && node scripts/e2e/fit.mjs ndcg --phone-may-scroll && node scripts/e2e/ndcg.mjs && node scripts/e2e/fit.mjs bi-vs-cross-encoder --phone-may-scroll && node scripts/e2e/bi-vs-cross-encoder.mjs"
+    "e2e": "node scripts/e2e/fit.mjs bm25 && node scripts/e2e/bm25.mjs && node scripts/e2e/fit.mjs ndcg --phone-may-scroll && node scripts/e2e/ndcg.mjs && node scripts/e2e/fit.mjs bi-vs-cross-encoder --phone-may-scroll && node scripts/e2e/bi-vs-cross-encoder.mjs && node scripts/e2e/evals.mjs"
   }
 }

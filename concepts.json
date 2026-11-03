@@ -9,14 +9,6 @@
       "reviewed": "2026-10-31"
     },
     {
-      "slug": "ndcg",
-      "title": "nDCG@k",
-      "idea": "nDCG@k scores a ranked list: each result earns its grade, shrunk by its rank, divided by the best score the same results could earn.",
-      "area": "Evaluation",
-      "posts": [],
-      "reviewed": "2026-11-01"
-    },
-    {
       "slug": "bi-vs-cross-encoder",
       "title": "Bi-encoder vs cross-encoder",
       "idea": "A bi-encoder reads the query and each document separately, so document vectors can be saved ahead of time; a cross-encoder reads them together, so it must run once per document, per search.",
@@ -25,17 +17,17 @@
       "reviewed": "2026-11-01"
     },
     {
-      "slug": "eval-error-bars",
-      "title": "Is 82% better than 80%?",
-      "idea": "An eval score is a guess from a sample of questions, so it has error bars; two models are only different when the range of their gap stays away from zero.",
+      "slug": "evals-map",
+      "title": "The map of evals",
+      "idea": "Every eval answers what is being graded, who or what grades it, and when; this map shows where each eval page fits and what each one cannot see.",
       "area": "Evaluation",
       "posts": [],
       "reviewed": "2026-11-03"
     },
     {
-      "slug": "pass-at-k",
-      "title": "pass@k",
-      "idea": "pass@k is the chance that at least one of k generated programs passes the tests; it is estimated from n samples by counting the ways to draw k without replacement.",
+      "slug": "eval-error-bars",
+      "title": "Is 82% better than 80%?",
+      "idea": "An eval score is a guess from a sample of questions, so it has error bars; two models are only different when the range of their gap stays away from zero.",
       "area": "Evaluation",
       "posts": [],
       "reviewed": "2026-11-03"
@@ -57,6 +49,22 @@
       "reviewed": "2026-11-03"
     },
     {
+      "slug": "ndcg",
+      "title": "nDCG@k",
+      "idea": "nDCG@k scores a ranked list: each result earns its grade, shrunk by its rank, divided by the best score the same results could earn.",
+      "area": "Evaluation",
+      "posts": [],
+      "reviewed": "2026-11-01"
+    },
+    {
+      "slug": "pass-at-k",
+      "title": "pass@k",
+      "idea": "pass@k is the chance that at least one of k generated programs passes the tests; it is estimated from n samples by counting the ways to draw k without replacement.",
+      "area": "Evaluation",
+      "posts": [],
+      "reviewed": "2026-11-03"
+    },
+    {
       "slug": "llm-as-judge",
       "title": "LLM as judge",
       "idea": "An LLM judge grades another model’s answers cheaply and agrees with experts about as often as experts agree with each other, but it has measurable biases: it favours the answer shown first and the longer answer.",
@@ -68,6 +76,46 @@
       "slug": "pairwise-elo",
       "title": "Pairwise preference and Elo",
       "idea": "Ranking by head-to-head votes: each vote moves two ratings, Elo does it one vote at a time, and a Bradley-Terry fit uses all votes at once.",
+      "area": "Evaluation",
+      "posts": [],
+      "reviewed": "2026-11-03"
+    },
+    {
+      "slug": "human-agreement",
+      "title": "Human agreement and kappa",
+      "idea": "Cohen’s kappa measures how much two raters agree beyond what luck would give; raw percent agreement can look high when the labels are lopsided.",
+      "area": "Evaluation",
+      "posts": [],
+      "reviewed": "2026-11-03"
+    },
+    {
+      "slug": "rag-evals",
+      "title": "RAG evals",
+      "idea": "A RAG answer can fail in the retrieval step, in the generation step, or in both, so a RAG eval grades the retrieved context, the answer’s faithfulness to it, and the answer’s relevance separately.",
+      "area": "Evaluation",
+      "posts": [],
+      "reviewed": "2026-11-03"
+    },
+    {
+      "slug": "agent-evals",
+      "title": "Agent evals",
+      "idea": "An agent is graded on what it did, not just what it said: success is checked on the final state, reliability is checked by running each task many times and requiring all runs to work.",
+      "area": "Evaluation",
+      "posts": [],
+      "reviewed": "2026-11-03"
+    },
+    {
+      "slug": "online-evals",
+      "title": "Online evals and A/B tests",
+      "idea": "An online eval compares two versions on live traffic; how many users it needs depends on the lift you want to see, and checking the result early inflates false wins.",
+      "area": "Evaluation",
+      "posts": [],
+      "reviewed": "2026-11-03"
+    },
+    {
+      "slug": "contamination",
+      "title": "Contamination and Goodhart",
+      "idea": "When benchmark questions leak into a model’s training data, the benchmark score overstates what the model can do; a fresh test of the same kind shows the gap.",
       "area": "Evaluation",
       "posts": [],
       "reviewed": "2026-11-03"

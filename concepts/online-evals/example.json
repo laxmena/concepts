@@ -1,0 +1,6 @@
+{
+  "p0": 0.1,
+  "lift": 0.02,
+  "perDay": 1000,
+  "breaks": { "looksList": [1, 2, 5, 10, 20], "trials": 20000, "seed": 7, "pathSeed": 12 }
+}

@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Online evals and A/B tests · Concepts</title>
+<meta name="description" content="An online eval compares two versions on live traffic; how many users it needs depends on the lift you want to see, and checking the result early inflates false wins.">
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="../../shared/style.css">
+</head>
+<body data-slug="online-evals">
+<header class="site-head"><span><a href="../../">Concepts</a> · <a href="../evals-map/">Map of evals</a></span><a href="https://internals.laxmena.com">INTERNALS.md</a></header>
+<main>
+<div class="hero">
+<div class="hero-text">
+<h1>Online evals and A/B tests</h1>
+<p class="what">An online eval tests a change on real users: half see version A, half version B, and a metric such as thumbs-up rate decides. It is slower than an offline eval, and it is the check that counts.</p>
+<ul class="lede-list">
+<li>Offline evals use a fixed test set, and online evals use real users and real behaviour.</li>
+<li>The users needed grow with one over the lift squared, so small lifts are costly to see.</li>
+<li>The test must run to the planned size before you read the result.</li>
+<li>Looking early and stopping at the first win gives false wins.</li>
+</ul>
+<p class="try-this">Try this: drag the lift down to <strong>+0.5</strong> points and watch the days needed explode.</p>
+</div>
+<section aria-labelledby="try">
+<h2 id="try" class="eyebrow">Try it</h2>
+<div class="widget" id="widget"><p>This page needs JavaScript.</p></div>
+</section>
+</div>
+
+<section aria-labelledby="happened">
+<h2 id="happened">What just happened</h2>
+<ol class="steps">
+<li>You split users between A and B and watch a yes/no metric, such as thumbs-up on an answer. At a baseline of <span data-bind="p0"></span>%, seeing a rise of <span data-bind="lift"></span> points eight times in ten needs <span data-bind="n"></span> users in each arm.</li>
+<li>Both arms share the daily users, so <span data-bind="perDay"></span> users a day gives <span data-bind="days"></span> days. The third card turns it around: a week of traffic can only see lifts of about <span data-bind="week"></span> points or more.</li>
+<li>The last card quarters the lift. It needs about <span data-bind="ratio"></span> times as many users, close to 16, because the users needed grow with 1 over the lift squared.</li>
+<li>A small lift is hard to see from noise. This is the same sample-size idea as on the error bars page, applied to a rate.</li>
+</ol>
+<details>
+<summary>Show the formula</summary>
+<div class="formula" tabindex="0" role="region" aria-label="Sample size formula">users per arm = (z_α/2 + z_β)² × (p₀(1 − p₀) + p₁(1 − p₁)) / lift²</div>
+<p class="shorter">p₀ is the baseline rate and p₁ = p₀ + lift. With significance 5% and power 80%, z_α/2 + z_β = 1.96 + 0.84 = 2.80. This is the usual two-proportion sample-size formula. It has the same shape as the one for comparing two models on the error bars page.</p>
+</details>
+</section>
+
+<section aria-labelledby="meet">
+<h2 id="meet">Where you meet it</h2>
+<p class="shorter">You change a system prompt and an offline eval says answers got better. Before you roll it out, you still want to know whether real users prefer it.</p>
+<ul class="refs">
+<li>Kohavi, Tang and Xu’s book on online controlled experiments (Cambridge University Press, 2020) is the standard guide to running A/B tests well.</li>
+<li>Chatbot Arena is an online eval of a kind: it collects votes from real visitors who compare two anonymous models.</li>
+</ul>
+</section>
+
+<section aria-labelledby="breaks">
+<h2 id="breaks">Where it breaks</h2>
+<p class="shorter">It is tempting to check the result every day and stop as soon as it says “significant”. Each look is another chance for noise to cross the line. Below, A and B are identical, and every “win” is a false alarm. Pick how often you check.</p>
+<div class="widget" id="breaks-widget"></div>
+<p class="shorter">Checking once keeps the promised 5%. Checking 10 times gives about <span data-bind="fw.10"></span> false wins, and 20 times about <span data-bind="fw.20"></span>. Evan Miller’s 2010 article reports a worst case of <span data-bind="miller"></span>% for a test run at a nominal 5%. Fix the sample size in advance and read the result once, or use a design built for repeated looks.</p>
+</section>
+
+<section aria-labelledby="check">
+<h2 id="check">Check yourself</h2>
+<div class="qa"><p>You want to detect a lift that is half as big. Roughly how many users do you need?</p>
+<div class="reveal"><button type="button" data-closed="Show answer">Show answer</button><div class="answer"><p>About four times as many. The users needed grow with 1 over the lift squared, so halving the lift multiplies them by 2² = 4.</p></div></div></div>
+<div class="qa"><p>A test shows p < 0.05 on day 2 of a planned 14 days. Do you ship?</p>
+<div class="reveal"><button type="button" data-closed="Show answer">Show answer</button><div class="answer"><p>Not on that alone. You planned the size for a reason. Stopping at the first good-looking result is peeking, and it inflates false wins well above 5%. Keep running, or use a sequential design that allows early stops.</p></div></div></div>
+<div class="qa"><p>Both arms are the same, and you check the test 5 times. About how often will you see a false win?</p>
+<div class="reveal"><button type="button" data-closed="Show answer">Show answer</button><div class="answer"><p>About 14% of the time, in simulation, even though each single check has a 5% chance of a false win.</p></div></div></div>
+</section>
+
+<section aria-labelledby="used">
+<h2 id="used">Used in</h2>
+<ul class="refs" id="used-in"><li>Loading…</li></ul>
+</section>
+
+<section aria-labelledby="deeper">
+<h2 id="deeper">Go deeper</h2>
+<ul class="refs">
+<li><a href="https://www.evanmiller.org/how-not-to-run-an-ab-test.html">Miller, “How Not To Run an A/B Test”</a> (2010). The peeking problem in plain words.</li>
+<li><a href="https://experimentguide.com/">Kohavi, Tang and Xu, “Trustworthy Online Controlled Experiments”</a> (2020). The practical guide to A/B testing.</li>
+<li><a href="../eval-error-bars/">Error bars on eval scores on this site</a>. The same sample-size reasoning for comparing two models offline.</li>
+</ul>
+</section>
+</main>
+<footer class="site-foot">Last reviewed <time id="reviewed"></time> · <a id="source" href="https://github.com/laxmena/concepts">Source for this page</a></footer>
+
+<script type="module">
+import { bootPage, bindFacts } from '../../shared/boot.js';
+import { mount, facts } from './widget.js';
+await bootPage();
+const example = await (await fetch('example.json')).json();
+bindFacts(facts(example));
+mount(document.getElementById('widget'), example);
+mount(document.getElementById('breaks-widget'), { ...example, breaksView: true });
+</script>
+</body>
+</html>

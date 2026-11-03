@@ -1,0 +1,34 @@
+{
+  "sentence": "river",
+  "divisor": 1,
+  "axes": ["money", "nature"],
+  "sentences": {
+    "river": {
+      "label": "He sat on the river bank",
+      "short": "River",
+      "query": 5,
+      "words": [
+        { "w": "He", "v": [0.1, 0.1] },
+        { "w": "sat", "v": [0.1, 0.2] },
+        { "w": "on", "v": [0.05, 0.05] },
+        { "w": "the", "v": [0, 0] },
+        { "w": "river", "v": [0.05, 1] },
+        { "w": "bank", "v": [0.5, 0.5] }
+      ]
+    },
+    "loan": {
+      "label": "He repaid the bank loan",
+      "short": "Loan",
+      "query": 3,
+      "words": [
+        { "w": "He", "v": [0.1, 0.1] },
+        { "w": "repaid", "v": [0.9, 0.05] },
+        { "w": "the", "v": [0, 0] },
+        { "w": "bank", "v": [0.5, 0.5] },
+        { "w": "loan", "v": [1, 0.05] }
+      ]
+    }
+  },
+  "queryVector": [2, 2],
+  "breaks": { "exponent": 15 }
+}

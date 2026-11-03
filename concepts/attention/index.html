@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Attention · Concepts</title>
+<meta name="description" content="Attention lets each word in a sequence take a weighted mix of the other words, with the weights set by how well they match what it is looking for.">
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="../../shared/style.css">
+</head>
+<body data-slug="attention">
+<header class="site-head"><a href="../../">Concepts</a><a href="https://internals.laxmena.com">INTERNALS.md</a></header>
+<main>
+<div class="hero">
+<div class="hero-text">
+<h1>Attention</h1>
+<p class="what">The operation inside every transformer. Each token looks at the others and takes a weighted mix of what it finds.</p>
+<ul class="lede-list">
+<li>A word on its own is ambiguous, like “bank”.</li>
+<li>Attention gives it a score against every other word, and turns the scores into weights that add to 100%.</li>
+<li>Its new meaning is the weighted average of all the words.</li>
+<li>Switch the sentence and the same word lands somewhere else.</li>
+</ul>
+<p class="try-this">Try this: switch the sentence from River to Loan and watch the orange dot move.</p>
+</div>
+<section aria-labelledby="try">
+<h2 id="try" class="eyebrow">Try it</h2>
+<div class="widget" id="widget"><p>This page needs JavaScript.</p></div>
+</section>
+</div>
+
+<section aria-labelledby="happened">
+<h2 id="happened">What just happened</h2>
+<ol class="steps">
+<li>Each word has a vector, two numbers here: how much it says about money and how much about nature. “bank” is 0.5 and 0.5, so it could mean either.</li>
+<li>“bank” asks a question, its query. Its score for each word is a dot product: the query times that word’s key. Words that point the same way as the query score high.</li>
+<li>Softmax turns the scores into weights. In the river sentence “bank” puts <span data-bind="riverTopW"></span> on “<span data-bind="riverTop"></span>” and <span data-bind="riverSelf"></span> on itself. An equal share would be <span data-bind="riverEqual"></span>.</li>
+<li>The output is the weighted average of the value vectors. “bank” moves to <span data-bind="riverMoney"></span> money and <span data-bind="riverNature"></span> nature, so it leans <span data-bind="riverLeans"></span>. In the loan sentence it leans <span data-bind="loanLeans"></span>. Plain averaging would put it at only <span data-bind="riverAvgNature"></span> nature in the river sentence, so the weights matter.</li>
+</ol>
+<details>
+<summary>The formula and the divisor</summary>
+<p class="shorter">For all the queries at once, Vaswani and others write attention as softmax(QKᵀ / √d<sub>k</sub>) V. Q, K and V hold the queries, keys and values, and d<sub>k</sub> is the length of a key vector. Dividing by √d<sub>k</sub> is the slider here. The paper’s reason: for large d<sub>k</sub> the dot products grow large, which pushes softmax into regions where its gradients are very small. Drag the divisor up and the weights flatten toward an equal share. Drag it down and one word takes almost everything.</p>
+<p class="shorter">Here each word’s key and value are the same vector, so one picture works. In a real model they are two different learned projections of the word, and the vectors have hundreds of numbers, not two.</p>
+</details>
+</section>
+
+<section aria-labelledby="meet">
+<h2 id="meet">Where you meet it</h2>
+<p class="shorter">A transformer is a stack of layers. Each layer has several attention heads running side by side, each with its own learned queries, keys and values. When a model reads your prompt, every token attends to the tokens before it. When it writes, each new token attends to everything already there.</p>
+<ul class="refs">
+<li>The original use was translation. Bahdanau and others let the decoder look back at the source words with learned weights, instead of squeezing the sentence into one fixed vector.</li>
+<li>The Transformer paper dropped recurrence and convolution and built the model from attention and feed-forward layers.</li>
+</ul>
+</section>
+
+<section aria-labelledby="breaks">
+<h2 id="breaks">Where it breaks</h2>
+<p class="shorter">Every token scores against every other token, so the table of scores is n by n. Double the context and the work is four times as big. Drag the length up.</p>
+<div class="widget" id="breaks-widget"></div>
+<p class="shorter">The weights also share a fixed 100%, so with thousands of tokens each one gets a thin slice. This page shows the cost, not how well a model uses a long context.</p>
+</section>
+
+<section aria-labelledby="check">
+<h2 id="check">Check yourself</h2>
+<div class="qa"><p>You set the divisor very high. What does “bank” attend to?</p>
+<div class="reveal"><button type="button" data-closed="Show answer">Show answer</button><div class="answer"><p>Every word equally. The scores shrink toward zero, so the softmax weights all approach one share each, and the output approaches the plain average. Attention has stopped choosing.</p></div></div></div>
+<div class="qa"><p>Why can the same word end up with two different vectors?</p>
+<div class="reveal"><button type="button" data-closed="Show answer">Show answer</button><div class="answer"><p>The weights depend on the other words in the sentence. “river” pulls “bank” toward nature, “loan” toward money. The word and its own vector are the same in both sentences. Only the mix changes.</p></div></div></div>
+<div class="qa"><p>A model reads 8,000 tokens and then 16,000. How much more attention work is that, per head?</p>
+<div class="reveal"><button type="button" data-closed="Show answer">Show answer</button><div class="answer"><p>Four times as many scores: 16,000² is 256 million and 8,000² is 64 million.</p></div></div></div>
+</section>
+
+<section aria-labelledby="used">
+<h2 id="used">Used in</h2>
+<ul class="refs" id="used-in"><li>Loading…</li></ul>
+</section>
+
+<section aria-labelledby="deeper">
+<h2 id="deeper">Go deeper</h2>
+<ul class="refs">
+<li><a href="https://arxiv.org/abs/1706.03762">Vaswani and others, “Attention Is All You Need”</a> (2017). Scaled dot-product attention, equation 1, and the reason for the divisor.</li>
+<li><a href="https://arxiv.org/abs/1409.0473">Bahdanau, Cho and Bengio, “Neural Machine Translation by Jointly Learning to Align and Translate”</a> (2014). Where learned attention weights first appeared in translation.</li>
+<li><a href="https://arxiv.org/abs/2205.14135">Dao and others, “FlashAttention”</a> (2022). Exact attention that avoids storing the n by n table.</li>
+</ul>
+</section>
+</main>
+<footer class="site-foot">Last reviewed <time id="reviewed"></time> · <a id="source" href="https://github.com/laxmena/concepts">Source for this page</a></footer>
+
+<script type="module">
+import { bootPage, bindFacts } from '../../shared/boot.js';
+import { mount, facts } from './widget.js';
+await bootPage();
+const example = await (await fetch('example.json')).json();
+bindFacts(facts(example));
+mount(document.getElementById('widget'), example);
+mount(document.getElementById('breaks-widget'), { ...example, breaksView: true });
+</script>
+</body>
+</html>

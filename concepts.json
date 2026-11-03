@@ -120,6 +120,14 @@
       "area": "Evals",
       "posts": [],
       "reviewed": "2026-11-03"
+    },
+    {
+      "slug": "attention",
+      "title": "Attention",
+      "idea": "Attention lets each word in a sequence take a weighted mix of the other words, with the weights set by how well they match what it is looking for.",
+      "area": "Machine learning",
+      "posts": [],
+      "reviewed": "2026-11-03"
     }
   ]
 }

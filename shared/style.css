@@ -421,3 +421,12 @@ tr.miss td { color: var(--ink-2); }
   .cards.three .card:nth-child(3) .map-list { display: flex; flex-wrap: wrap; gap: .1rem 1rem; }
   .map-list { font-size: .875rem; gap: .35rem; }
 }
+
+/* attention: one row per word, with a bar */
+.wrows { display: grid; gap: .35rem; }
+.wrow { display: grid; grid-template-columns: 4.5rem minmax(0, 1fr) 3.6rem; gap: .5rem; align-items: center; }
+.wword { font-size: var(--t-ui); }
+.wword.self { font-weight: 650; }
+.wrow .num.sm { text-align: right; }
+@media (max-width: 40rem) { .wrow { grid-template-columns: 3.6rem minmax(0, 1fr) 3rem; gap: .35rem; } .wrows { gap: .2rem; } }
+@media (max-width: 40rem) { .chart.plane { max-height: 6rem; margin: 0 auto; } }

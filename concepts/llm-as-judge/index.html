@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LLM as judge · Concepts</title>
+<meta name="description" content="An LLM judge grades another model’s answers cheaply and agrees with experts about as often as experts agree with each other, but it has measurable biases: it favours the answer shown first and the longer answer.">
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="../../shared/style.css">
+</head>
+<body data-slug="llm-as-judge">
+<header class="site-head"><a href="../../">Concepts</a><a href="https://internals.laxmena.com">INTERNALS.md</a></header>
+<main>
+<div class="hero">
+<div class="hero-text">
+<h1>LLM as judge</h1>
+<p class="what">An LLM judge is a language model that grades another model’s answers. Teams use it where having people grade every answer is too slow or costly.</p>
+<ul class="lede-list">
+<li>A judge model can grade thousands of answers that people could not.</li>
+<li>In one test GPT-4 agreed with experts as often as experts agreed with each other.</li>
+<li>The same judge can still be swayed by answer order and by length.</li>
+<li>Swapping the order and keeping agreeing verdicts removes part of the bias.</li>
+</ul>
+<p class="try-this">Try this: switch the judge to <strong>Claude-v1</strong> and watch the “1” tiles take over.</p>
+</div>
+<section aria-labelledby="try">
+<h2 id="try" class="eyebrow">Try it</h2>
+<div class="widget" id="widget"><p>This page needs JavaScript.</p></div>
+</section>
+</div>
+
+<section aria-labelledby="happened">
+<h2 id="happened">What just happened</h2>
+<ol class="steps">
+<li>The paper built <span data-bind="n"></span> pairs of near-identical answers, then asked each judge to pick the better one twice, with the two answers in swapped places. A fair judge would pick the same answer both times. GPT-4 did so <span data-bind="gpt4.consistent"></span> times (“=” tiles). In <span data-bind="gpt4.first"></span> pairs it simply chose whichever answer was shown first.</li>
+<li>The other judges are worse: Claude-v1 was consistent <span data-bind="claude1.consistent"></span> times and chose the first answer <span data-bind="claude1.first"></span> times. The bias is a property of the judge, not of the answers.</li>
+<li>Tick “swap the order, keep verdicts that agree”. The dashed tiles are verdicts you would throw away. What stays is the pair of verdicts that survived both orders, which are the ones worth counting.</li>
+<li>Open “Show what helps” for two fixes. Examples in the prompt raised GPT-4’s consistency from <span data-bind="before"></span>% to <span data-bind="fewShot"></span>%. On math questions, giving the judge the reference answer cut its mistakes from 14 in 20 to 3.</li>
+</ol>
+</section>
+
+<section aria-labelledby="meet">
+<h2 id="meet">Where you meet it</h2>
+<p class="shorter">You change a prompt and want to know if answers got better. Reading 500 answers takes a day. A judge model reads them in minutes, and the paper says a strong one tracks human experts closely. The risk is trusting a score the judge’s habits can move.</p>
+<ul class="refs">
+<li>The MT-bench and Chatbot Arena paper tested GPT-4 as a judge against human votes and reported over 80% agreement, the same level as between humans.</li>
+<li>It names four limits of LLM judges: position bias, verbosity bias, self-enhancement bias and limited reasoning ability.</li>
+<li>RAGAS uses a language model in the same way to count how many statements in an answer a passage supports. The RAG evals page covers it.</li>
+</ul>
+</section>
+
+<section aria-labelledby="breaks">
+<h2 id="breaks">Where it breaks</h2>
+<p class="shorter">A judge can prefer an answer for being longer. The paper made a test: take an answer with a numbered list, reword the list without adding anything, and put the reworded copy in front of the original. Nothing new was said. A fair judge would not prefer the longer answer. Pick a judge.</p>
+<div class="widget" id="breaks-widget"></div>
+<p class="shorter">Out of <span data-bind="padded"></span> padded answers, GPT-3.5 and Claude-v1 preferred the padded one <span data-bind="gpt35.pad"></span> times, and GPT-4 <span data-bind="gpt4.pad"></span> times. A judge that rewards length will push a model to write longer, not better. Check a judge for length before you trust it, for example by padding some answers yourself.</p>
+</section>
+
+<section aria-labelledby="check">
+<h2 id="check">Check yourself</h2>
+<div class="qa"><p>A judge picks answer A when A is first, and answer B when B is first. What does that tell you?</p>
+<div class="reveal"><button type="button" data-closed="Show answer">Show answer</button><div class="answer"><p>That it is choosing by position, not by quality. For this pair its verdict is meaningless. With the swap rule, the pair counts as a tie.</p></div></div></div>
+<div class="qa"><p>GPT-4 agreed with experts 85% of the time and experts agreed with each other 81%. Does that make GPT-4 as good as an expert?</p>
+<div class="reveal"><button type="button" data-closed="Show answer">Show answer</button><div class="answer"><p>On that test, it matched the typical level of disagreement between experts, which is the best any judge can be measured against. It does not show it is right where experts are all wrong, and it says nothing about other kinds of questions.</p></div></div></div>
+<div class="qa"><p>Your judge always prefers the longer answer. What do you change?</p>
+<div class="reveal"><button type="button" data-closed="Show answer">Show answer</button><div class="answer"><p>Test it on answers padded with no new content, as the paper did. Then tell the judge to ignore length, compare answers of similar length, or add a length check to the score.</p></div></div></div>
+</section>
+
+<section aria-labelledby="used">
+<h2 id="used">Used in</h2>
+<ul class="refs" id="used-in"><li>Loading…</li></ul>
+</section>
+
+<section aria-labelledby="deeper">
+<h2 id="deeper">Go deeper</h2>
+<ul class="refs">
+<li><a href="https://arxiv.org/abs/2306.05685">Zheng et al., “Judging LLM-as-a-Judge with MT-Bench and Chatbot Arena”</a> (2023). Every number on this page: Tables 2 to 4 and section 4.2.</li>
+<li><a href="https://arxiv.org/abs/2403.04132">Chiang et al., “Chatbot Arena: An Open Platform for Evaluating LLMs by Human Preference”</a> (2024). The human-vote side. The next page, on pairwise ranking, uses it.</li>
+</ul>
+</section>
+</main>
+<footer class="site-foot">Last reviewed <time id="reviewed"></time> · <a id="source" href="https://github.com/laxmena/concepts">Source for this page</a></footer>
+
+<script type="module">
+import { bootPage, bindFacts } from '../../shared/boot.js';
+import { mount, facts } from './widget.js';
+await bootPage();
+const example = await (await fetch('example.json')).json();
+bindFacts(facts(example));
+mount(document.getElementById('widget'), example);
+mount(document.getElementById('breaks-widget'), { ...example, ...example.breaks, breaksView: true });
+</script>
+</body>
+</html>

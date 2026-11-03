@@ -47,6 +47,30 @@
       "area": "Evaluation",
       "posts": [],
       "reviewed": "2026-11-03"
+    },
+    {
+      "slug": "retrieval-metrics",
+      "title": "Precision, recall and reciprocal rank",
+      "idea": "Precision@k, recall@k and reciprocal rank grade the same ranked list in three ways: how clean the top k is, how much of the good material it found, and how early the first good result appears.",
+      "area": "Evaluation",
+      "posts": [],
+      "reviewed": "2026-11-03"
+    },
+    {
+      "slug": "llm-as-judge",
+      "title": "LLM as judge",
+      "idea": "An LLM judge grades another model’s answers cheaply and agrees with experts about as often as experts agree with each other, but it has measurable biases: it favours the answer shown first and the longer answer.",
+      "area": "Evaluation",
+      "posts": [],
+      "reviewed": "2026-11-03"
+    },
+    {
+      "slug": "pairwise-elo",
+      "title": "Pairwise preference and Elo",
+      "idea": "Ranking by head-to-head votes: each vote moves two ratings, Elo does it one vote at a time, and a Bradley-Terry fit uses all votes at once.",
+      "area": "Evaluation",
+      "posts": [],
+      "reviewed": "2026-11-03"
     }
   ]
 }

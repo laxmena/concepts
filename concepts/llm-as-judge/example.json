@@ -1,0 +1,26 @@
+{
+  "source": "Zheng et al. (2023), arXiv:2306.05685. Table 2 (default prompt), Table 3, Table 4, section 4.2. Judges are the 2023 models named in the paper.",
+  "questions": 80,
+  "paddedAnswers": 23,
+  "judge": "gpt4",
+  "swap": false,
+  "judges": [
+    { "id": "gpt4", "name": "GPT-4", "consistent": 65.0, "first": 30.0, "second": 5.0, "error": 0.0, "paddingFail": 8.7 },
+    { "id": "gpt35", "name": "GPT-3.5", "consistent": 46.2, "first": 50.0, "second": 1.2, "error": 2.5, "paddingFail": 91.3 },
+    { "id": "claude1", "name": "Claude-v1", "consistent": 23.8, "first": 75.0, "second": 0.0, "error": 1.2, "paddingFail": 91.3 }
+  ],
+  "agreement": { "gpt4WithHumans": 85, "humansWithHumans": 81 },
+  "fixes": {
+    "consistencyBefore": 65.0, "consistencyFewShot": 77.5,
+    "math": [
+      { "label": "Default prompt", "wrong": 14 },
+      { "label": "Think step by step", "wrong": 6 },
+      { "label": "Give it the right answer", "wrong": 3 }
+    ],
+    "mathOutOf": 20
+  },
+  "breaks": {
+    "original": "1. Sleep before midnight. 2. Move your body. 3. Eat real food.",
+    "padded": "Go to bed on time. Exercise regularly. Choose healthy meals. 1. Sleep before midnight. 2. Move your body. 3. Eat real food."
+  }
+}

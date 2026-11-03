@@ -20,7 +20,7 @@ for (const scheme of ['light', 'dark']) {
     await page.goto(`${base}/concepts/${slug}/`);
     await page.waitForSelector('#widget .card, #widget .rank-row, #widget .side');
     const r = await page.evaluate(() => ({
-      bottom: Math.round(Math.max(...[...document.querySelectorAll('#widget .card, #widget .rank-row, #widget .side, #widget .axis-row')].map((c) => c.getBoundingClientRect().bottom))),
+      bottom: Math.round(Math.max(...[...document.querySelectorAll('#widget .card, #widget .rank-row, #widget .side, #widget .axis-row')].filter((c) => !c.closest('details:not([open])')).map((c) => c.getBoundingClientRect().bottom))),
       sideways: document.documentElement.scrollWidth > document.documentElement.clientWidth,
     }));
     const fits = r.bottom <= h;

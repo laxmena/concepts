@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pairwise preference and Elo · Concepts</title>
+<meta name="description" content="Ranking by head-to-head votes: each vote moves two ratings, Elo does it one vote at a time, and a Bradley-Terry fit uses all votes at once.">
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="../../shared/style.css">
+</head>
+<body data-slug="pairwise-elo">
+<header class="site-head"><a href="../../">Concepts</a><a href="https://internals.laxmena.com">INTERNALS.md</a></header>
+<main>
+<div class="hero">
+<div class="hero-text">
+<h1>Pairwise preference and Elo</h1>
+<p class="what">Pairwise ranking turns “which answer is better?” votes into a leaderboard. Chatbot Arena ranks language models this way.</p>
+<ul class="lede-list">
+<li>People find it easier to say which of two answers is better than to give one a score.</li>
+<li>Each vote moves the winner’s rating up and the loser’s down, by more when the result was a surprise.</li>
+<li>Elo updates after every vote, so the order of the votes changes the answer.</li>
+<li>A Bradley-Terry fit uses all the votes together and does not care about order.</li>
+</ul>
+<p class="try-this">Try this: press <strong>Simulate 20 votes</strong> a few times, then tick “replay in reverse”.</p>
+</div>
+<section aria-labelledby="try">
+<h2 id="try" class="eyebrow">Try it</h2>
+<div class="widget" id="widget"><p>This page needs JavaScript.</p></div>
+</section>
+</div>
+
+<section aria-labelledby="happened">
+<h2 id="happened">What just happened</h2>
+<ol class="steps">
+<li>Four models have hidden true strengths, made up for this page. Random pairs meet and a vote follows the odds: a model rated 100 points higher wins about 64% of the time. After <span data-bind="votes"></span> votes the orange bars are the Elo ratings.</li>
+<li>Each Elo update is K times the surprise: K × (result − expected). Here K is <span data-bind="k"></span>. Beating a much weaker model moves the ratings only a little, because the win was expected. Raise K and ratings jump with every vote.</li>
+<li>Replay the same votes in reverse order and the Elo ratings change, by up to <span data-bind="maxShift"></span> points on this data, although nobody voted differently. The blue ticks do not move: the fit looks at all the votes together.</li>
+<li>Chatbot Arena moved its published score from Elo to Bradley-Terry coefficients. Its paper gives the reason as better suited to statistical estimation, and the order effect above is one way Elo is harder to estimate with.</li>
+</ol>
+<details>
+<summary>Show the formulas</summary>
+<div class="formula" tabindex="0" role="region" aria-label="Formulas">expected score of A = 1 / (1 + 10^((R_B − R_A) / 400))
+new rating of A    = R_A + K × (S_A − expected score of A)    (S_A is 1 for a win, 0 for a loss)
+Bradley-Terry: P(A beats B) = 1 / (1 + e^(ξ_B − ξ_A))</div>
+<p class="shorter">The 400 is a scale choice: a 400-point gap means the stronger side is expected to score about 0.91. Bradley-Terry finds the ξ values that make the observed votes most likely. The blue ticks here are those ξ values moved onto the Elo scale and centred on 1000.</p>
+</details>
+</section>
+
+<section aria-labelledby="meet">
+<h2 id="meet">Where you meet it</h2>
+<p class="shorter">Scoring answers on a 1 to 10 scale gives noisy numbers, because one rater’s 7 is another’s 9. Asking “A or B?” is steadier.</p>
+<ul class="refs">
+<li>Chatbot Arena collects votes from visitors who compare two anonymous models, and the paper reports over 240,000 votes and good agreement between the crowd and expert raters.</li>
+<li>The same paper says its published scores moved from Elo to Bradley-Terry coefficients because they suit statistical estimation better.</li>
+<li>Chess rating bodies use Elo, with the K value set by how many games a player has played. FIDE uses K = 40 for new players and 10 for established masters.</li>
+</ul>
+</section>
+
+<section aria-labelledby="breaks">
+<h2 id="breaks">Where it breaks</h2>
+<p class="shorter">A rating is one number per model, so it assumes that if A beats B and B beats C, then A beats C. Votes can disagree. Here three models beat each other in a circle, 8 votes in 10 each.</p>
+<div class="widget" id="breaks-widget"></div>
+<p class="shorter">Every model wins half its games, so the fit puts all three at <span data-bind="cycleLow"></span>. The leaderboard says they tie, but every pair has a clear winner. If the preferences have this shape, a ranking hides it. Look at the win rate of each pair as well as the leaderboard.</p>
+</section>
+
+<section aria-labelledby="check">
+<h2 id="check">Check yourself</h2>
+<div class="qa"><p>A model rated 1500 beats one rated 1500. With K = 32, how much does each rating move?</p>
+<div class="reveal"><button type="button" data-closed="Show answer">Show answer</button><div class="answer"><p>The expected score is 0.5, so the winner gains 32 × (1 − 0.5) = 16 and the loser drops 16.</p></div></div></div>
+<div class="qa"><p>The same 100 votes, shown in a different order, give different Elo ratings. Is that a bug?</p>
+<div class="reveal"><button type="button" data-closed="Show answer">Show answer</button><div class="answer"><p>No. Elo updates after every vote, so early votes use ratings that are still far from the truth. A Bradley-Terry fit to all the votes at once gives the same ratings for any order.</p></div></div></div>
+<div class="qa"><p>A new model has lost all of its first 5 votes. Bradley-Terry cannot rate it finitely. Why?</p>
+<div class="reveal"><button type="button" data-closed="Show answer">Show answer</button><div class="answer"><p>With no wins, the fit keeps pushing its rating down, because any lower rating makes the data more likely. This page adds a tiny prior, a fraction of a win and a loss against every other model, so the rating stays finite.</p></div></div></div>
+</section>
+
+<section aria-labelledby="used">
+<h2 id="used">Used in</h2>
+<ul class="refs" id="used-in"><li>Loading…</li></ul>
+</section>
+
+<section aria-labelledby="deeper">
+<h2 id="deeper">Go deeper</h2>
+<ul class="refs">
+<li><a href="https://arxiv.org/abs/2403.04132">Chiang et al., “Chatbot Arena: An Open Platform for Evaluating LLMs by Human Preference”</a> (2024). Pairwise votes, the Bradley-Terry model, and confidence intervals on the ranking.</li>
+<li><a href="https://en.wikipedia.org/wiki/Elo_rating_system">Wikipedia: Elo rating system</a>. The formulas and K-factors in real use.</li>
+<li><a href="https://arxiv.org/abs/2306.05685">Zheng et al., “Judging LLM-as-a-Judge with MT-Bench and Chatbot Arena”</a> (2023). Compares judge-model votes with human votes.</li>
+</ul>
+</section>
+</main>
+<footer class="site-foot">Last reviewed <time id="reviewed"></time> · <a id="source" href="https://github.com/laxmena/concepts">Source for this page</a></footer>
+
+<script type="module">
+import { bootPage, bindFacts } from '../../shared/boot.js';
+import { mount, facts } from './widget.js';
+await bootPage();
+const example = await (await fetch('example.json')).json();
+bindFacts(facts(example));
+mount(document.getElementById('widget'), example);
+mount(document.getElementById('breaks-widget'), { ...example, ...example.breaks, breaksView: true });
+</script>
+</body>
+</html>

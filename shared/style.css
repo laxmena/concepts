@@ -348,3 +348,19 @@ tr.miss td { color: var(--ink-2); }
 .segmented label:first-of-type { border-radius: var(--r-s) 0 0 var(--r-s); }
 .segmented label:last-of-type { border-radius: 0 var(--r-s) var(--r-s) 0; }
 .site-head a:first-child { font-weight: 600; }
+
+/* Ranked list with a yes/no relevance box (retrieval metrics page) */
+.rank-row.simple { grid-template-columns: 2.5rem minmax(0, 1fr) 11rem; }
+.rank-row.simple .check { font-size: .9375rem; gap: .4rem; }
+.mark { font-size: .8125rem; color: var(--ink-2); white-space: nowrap; }
+@media (max-width: 40rem) { .rank-row.simple { grid-template-columns: 2.4rem minmax(0, 1fr) auto; } .rank-row.simple .mark { display: none; } }
+
+/* Tile grids: one tile per case, with a mark inside so colour is never the only signal */
+.dots { display: flex; flex-wrap: wrap; gap: 3px; align-content: flex-start; }
+.dot { width: 1.15rem; height: 1.15rem; display: grid; place-items: center; font: 600 .6875rem/1 var(--mono); background: var(--sq); color: var(--ink); border-radius: 4px; }
+.dot.first { background: var(--orange); }
+.dot.second { background: var(--blue); }
+.dot.err { background: var(--card); border: 1px solid var(--ink); }
+.dot.drop { background: transparent; border: 1px dashed var(--ink-2); color: var(--ink-2); opacity: .6; }
+@media (max-width: 40rem) { .dots { gap: 2px; } .dot { width: .8rem; height: .8rem; font-size: .5rem; border-radius: 3px; } }
+.score-line .meter { flex: 1; min-width: 0; }

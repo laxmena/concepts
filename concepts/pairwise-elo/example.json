@@ -1,0 +1,16 @@
+{
+  "names": ["Model A", "Model B", "Model C", "Model D"],
+  "truth": [850, 950, 1050, 1150],
+  "k": 32,
+  "seed": 42,
+  "startVotes": 60,
+  "reverse": false,
+  "breaks": {
+    "names": ["Model A", "Model B", "Model C"],
+    "cycle": [
+      { "a": 0, "b": 1, "aWins": 8, "of": 10 },
+      { "a": 1, "b": 2, "aWins": 8, "of": 10 },
+      { "a": 2, "b": 0, "aWins": 8, "of": 10 }
+    ]
+  }
+}

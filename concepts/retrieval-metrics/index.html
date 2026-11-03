@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Precision, recall and reciprocal rank · Concepts</title>
+<meta name="description" content="Precision@k, recall@k and reciprocal rank grade the same ranked list in three ways: how clean the top k is, how much of the good material it found, and how early the first good result appears.">
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="../../shared/style.css">
+</head>
+<body data-slug="retrieval-metrics">
+<header class="site-head"><a href="../../">Concepts</a><a href="https://internals.laxmena.com">INTERNALS.md</a></header>
+<main>
+<div class="hero">
+<div class="hero-text">
+<h1>Precision, recall and reciprocal rank</h1>
+<p class="what">These three scores grade a search result list when each result is simply relevant or not. They are the usual first checks for search and for the retrieval step of RAG.</p>
+<ul class="lede-list">
+<li>Precision@k asks how many of the top k results are relevant.</li>
+<li>Recall@k asks how many of all the relevant pages made it into the top k.</li>
+<li>Reciprocal rank asks how early the first relevant page appears.</li>
+<li>Each score ignores something the others see.</li>
+</ul>
+<p class="try-this">Try this: drag “Reset your password” up to rank 1 and see which numbers change.</p>
+</div>
+<section aria-labelledby="try">
+<h2 id="try" class="eyebrow">Try it</h2>
+<div class="widget" id="widget"><p>This page needs JavaScript.</p></div>
+</section>
+</div>
+
+<section aria-labelledby="happened">
+<h2 id="happened">What just happened</h2>
+<ol class="steps">
+<li>Look at the top <span data-bind="k"></span> rows above the dashed line. <span data-bind="inTop"></span> of them are marked relevant. Precision@<span data-bind="k"></span> divides that by <span data-bind="k"></span>, which gives <span data-bind="p"></span>.</li>
+<li>Recall@<span data-bind="k"></span> divides the same count by R, the number of relevant pages in the whole collection, <span data-bind="total"></span> here, which gives <span data-bind="r"></span>. Recall needs R, and R is a number you must know or estimate.</li>
+<li>Reciprocal rank is 1 divided by the rank of the first relevant page: <span data-bind="rr"></span>. Moving the best page to rank 1 lifts it to <span data-bind="rrBest"></span>, but precision@<span data-bind="k"></span> stays at <span data-bind="pSwapped"></span>, because both pages are still inside the top <span data-bind="k"></span>.</li>
+<li>Averaged over many queries, reciprocal rank becomes mean reciprocal rank (MRR). For a ranking where a result can be better or worse, not only relevant or not, see the <a href="../ndcg/">nDCG@k page</a>.</li>
+</ol>
+<details>
+<summary>Show the formulas</summary>
+<div class="formula" tabindex="0" role="region" aria-label="Formulas">precision@k = (relevant results in the top k) / k
+recall@k    = (relevant results in the top k) / R
+reciprocal rank = 1 / (rank of the first relevant result), or 0 if none
+MRR = average of reciprocal rank over all queries</div>
+<p class="shorter">Example for MRR: three queries whose first correct answers come at ranks 3, 2 and 1 give (1/3 + 1/2 + 1) / 3 = 0.61.</p>
+</details>
+</section>
+
+<section aria-labelledby="meet">
+<h2 id="meet">Where you meet it</h2>
+<p class="shorter">A help-centre search returns ten pages. Support wants to know whether the right page is near the top, and whether a customer who reads the first five has seen everything useful.</p>
+<ul class="refs">
+<li>Precision@k suits a screen that shows only k results, such as the top five on a phone.</li>
+<li>Recall@k suits a retrieval step that feeds a later step, such as the passages a RAG system hands to a language model: a page that is not retrieved cannot be used.</li>
+<li>Reciprocal rank suits a question with one right answer, such as a lookup or a navigation search.</li>
+</ul>
+</section>
+
+<section aria-labelledby="breaks">
+<h2 id="breaks">Where it breaks</h2>
+<p class="shorter">Precision@k assumes there are at least k relevant pages. When the collection holds fewer, even a perfect system cannot score 1. Pick how many relevant pages exist, and look at a perfect list.</p>
+<div class="widget" id="breaks-widget"></div>
+<p class="shorter">With one relevant page, a perfect list scores <span data-bind="perfect1"></span> on precision@10. With three, <span data-bind="perfect3"></span>. The system is perfect in both cases, so compare precision only between lists of the same query, or use a score that knows the best case, like nDCG.</p>
+</section>
+
+<section aria-labelledby="check">
+<h2 id="check">Check yourself</h2>
+<div class="qa"><p>A list has 3 relevant pages in the top 10, out of 12 in the collection. What are precision@10 and recall@10?</p>
+<div class="reveal"><button type="button" data-closed="Show answer">Show answer</button><div class="answer"><p>Precision@10 = 3/10 = 0.3. Recall@10 = 3/12 = 0.25.</p></div></div></div>
+<div class="qa"><p>You swap two relevant pages that are both inside the top k. Which of the three scores can change?</p>
+<div class="reveal"><button type="button" data-closed="Show answer">Show answer</button><div class="answer"><p>Only reciprocal rank, and only if one of them was first. Precision@k and recall@k count what is inside the top k and ignore the order.</p></div></div></div>
+<div class="qa"><p>Three queries have their first relevant result at ranks 1, 2 and 4. What is the MRR?</p>
+<div class="reveal"><button type="button" data-closed="Show answer">Show answer</button><div class="answer"><p>(1 + 1/2 + 1/4) / 3 = 1.75 / 3 = 0.58.</p></div></div></div>
+</section>
+
+<section aria-labelledby="used">
+<h2 id="used">Used in</h2>
+<ul class="refs" id="used-in"><li>Loading…</li></ul>
+</section>
+
+<section aria-labelledby="deeper">
+<h2 id="deeper">Go deeper</h2>
+<ul class="refs">
+<li><a href="https://en.wikipedia.org/wiki/Evaluation_measures_(information_retrieval)">Wikipedia: Evaluation measures (information retrieval)</a>. Precision, recall and their cut-off versions, with the known weaknesses of precision@k.</li>
+<li><a href="https://en.wikipedia.org/wiki/Mean_reciprocal_rank">Wikipedia: Mean reciprocal rank</a>. The definition and a worked example, and why only the first relevant result counts.</li>
+<li><a href="../ndcg/">nDCG@k on this site</a>. The score for graded relevance, which also rewards putting good results early.</li>
+</ul>
+</section>
+</main>
+<footer class="site-foot">Last reviewed <time id="reviewed"></time> · <a id="source" href="https://github.com/laxmena/concepts">Source for this page</a></footer>
+
+<script type="module">
+import { bootPage, bindFacts } from '../../shared/boot.js';
+import { mount, facts } from './widget.js';
+await bootPage();
+const example = await (await fetch('example.json')).json();
+bindFacts(facts(example));
+mount(document.getElementById('widget'), example);
+mount(document.getElementById('breaks-widget'), { ...example, ...example.breaks, breaksView: true });
+</script>
+</body>
+</html>

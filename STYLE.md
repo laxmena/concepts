@@ -70,7 +70,7 @@ Reuse these meanings on every page so a reader learns them once.
 - Start a page from `shared/template.html` with `./new-concept.sh`.
 
 ## 7. Page order (fixed)
-1. Title, idea as 3 to 4 short bullets (full sentences, one idea each), one "Try this" instruction.
+1. Title, a one-line "what it is" (`.what`: what the thing is and where it is used, in plain words), idea as 3 to 4 short bullets (full sentences, one idea each), one "Try this" instruction.
 2. Try it: the picture, working on first load with a good default.
 3. What just happened: about three small pictures, one per rule, each with one short sentence. The rules follow the sliders where they can.
 4. Where you meet it (optional): one concrete example and 3 to 4 real uses, each checked against the product's own docs.

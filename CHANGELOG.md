@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Every page has a one-line "what it is" under the title (`.what`), also in the template and STYLE.md.
 - White theme only: white page, faintly warm cards, brown ink. Dark mode removed on purpose.
 - Warmer theme: cream page, brown ink, softer orange and blue, warm brown dark mode, rounded cards, inputs and pill buttons, a darker focus ring (`--focus`). Roles are unchanged (orange explains, blue compares). AGENTS.md and STYLE.md updated.
 - BM25 page, friendlier: cards show the real text with matching words highlighted (phones keep the word squares), cards are ranked best first with a #1 to #4 tag, search box and the two toggles share one row so the cards still fit 1280x720, "Try your own documents" replaces "Change the documents". Empty "Used in" section is hidden. Tests for `splitText` and `rankOrder`.

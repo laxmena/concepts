@@ -49,6 +49,7 @@ ol.steps li { margin: .75rem 0; }
 /* Top of the page: idea on the left, the working picture on the right */
 .hero { display: grid; gap: 1.5rem 3rem; grid-template-columns: minmax(0, 1fr); margin-top: .5rem; }
 .hero-text h1 { margin-top: .5rem; }
+.what { margin: 0 0 1rem; font-size: 1.0625rem; color: var(--ink-2); }
 .lede-list { margin: 0; padding-left: 1.1rem; font-size: 1.1875rem; }
 .lede-list li { margin: .45rem 0; }
 .try-this { margin: 1.5rem 0 0; padding: .6rem .9rem; background: var(--card); border: 1px solid var(--line); border-left: 4px solid var(--orange); border-radius: var(--r-s); font-size: 1rem; }
@@ -190,6 +191,13 @@ tr.miss td { color: var(--ink-2); }
   .card-head { flex-wrap: wrap; row-gap: 0; }
   .card-head strong { font-size: 1rem; }
   .tag { margin-left: 0; white-space: nowrap; }
+  .hide-s { display: none; }
+  .hero { gap: .75rem; }
+  .hero-text h1 { margin-top: .25rem; margin-bottom: .5rem; }
+  .what { font-size: .875rem; line-height: 1.45; margin-bottom: .6rem; }
+  .lede-list { font-size: .9375rem; padding-left: 1rem; }
+  .lede-list li { margin: .25rem 0; }
+  .try-this { margin-top: .6rem; padding: .35rem .7rem; }
   .words { display: none; }
   .words + .strip { display: flex; }
   .sq { width: 6px; height: 11px; }

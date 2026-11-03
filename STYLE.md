@@ -14,21 +14,21 @@ Rules come first, then the parts. `shared/style.css` and `shared/lib.js` hold th
 ## 2. Colour
 | Role | Light | Dark | Use |
 | --- | --- | --- | --- |
-| Page | `#fdf5e8` | `#1d1812` | background |
-| Card | `#fffcf6` | `#2a231b` | cards, inputs |
-| Ink | `#33261b` | `#f5e9d7` | text, controls, rules |
-| Ink 2 | `#725f4d` | `#bba88f` | secondary text, outlines |
-| Line | `#ecdcc3` | `#43382b` | thin dividers, card borders |
-| Square | `#dcc9a8` | `#75664f` | the word squares that show length |
+| Page | `#ffffff` | same | background |
+| Card | `#fffaf3` | same | cards, inputs |
+| Ink | `#2b2118` | same | text, controls, rules |
+| Ink 2 | `#6b5a4a` | same | secondary text, outlines |
+| Line | `#eadfcf` | same | thin dividers, card borders |
+| Square | `#e0d0b6` | same | the word squares that show length |
 | **Orange** | `#f0833a` | same | the thing being explained: scores, matching words, coins |
 | **Blue** | `#5b9bd0` | same | the comparison, and only the comparison |
 
 - Orange and blue are for fills, bars and marks. Never set body text in them (orange on cream is only about 2.5:1).
-- Text on an orange or blue fill is the light-mode ink `#33261b` in both modes.
+- Text on an orange or blue fill is the ink `#2b2118`.
 - Controls (sliders, checkboxes, outlines) are ink; buttons are pills that fill orange on hover. Focus ring is a darker blue (`--focus`), 2px.
 - Corners are soft: `--r` (14px) on cards and panels, `--r-s` (8px) on inputs and rows, 6px on tags and chips.
 - Colour is never the only signal. Every coloured mark also has a number, a word or a tag next to it.
-- No gradients, no decorative shadows, no emoji, no stock icons. The warm cream page and brown ink are what make it feel friendly; keep new colours inside that family.
+- No gradients, no decorative shadows, no emoji, no stock icons. White page, faintly warm cards and brown ink are what make it feel friendly; keep new colours inside that family.
 
 ## 3. Type
 System font stack only. Sizes: title 2.75rem (1.75rem on phones), section heading 1.625rem, body 1.125rem (1rem on phones),
@@ -93,11 +93,11 @@ Link the newsletter at `https://internals.laxmena.com`. Do not link the author's
 - Every control has a visible `<label>` (or an `aria-label` where the label is hidden on phones).
 - Everything works by keyboard. Sliders are native range inputs. Toggles are native checkboxes. Reveal boxes use `aria-expanded`.
 - Charts are `role="img"` with an `aria-label` that states the values. Do not reuse a form control's label text for a chart.
-- Works at 390px wide, with light and dark mode, with no horizontal page scroll. Wide tables sit in a focusable scroll region.
+- Works at 390px wide, in light only (no dark mode, by choice), with no horizontal page scroll. Wide tables sit in a focusable scroll region.
 - No cookies, no third-party requests, no external fonts. The page works offline once loaded (service worker).
 
 ## 10. Checks before you finish a page
 1. `npm test` (maths against independent values) and `npm run links`.
-2. `npm run serve`, then `npm run e2e` (needs Chrome and `npm i --no-save playwright`): cards fit the first screen, no sideways scroll, no console errors, light and dark.
+2. `npm run serve`, then `npm run e2e` (needs Chrome and `npm i --no-save playwright`): cards fit the first screen, no sideways scroll, no console errors, light only.
 3. Look at the screenshots yourself (`node scripts/e2e/fit.mjs <slug> --shots <dir>`), at laptop and phone size. Tests cannot tell you that something looks bad.
 4. Update `concepts.json` (`reviewed` date) and `CHANGELOG.md`.

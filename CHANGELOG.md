@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- White theme only: white page, faintly warm cards, brown ink. Dark mode removed on purpose.
 - Warmer theme: cream page, brown ink, softer orange and blue, warm brown dark mode, rounded cards, inputs and pill buttons, a darker focus ring (`--focus`). Roles are unchanged (orange explains, blue compares). AGENTS.md and STYLE.md updated.
 - BM25 page, friendlier: cards show the real text with matching words highlighted (phones keep the word squares), cards are ranked best first with a #1 to #4 tag, search box and the two toggles share one row so the cards still fit 1280x720, "Try your own documents" replaces "Change the documents". Empty "Used in" section is hidden. Tests for `splitText` and `rankOrder`.
 - Page: bi-encoder vs cross-encoder. Side-by-side diagram, N slider (10 to 1,000,000), "Run a search" simulation with running totals, log-scale time bars, retrieve-and-rerank demo. No model runs; unit costs are made up and labelled. Tests worked by hand, including 10,000 sentences = 49,995,000 pairs (Sentence-BERT paper: about 50 million).

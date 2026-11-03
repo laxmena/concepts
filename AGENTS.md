@@ -25,7 +25,7 @@ Look, writing and checks live in [STYLE.md](STYLE.md). Read it before building o
 - Any library is vendored in `vendor/<name>-<version>/` with its licence; list it in `vendor/README.md`. None so far.
 - Offline once loaded: `sw.js` caches same-origin GETs (stale-while-revalidate). Do not add third-party requests.
 - No cookies, trackers or external fonts.
-- Accessible: every control has a `<label>`, widgets work by keyboard, colour is never the only signal (print values, add text), usable at phone width, light and dark mode.
+- Accessible: every control has a `<label>`, widgets work by keyboard, colour is never the only signal (print values, add text), usable at phone width. White theme only; there is no dark mode.
 
 ## Layout
 - `concepts/<slug>/`: `index.html`, `widget.js`, `example.json`, `widget.test.js`.
@@ -45,7 +45,7 @@ Look, writing and checks live in [STYLE.md](STYLE.md). Read it before building o
 3. Build `mount()`. Default example must work on first load. Put the default state in `example.json`.
 4. Fill the page sections. Quote numbers in prose with `<span data-bind="key">` and compute them in an exported
    facts function (see `defaultFacts` in `concepts/bm25/widget.js`) so prose cannot drift from the maths.
-5. `npm test && npm run links`, view it with `npm run serve` in light and dark mode at phone width, update `CHANGELOG.md`.
+5. `npm test && npm run links`, view it with `npm run serve` at phone width, update `CHANGELOG.md`.
 
 ## Page order (fixed)
 Title and the idea in one sentence; Try it (widget, good default, one instruction); Predict first (optional, skip it when the instruction does the same job); What just happened
@@ -54,7 +54,7 @@ questions with hidden answers); Used in; Go deeper (2 to 3 primary sources, veri
 Give a concrete example before any formula.
 
 ## Design
-Warm cream background, warm brown ink. Orange `#f0833a` marks the thing being explained, blue `#5b9bd0` the comparison, warm tans for everything else.
+White background, faintly warm cards, warm brown ink. Orange `#f0833a` marks the thing being explained, blue `#5b9bd0` the comparison, warm tans for everything else.
 System font stack. Text column about 70ch, widgets full width. Thin lines, soft rounded corners, direct labels. No gradients, decorative shadows, emoji or stock icons.
 Orange and blue are for fills and rules; set text in the ink colour. The home page is a plain list grouped by area: the title as a link, nothing else.
 

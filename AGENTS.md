@@ -54,8 +54,8 @@ questions with hidden answers); Used in; Go deeper (2 to 3 primary sources, veri
 Give a concrete example before any formula.
 
 ## Design
-Off-white background. Orange `#eb6834` marks the thing being explained, blue `#2a78d6` the comparison, greys for everything else.
-System font stack. Text column about 70ch, widgets full width. Thin lines, direct labels. No gradients, decorative shadows, emoji or stock icons.
+Warm cream background, warm brown ink. Orange `#f0833a` marks the thing being explained, blue `#5b9bd0` the comparison, warm tans for everything else.
+System font stack. Text column about 70ch, widgets full width. Thin lines, soft rounded corners, direct labels. No gradients, decorative shadows, emoji or stock icons.
 Orange and blue are for fills and rules; set text in the ink colour. The home page is a plain list grouped by area: the title as a link, nothing else.
 
 ## Writing

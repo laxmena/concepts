@@ -14,20 +14,21 @@ Rules come first, then the parts. `shared/style.css` and `shared/lib.js` hold th
 ## 2. Colour
 | Role | Light | Dark | Use |
 | --- | --- | --- | --- |
-| Page | `#faf8f4` | `#151514` | background |
-| Card | `#ffffff` | `#1e1e1c` | cards, inputs |
-| Ink | `#1d1d1b` | `#ecebe5` | text, controls, rules |
-| Ink 2 | `#5a574f` | `#a9a69d` | secondary text, outlines |
-| Line | `#ddd8cc` | `#373632` | thin dividers, card borders |
-| Square | `#b9b2a1` | `#6b6a63` | the word squares that show length |
-| **Orange** | `#eb6834` | same | the thing being explained: scores, matching words, coins |
-| **Blue** | `#2a78d6` | same | the comparison, and only the comparison |
+| Page | `#fdf5e8` | `#1d1812` | background |
+| Card | `#fffcf6` | `#2a231b` | cards, inputs |
+| Ink | `#33261b` | `#f5e9d7` | text, controls, rules |
+| Ink 2 | `#725f4d` | `#bba88f` | secondary text, outlines |
+| Line | `#ecdcc3` | `#43382b` | thin dividers, card borders |
+| Square | `#dcc9a8` | `#75664f` | the word squares that show length |
+| **Orange** | `#f0833a` | same | the thing being explained: scores, matching words, coins |
+| **Blue** | `#5b9bd0` | same | the comparison, and only the comparison |
 
-- Orange and blue are for fills, bars and marks. Never set body text in them (orange on cream is only about 3:1).
-- Text on an orange fill is ink `#1d1d1b` in both modes.
-- Controls (sliders, checkboxes, buttons, focus rings aside) are ink. Focus ring is blue, 2px.
+- Orange and blue are for fills, bars and marks. Never set body text in them (orange on cream is only about 2.5:1).
+- Text on an orange or blue fill is the light-mode ink `#33261b` in both modes.
+- Controls (sliders, checkboxes, outlines) are ink; buttons are pills that fill orange on hover. Focus ring is a darker blue (`--focus`), 2px.
+- Corners are soft: `--r` (14px) on cards and panels, `--r-s` (8px) on inputs and rows, 6px on tags and chips.
 - Colour is never the only signal. Every coloured mark also has a number, a word or a tag next to it.
-- No gradients, no decorative shadows, no emoji, no stock icons.
+- No gradients, no decorative shadows, no emoji, no stock icons. The warm cream page and brown ink are what make it feel friendly; keep new colours inside that family.
 
 ## 3. Type
 System font stack only. Sizes: title 2.75rem (1.75rem on phones), section heading 1.625rem, body 1.125rem (1rem on phones),

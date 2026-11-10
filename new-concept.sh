@@ -43,4 +43,4 @@ test('TODO: test the maths against values worked out independently', () => {
   assert.ok(false, 'write this test before the widget');
 });
 JS
-echo "Created $dir and added it to concepts.json. Next: write the page, the maths and the tests (see AGENTS.md)."
+echo "Created $dir and added it to concepts.json. Next: write the page, the maths and the tests (see AGENTS.md). Run npm run feed when the page is ready."

@@ -51,7 +51,7 @@ Look, writing and checks live in [STYLE.md](STYLE.md). Read it before building o
 3. Build `mount()`. Default example must work on first load. Put the default state in `example.json`.
 4. Fill the page sections. Quote numbers in prose with `<span data-bind="key">` and compute them in an exported
    facts function (see `defaultFacts` in `concepts/bm25/widget.js`) so prose cannot drift from the maths.
-5. `npm test && npm run links`, view it with `npm run serve` at phone width, update `CHANGELOG.md`. For the evals series add the slug to `scripts/e2e/evals.mjs` and to the map in `concepts/evals-map/example.json`.
+5. `npm run feed` (rewrites `feed.xml`; a test fails if you forget), then `npm test && npm run links`, view it with `npm run serve` at phone width, update `CHANGELOG.md`. For the evals series add the slug to `scripts/e2e/evals.mjs` and to the map in `concepts/evals-map/example.json`.
 
 ## Page order (fixed)
 Title and the idea in one sentence; Try it (widget, good default, one instruction); Predict first (optional, skip it when the instruction does the same job); What just happened

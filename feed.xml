@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Concepts</title>
+  <subtitle>Engineering ideas you understand by changing the inputs.</subtitle>
+  <id>tag:concepts.laxmena.com,2026:feed</id>
+  <link rel="self" type="application/atom+xml" href="https://concepts.laxmena.com/feed.xml"/>
+  <link rel="alternate" type="text/html" href="https://concepts.laxmena.com/"/>
+  <updated>2026-11-03T00:00:00Z</updated>
+  <author><name>laxmena</name></author>
+  <entry>
+    <title>LoRA</title>
+    <id>tag:concepts.laxmena.com,2026:lora</id>
+    <link rel="alternate" type="text/html" href="https://concepts.laxmena.com/concepts/lora/"/>
+    <updated>2026-11-03T00:00:00Z</updated>
+    <published>2026-11-03T00:00:00Z</published>
+    <category term="Machine learning"/>
+    <summary>LoRA fine-tunes a large model by freezing its weights and learning a small low-rank update, a product of two thin matrices, so far fewer numbers are trained.</summary>
+  </entry>
+  <entry>
+    <title>RLHF</title>
+    <id>tag:concepts.laxmena.com,2026:rlhf</id>
+    <link rel="alternate" type="text/html" href="https://concepts.laxmena.com/concepts/rlhf/"/>
+    <updated>2026-11-03T00:00:00Z</updated>
+    <published>2026-11-03T00:00:00Z</published>
+    <category term="Machine learning"/>
+    <summary>RLHF tunes a language model toward what people prefer by training a reward model on human comparisons, then pushing the model toward high reward while a KL penalty keeps it near where it started.</summary>
+  </entry>
+  <entry>
+    <title>Reinforcement learning</title>
+    <id>tag:concepts.laxmena.com,2026:reinforcement-learning</id>
+    <link rel="alternate" type="text/html" href="https://concepts.laxmena.com/concepts/reinforcement-learning/"/>
+    <updated>2026-11-03T00:00:00Z</updated>
+    <published>2026-11-03T00:00:00Z</published>
+    <category term="Machine learning"/>
+    <summary>An agent learns what to do by trying actions and seeing rewards, with credit for a late reward flowing back to the earlier steps that led to it.</summary>
+  </entry>
+  <entry>
+    <title>Attention</title>
+    <id>tag:concepts.laxmena.com,2026:attention</id>
+    <link rel="alternate" type="text/html" href="https://concepts.laxmena.com/concepts/attention/"/>
+    <updated>2026-11-03T00:00:00Z</updated>
+    <published>2026-11-03T00:00:00Z</published>
+    <category term="Machine learning"/>
+    <summary>Attention lets each word in a sequence take a weighted mix of the other words, with the weights set by how well they match what it is looking for.</summary>
+  </entry>
+  <entry>
+    <title>Contamination and Goodhart</title>
+    <id>tag:concepts.laxmena.com,2026:contamination</id>
+    <link rel="alternate" type="text/html" href="https://concepts.laxmena.com/concepts/contamination/"/>
+    <updated>2026-11-03T00:00:00Z</updated>
+    <category term="Evals"/>
+    <summary>When benchmark questions leak into a model’s training data, the benchmark score overstates what the model can do; a fresh test of the same kind shows the gap.</summary>
+  </entry>
+  <entry>
+    <title>Online evals and A/B tests</title>
+    <id>tag:concepts.laxmena.com,2026:online-evals</id>
+    <link rel="alternate" type="text/html" href="https://concepts.laxmena.com/concepts/online-evals/"/>
+    <updated>2026-11-03T00:00:00Z</updated>
+    <category term="Evals"/>
+    <summary>An online eval compares two versions on live traffic; how many users it needs depends on the lift you want to see, and checking the result early inflates false wins.</summary>
+  </entry>
+  <entry>
+    <title>Agent evals</title>
+    <id>tag:concepts.laxmena.com,2026:agent-evals</id>
+    <link rel="alternate" type="text/html" href="https://concepts.laxmena.com/concepts/agent-evals/"/>
+    <updated>2026-11-03T00:00:00Z</updated>
+    <category term="Evals"/>
+    <summary>An agent is graded on what it did, not just what it said: success is checked on the final state, reliability is checked by running each task many times and requiring all runs to work.</summary>
+  </entry>
+  <entry>
+    <title>RAG evals</title>
+    <id>tag:concepts.laxmena.com,2026:rag-evals</id>
+    <link rel="alternate" type="text/html" href="https://concepts.laxmena.com/concepts/rag-evals/"/>
+    <updated>2026-11-03T00:00:00Z</updated>
+    <category term="Evals"/>
+    <summary>A RAG answer can fail in the retrieval step, in the generation step, or in both, so a RAG eval grades the retrieved context, the answer’s faithfulness to it, and the answer’s relevance separately.</summary>
+  </entry>
+  <entry>
+    <title>Human agreement and kappa</title>
+    <id>tag:concepts.laxmena.com,2026:human-agreement</id>
+    <link rel="alternate" type="text/html" href="https://concepts.laxmena.com/concepts/human-agreement/"/>
+    <updated>2026-11-03T00:00:00Z</updated>
+    <category term="Evals"/>
+    <summary>Cohen’s kappa measures how much two raters agree beyond what luck would give; raw percent agreement can look high when the labels are lopsided.</summary>
+  </entry>
+  <entry>
+    <title>Pairwise preference and Elo</title>
+    <id>tag:concepts.laxmena.com,2026:pairwise-elo</id>
+    <link rel="alternate" type="text/html" href="https://concepts.laxmena.com/concepts/pairwise-elo/"/>
+    <updated>2026-11-03T00:00:00Z</updated>
+    <category term="Evals"/>
+    <summary>Ranking by head-to-head votes: each vote moves two ratings, Elo does it one vote at a time, and a Bradley-Terry fit uses all votes at once.</summary>
+  </entry>
+  <entry>
+    <title>LLM as judge</title>
+    <id>tag:concepts.laxmena.com,2026:llm-as-judge</id>
+    <link rel="alternate" type="text/html" href="https://concepts.laxmena.com/concepts/llm-as-judge/"/>
+    <updated>2026-11-03T00:00:00Z</updated>
+    <category term="Evals"/>
+    <summary>An LLM judge grades another model’s answers cheaply and agrees with experts about as often as experts agree with each other, but it has measurable biases: it favours the answer shown first and the longer answer.</summary>
+  </entry>
+  <entry>
+    <title>pass@k</title>
+    <id>tag:concepts.laxmena.com,2026:pass-at-k</id>
+    <link rel="alternate" type="text/html" href="https://concepts.laxmena.com/concepts/pass-at-k/"/>
+    <updated>2026-11-03T00:00:00Z</updated>
+    <category term="Evals"/>
+    <summary>pass@k is the chance that at least one of k generated programs passes the tests; it is estimated from n samples by counting the ways to draw k without replacement.</summary>
+  </entry>
+  <entry>
+    <title>Precision, recall and reciprocal rank</title>
+    <id>tag:concepts.laxmena.com,2026:retrieval-metrics</id>
+    <link rel="alternate" type="text/html" href="https://concepts.laxmena.com/concepts/retrieval-metrics/"/>
+    <updated>2026-11-03T00:00:00Z</updated>
+    <category term="Evals"/>
+    <summary>Precision@k, recall@k and reciprocal rank grade the same ranked list in three ways: how clean the top k is, how much of the good material it found, and how early the first good result appears.</summary>
+  </entry>
+  <entry>
+    <title>Exact match and F1</title>
+    <id>tag:concepts.laxmena.com,2026:exact-match-f1</id>
+    <link rel="alternate" type="text/html" href="https://concepts.laxmena.com/concepts/exact-match-f1/"/>
+    <updated>2026-11-03T00:00:00Z</updated>
+    <category term="Evals"/>
+    <summary>Exact match checks whether an answer equals the reference after cleaning; F1 gives partial credit for the words they share.</summary>
+  </entry>
+  <entry>
+    <title>Is 82% better than 80%?</title>
+    <id>tag:concepts.laxmena.com,2026:eval-error-bars</id>
+    <link rel="alternate" type="text/html" href="https://concepts.laxmena.com/concepts/eval-error-bars/"/>
+    <updated>2026-11-03T00:00:00Z</updated>
+    <category term="Evals"/>
+    <summary>An eval score is a guess from a sample of questions, so it has error bars; two models are only different when the range of their gap stays away from zero.</summary>
+  </entry>
+  <entry>
+    <title>The map of evals</title>
+    <id>tag:concepts.laxmena.com,2026:evals-map</id>
+    <link rel="alternate" type="text/html" href="https://concepts.laxmena.com/concepts/evals-map/"/>
+    <updated>2026-11-03T00:00:00Z</updated>
+    <category term="Evals"/>
+    <summary>Every eval answers what is being graded, who or what grades it, and when; this map shows where each eval page fits and what each one cannot see.</summary>
+  </entry>
+  <entry>
+    <title>nDCG@k</title>
+    <id>tag:concepts.laxmena.com,2026:ndcg</id>
+    <link rel="alternate" type="text/html" href="https://concepts.laxmena.com/concepts/ndcg/"/>
+    <updated>2026-11-01T00:00:00Z</updated>
+    <category term="Evals"/>
+    <summary>nDCG@k scores a ranked list: each result earns its grade, shrunk by its rank, divided by the best score the same results could earn.</summary>
+  </entry>
+  <entry>
+    <title>Bi-encoder vs cross-encoder</title>
+    <id>tag:concepts.laxmena.com,2026:bi-vs-cross-encoder</id>
+    <link rel="alternate" type="text/html" href="https://concepts.laxmena.com/concepts/bi-vs-cross-encoder/"/>
+    <updated>2026-11-01T00:00:00Z</updated>
+    <category term="Search and ranking"/>
+    <summary>A bi-encoder reads the query and each document separately, so document vectors can be saved ahead of time; a cross-encoder reads them together, so it must run once per document, per search.</summary>
+  </entry>
+  <entry>
+    <title>BM25 and the inverted index</title>
+    <id>tag:concepts.laxmena.com,2026:bm25</id>
+    <link rel="alternate" type="text/html" href="https://concepts.laxmena.com/concepts/bm25/"/>
+    <updated>2026-10-31T00:00:00Z</updated>
+    <category term="Search and ranking"/>
+    <summary>BM25 ranks documents for a search: rare words count more, repeats count a little, and long documents lose points. An index finds the right documents fast.</summary>
+  </entry>
+</feed>

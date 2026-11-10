@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Atom feed at `/feed.xml`, built from `concepts.json` by `npm run feed` (`shared/feed.js`). A test fails if `feed.xml` is out of date, so run the script after adding a page. The home page links it in the head and the footer.
 - "New" tag on the home list for 30 days after a page's `added` date in `concepts.json` (`new-concept.sh` sets it). Attention, RL, RLHF and LoRA carry it for now.
 - Home footer: "Notes I keep for myself, added as I learn", a link to GitHub issues for mistakes, and the source link.
 - Two GA4 events, sent only after consent: `widget_used` (first control touched, once per widget per load; `concept`, `widget` = main or breaks) and `answer_opened` (`concept`, `question` = 1 to 3). Register `concept`, `widget` and `question` as custom dimensions in GA to see them in reports.

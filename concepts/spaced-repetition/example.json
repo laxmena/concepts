@@ -1,0 +1,10 @@
+{
+  "S0": 1,
+  "gain": 6,
+  "horizon": 60,
+  "reviews": 6,
+  "schedule": "expanding",
+  "gap": 3,
+  "cramGap": 0.0416667,
+  "breaks": { "S0": 0.5, "reviews": 8 }
+}

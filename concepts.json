@@ -183,6 +183,15 @@
       "posts": [],
       "added": "2026-11-10",
       "reviewed": "2026-11-10"
+    },
+    {
+      "slug": "spaced-repetition",
+      "title": "Spaced repetition",
+      "idea": "Spaced repetition reviews a fact just as you are about to forget it, which strengthens the memory more than reviewing it often, so the gaps between reviews can grow and the total effort stays small.",
+      "area": "Learning and memory",
+      "posts": [],
+      "added": "2026-11-10",
+      "reviewed": "2026-11-10"
     }
   ]
 }

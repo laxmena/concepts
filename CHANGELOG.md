@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Spaced repetition page (new area "Learning and memory"): a toy forgetting model (recall 0.9^(t/S), each review multiplies stability by 1 + 6(1 − recall)), cram against fixed gaps against just-in-time reviews, and a live break where one fixed gap fits a slippery fact badly. Tests are checked against an independent Python implementation. Sources checked: Cepeda and others (2006) and the Anki manual (default desired retention 90%).
 - Quantization page: absmax rounding of a made-up row of 64 weights to 2 to 8 bits, one scale for the row or per 32 or per 8 weights, model size for 7 billion weights, and a live outlier break (one large weight zeroes most of a row that shares its scale; smaller groups contain it and cost more bits). Tests are checked against an independent Python implementation. New `.cards.rl.q` phone layout.
 - Tokenization page: byte-pair encoding trained live in the browser on a small English corpus (and an English plus Tamil one), with a Tamil break: UTF-8 bytes, merge budget and real tiktoken 0.14.0 counts for the same greeting (cl100k 19 tokens, o200k 5, English 2). Tests check hand-worked merges and an independent Python implementation. New `.toks`/`.tok` chip styles.
 - KV cache page: tokens run per step and in total with and without a cache (n versus n(n+1)/2), cache bytes per token for a Llama 3 8B-shaped model, and a live break where many people at once fill a GPU, with 8 versus 32 key/value heads. Tests use hand-worked values.

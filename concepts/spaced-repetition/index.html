@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Spaced repetition · Concepts</title>
+<meta name="description" content="Spaced repetition reviews a fact just as you are about to forget it, which strengthens the memory more than reviewing it often, so the gaps can grow and the total effort stays small.">
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="../../shared/style.css">
+</head>
+<body data-slug="spaced-repetition">
+<header class="site-head"><a href="../../">Concepts</a><a href="https://internals.laxmena.com">INTERNALS.md</a></header>
+<main>
+<div class="hero">
+<div class="hero-text">
+<h1>Spaced repetition</h1>
+<p class="what">A way to schedule reviews so a fact stays in memory for months with a few minutes of effort, used in flashcard apps such as Anki.</p>
+<ul class="lede-list">
+<li>You forget a fact along a curve: quickly at first, then more slowly.</li>
+<li>Each review lifts recall back to 100% and makes the next fall slower.</li>
+<li>A review is worth the most when it comes just before you would forget.</li>
+<li>So the gaps between reviews can grow, and a handful of reviews is enough.</li>
+</ul>
+<p class="try-this">Try this: pick Cram, then Just in time, with the same number of reviews, and compare recall on day 60.</p>
+</div>
+<section aria-labelledby="try">
+<h2 id="try" class="eyebrow">Try it</h2>
+<div class="widget" id="widget"><p>This page needs JavaScript.</p></div>
+</section>
+</div>
+
+<section aria-labelledby="happened">
+<h2 id="happened">What just happened</h2>
+<ol class="steps">
+<li>Recall after t days is 0.9 raised to t divided by S. S is the stability: the number of days it takes recall to fall to 90%. A new fact starts with S of <span data-bind="S0"></span> day.</li>
+<li>A review sets recall back to 100% and multiplies S by 1 + 6 × (1 − recall at that moment). Review at 99% and S grows <span data-bind="gainAt99"></span> times. Review at 90% and it grows <span data-bind="gainAt90"></span> times. Review at 50% and it grows <span data-bind="gainAt50"></span> times. Reviewing early wastes most of the review.</li>
+<li>Cramming is the early case. <span data-bind="n"></span> reviews an hour apart leave S almost where it started, so by day <span data-bind="horizon"></span> recall is <span data-bind="cramEnd"></span>.</li>
+<li>Reviewing just in time means waiting until recall reaches 90%. The review days are <span data-bind="expDays"></span>, and by day <span data-bind="horizon"></span> recall is <span data-bind="expEnd"></span>. A review every 3 days with the same count gets <span data-bind="fixedEnd"></span>, but it is not adapted to the fact.</li>
+</ol>
+<details>
+<summary>What this model is, and is not</summary>
+<p class="shorter">It is a toy. The 0.9 base, the starting stability of one day and the constant 6 are made up so the picture is clear. Nothing here is fitted to data. Every review is assumed to succeed, and every fact is assumed to behave the same, which the break below shows is not true.</p>
+<p class="shorter">What the toy keeps is two well-supported ideas. Memory fades with time since the last review, a result going back to Ebbinghaus in 1885. And spreading practice out beats packing it together: Cepeda and others reviewed the experiments and found that gaps between study sessions improve later recall.</p>
+</details>
+</section>
+
+<section aria-labelledby="meet">
+<h2 id="meet">Where you meet it</h2>
+<p class="shorter">Flashcard apps use it to decide which card to show today. Anki asks you to choose a desired retention, the share of cards you want to remember when they come due, and its default is 90%. A higher number means more reviews per day.</p>
+<ul class="refs">
+<li>The just-in-time rule on this page is that setting: review a card when the chance of recalling it has fallen to your target.</li>
+<li>Apps estimate each card’s stability from how you answered before, since the right gap differs from card to card.</li>
+</ul>
+</section>
+
+<section aria-labelledby="breaks">
+<h2 id="breaks">Where it breaks</h2>
+<p class="shorter">A fixed gap suits some facts and not others. Drag the slider to make the fact slipperier or stickier and watch the blue line, a review every 3 days, against the orange one.</p>
+<div class="widget" id="breaks-widget"></div>
+<p class="shorter">For a slippery fact that reaches 90% after <span data-bind="bS0"></span> days, a review every 3 days lets recall fall to <span data-bind="bFixedLow"></span> before the second review. Just in time never lets it go below <span data-bind="bExpLow"></span>. For a sticky fact the fixed gap is the opposite problem: recall stays near <span data-bind="bEasyLow"></span> and the reviews could have waited. The model also assumes every review succeeds. At 53% recall a real review often fails, and a failure usually costs you the stability you had built.</p>
+<p class="shorter">That is why real schedulers ask you to grade each answer. The grade is the data they use to estimate that one card’s stability and set its next gap.</p>
+</section>
+
+<section aria-labelledby="check">
+<h2 id="check">Check yourself</h2>
+<div class="qa"><p>Six reviews in one hour, or six over two weeks. Which is stronger a month later, and why?</p>
+<div class="reveal"><button type="button" data-closed="Show answer">Show answer</button><div class="answer"><p>Two weeks. In the hour, recall is still near 100% at every review, so each one adds almost nothing. Spread out, each review comes when recall has fallen, and that is when it does the most.</p></div></div></div>
+<div class="qa"><p>Why not review everything every day?</p>
+<div class="reveal"><button type="button" data-closed="Show answer">Show answer</button><div class="answer"><p>Most of those reviews come while recall is high and add little, so you spend time without building much. The just-in-time schedule spends reviews where they count, which is why the gaps grow.</p></div></div></div>
+<div class="qa"><p>What does raising the target from 90% to 95% do to your workload?</p>
+<div class="reveal"><button type="button" data-closed="Show answer">Show answer</button><div class="answer"><p>It shortens every gap, because you review before recall falls as far. You remember more of your cards when they come due, and you do more reviews to get there. Anki’s own documentation says the same: lower retention means fewer reviews and more forgetting.</p></div></div></div>
+</section>
+
+<section aria-labelledby="used">
+<h2 id="used">Used in</h2>
+<ul class="refs" id="used-in"><li>Loading…</li></ul>
+</section>
+
+<section aria-labelledby="deeper">
+<h2 id="deeper">Go deeper</h2>
+<ul class="refs">
+<li><a href="https://pubmed.ncbi.nlm.nih.gov/16719566/">Cepeda, Pashler, Vul and others, “Distributed practice in verbal recall tasks: A review and quantitative synthesis”</a> (Psychological Bulletin, 2006). The evidence for spacing.</li>
+<li><a href="https://docs.ankiweb.net/deck-options.html">Anki manual, Deck Options</a>. Desired retention, and how it changes the number of reviews.</li>
+<li><a href="https://github.com/open-spaced-repetition/fsrs4anki/wiki/ABC-of-FSRS">The ABC of FSRS</a>. An introduction to the scheduler in recent versions of Anki.</li>
+</ul>
+</section>
+</main>
+<footer class="site-foot">Last reviewed <time id="reviewed"></time> · <a id="source" href="https://github.com/laxmena/concepts">Source for this page</a></footer>
+
+<script type="module">
+import { bootPage, bindFacts } from '../../shared/boot.js';
+import { mount, facts } from './widget.js';
+await bootPage();
+const example = await (await fetch('example.json')).json();
+bindFacts(facts(example));
+mount(document.getElementById('widget'), example);
+mount(document.getElementById('breaks-widget'), { ...example, breaksView: true });
+</script>
+</body>
+</html>

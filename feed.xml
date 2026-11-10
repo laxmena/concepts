@@ -8,6 +8,15 @@
   <updated>2026-11-10T00:00:00Z</updated>
   <author><name>laxmena</name></author>
   <entry>
+    <title>Spaced repetition</title>
+    <id>tag:concepts.laxmena.com,2026:spaced-repetition</id>
+    <link rel="alternate" type="text/html" href="https://concepts.laxmena.com/concepts/spaced-repetition/"/>
+    <updated>2026-11-10T00:00:00Z</updated>
+    <published>2026-11-10T00:00:00Z</published>
+    <category term="Learning and memory"/>
+    <summary>Spaced repetition reviews a fact just as you are about to forget it, which strengthens the memory more than reviewing it often, so the gaps between reviews can grow and the total effort stays small.</summary>
+  </entry>
+  <entry>
     <title>Quantization</title>
     <id>tag:concepts.laxmena.com,2026:quantization</id>
     <link rel="alternate" type="text/html" href="https://concepts.laxmena.com/concepts/quantization/"/>

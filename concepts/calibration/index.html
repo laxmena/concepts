@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Calibration · Concepts</title>
+<meta name="description" content="A model is calibrated when the things it calls 90% likely happen about 90% of the time, which you check by grouping its decisions by stated confidence and counting how often each group is right.">
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="../../shared/style.css">
+</head>
+<body data-slug="calibration">
+<header class="site-head"><a href="../../">Concepts</a><a href="https://internals.laxmena.com">INTERNALS.md</a></header>
+<main>
+<div class="hero">
+<div class="hero-text">
+<h1>Calibration</h1>
+<p class="what">Whether a model’s “90% sure” can be trusted as a probability, which decides whether you can build a rule on it.</p>
+<ul class="lede-list">
+<li>A model says it is 90% sure. Calibration asks whether it is right about 90% of the time when it says that.</li>
+<li>To check, group its decisions by stated confidence and count how often each group is right.</li>
+<li>If every group lands on the diagonal, the numbers work as probabilities.</li>
+<li>Most models start out overconfident, and one number, a temperature, often fixes it.</li>
+</ul>
+<p class="try-this">Try this: drag the temperature from 1 to 2 and watch the orange bars climb up to the dashed line.</p>
+</div>
+<section aria-labelledby="try">
+<h2 id="try" class="eyebrow">Try it</h2>
+<div class="widget" id="widget"><p>This page needs JavaScript.</p></div>
+</section>
+</div>
+
+<section aria-labelledby="happened">
+<h2 id="happened">What just happened</h2>
+<ol class="steps">
+<li>The model makes <span data-bind="count"></span> yes or no decisions. For each it reports a confidence: the larger of its probability of yes and of no, between 50% and 100%.</li>
+<li>The decisions are grouped by stated confidence, in steps of five points. For each group, the bar shows how often the model is actually right. A calibrated model has every bar on the dashed diagonal.</li>
+<li>At temperature <span data-bind="T"></span> this model is overconfident. Of the decisions it calls <span data-bind="cut"></span> or more, it says <span data-bind="said90"></span> on average and is right <span data-bind="right90"></span> of the time. The expected calibration error, the average gap weighted by group size, is <span data-bind="ece1"></span>.</li>
+<li>Dividing the raw scores by a temperature before they become probabilities softens them. At <span data-bind="trueT"></span> the error here falls to <span data-bind="eceFixed"></span>. This is temperature scaling. It never changes which answer wins, only how sure the model sounds.</li>
+</ol>
+<details>
+<summary>How the toy is built</summary>
+<p class="shorter">Each decision has a raw score z. The model reports a probability of sigmoid(z / T). The real chance that its call is right is sigmoid(|z| / 2) for every decision, so it is calibrated exactly at T = 2. A real model has no known right temperature, so it is fitted on held-out data. The 1,000 decisions are evenly spaced samples of a bell curve, and the bars show expected accuracy, so nothing on the page is random.</p>
+<p class="shorter">A common alternative is to report the single number above, the expected calibration error, or the Brier score, which also rewards sharp and correct answers. A model that always says 50% is perfectly calibrated and useless, so calibration is something to check alongside accuracy.</p>
+</details>
+</section>
+
+<section aria-labelledby="meet">
+<h2 id="meet">Where you meet it</h2>
+<p class="shorter">Anywhere a number from a model becomes a rule. A confidence threshold in an agent, a model that decides whether to ask for help, a forecast that someone plans around. Guo and others showed that modern neural networks are often poorly calibrated, and that temperature scaling is a simple and effective fix.</p>
+<ul class="refs">
+<li>Decision models such as Jev are trained for probabilities that mean something, and the vendor describes this as a property of groups of answers, not of any single one.</li>
+<li>AWS’s guide for a local decision model suggests testing a small set of decisions from your own workload, 20 to 50, to confirm that high confidence matches correct outcomes before trusting a threshold.</li>
+</ul>
+</section>
+
+<section aria-labelledby="breaks">
+<h2 id="breaks">Where it breaks</h2>
+<p class="shorter">A temperature is tuned on one kind of input. Move to a harder kind and the model is overconfident again. Set the temperature to 2, then switch the inputs to a new kind.</p>
+<div class="widget" id="breaks-widget"></div>
+<p class="shorter">At temperature <span data-bind="bT"></span> the error is <span data-bind="bEceOld"></span> on the inputs it was tuned on and <span data-bind="bEceNew"></span> on the new kind, where the real temperature is <span data-bind="bNewTrueT"></span>. Among its most confident decisions there it says <span data-bind="bSaid"></span> and is right <span data-bind="bRight"></span> of the time. A calibration claim is a statement about a group of decisions from a particular distribution. It says nothing about your inputs until you check them.</p>
+</section>
+
+<section aria-labelledby="check">
+<h2 id="check">Check yourself</h2>
+<div class="qa"><p>A model says 90% on 100 decisions and is right on 75. Is it calibrated?</p>
+<div class="reveal"><button type="button" data-closed="Show answer">Show answer</button><div class="answer"><p>No. It is overconfident by 15 points in that group. With only 100 decisions the 75 has some noise, which is why calibration checks use many decisions and groups of enough size.</p></div></div></div>
+<div class="qa"><p>Does temperature scaling change which option the model picks?</p>
+<div class="reveal"><button type="button" data-closed="Show answer">Show answer</button><div class="answer"><p>No. Dividing every score by the same positive number keeps their order, so the top option stays on top. Accuracy is unchanged. Only the probabilities move.</p></div></div></div>
+<div class="qa"><p>A vendor says its decision model is calibrated. What would you check before relying on it?</p>
+<div class="reveal"><button type="button" data-closed="Show answer">Show answer</button><div class="answer"><p>Run it on a sample of your own decisions, with known right answers, and plot how often it is right at each stated confidence. A claim measured on someone else’s data may not hold on yours.</p></div></div></div>
+</section>
+
+<section aria-labelledby="used">
+<h2 id="used">Used in</h2>
+<ul class="refs" id="used-in"><li>Loading…</li></ul>
+</section>
+
+<section aria-labelledby="deeper">
+<h2 id="deeper">Go deeper</h2>
+<ul class="refs">
+<li><a href="https://arxiv.org/abs/1706.04599">Guo and others, “On Calibration of Modern Neural Networks”</a> (2017). Modern networks are overconfident, and temperature scaling is a one-parameter fix.</li>
+<li><a href="https://builder.aws.com/content/3KkFqSBRfZxjCnMBYzIkGabGBWc/act-when-certain-ask-when-not-building-safer-ai-agents-with-local-decision-models">AWS, “Act When Certain, Ask When Not”</a>. Checking a decision model’s confidence on your own workload.</li>
+</ul>
+</section>
+</main>
+<footer class="site-foot">Last reviewed <time id="reviewed"></time> · <a id="source" href="https://github.com/laxmena/concepts">Source for this page</a></footer>
+
+<script type="module">
+import { bootPage, bindFacts } from '../../shared/boot.js';
+import { mount, facts } from './widget.js';
+await bootPage();
+const example = await (await fetch('example.json')).json();
+bindFacts(facts(example));
+mount(document.getElementById('widget'), example);
+mount(document.getElementById('breaks-widget'), { ...example, breaksView: true });
+</script>
+</body>
+</html>

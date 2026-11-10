@@ -1,0 +1,8 @@
+{
+  "count": 1000,
+  "spread": 2,
+  "trueT": 2,
+  "T": 1,
+  "cut": 0.9,
+  "breaks": { "T": 2, "newTrueT": 4 }
+}

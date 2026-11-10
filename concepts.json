@@ -210,6 +210,15 @@
       "posts": [],
       "added": "2026-11-10",
       "reviewed": "2026-11-10"
+    },
+    {
+      "slug": "calibration",
+      "title": "Calibration",
+      "idea": "A model is calibrated when the things it calls 90% likely happen about 90% of the time, which you check by grouping its decisions by stated confidence and counting how often each group is right.",
+      "area": "Machine learning",
+      "posts": [],
+      "added": "2026-11-10",
+      "reviewed": "2026-11-10"
     }
   ]
 }

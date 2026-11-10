@@ -8,6 +8,15 @@
   <updated>2026-11-10T00:00:00Z</updated>
   <author><name>laxmena</name></author>
   <entry>
+    <title>Calibration</title>
+    <id>tag:concepts.laxmena.com,2026:calibration</id>
+    <link rel="alternate" type="text/html" href="https://concepts.laxmena.com/concepts/calibration/"/>
+    <updated>2026-11-10T00:00:00Z</updated>
+    <published>2026-11-10T00:00:00Z</published>
+    <category term="Machine learning"/>
+    <summary>A model is calibrated when the things it calls 90% likely happen about 90% of the time, which you check by grouping its decisions by stated confidence and counting how often each group is right.</summary>
+  </entry>
+  <entry>
     <title>Decision models (System One)</title>
     <id>tag:concepts.laxmena.com,2026:decision-model</id>
     <link rel="alternate" type="text/html" href="https://concepts.laxmena.com/concepts/decision-model/"/>

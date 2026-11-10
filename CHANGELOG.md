@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Calibration page: reliability diagram and expected calibration error for a toy decision model whose right temperature is known (checked against an independent Python script), temperature scaling, the share of decisions a 90% threshold would act on, and a break where a temperature tuned on one kind of input is overconfident on a harder kind.
 - Decision models (System One) page: a made-up score set for a which-tool question, softmax over a closed list, passes against a written LLM answer (token counts from tiktoken 0.14.0, cl100k_base), and a break where a closed list always has a winner until an explicit None option is added. Sources read: TypeSafe/Eigent description of Jev, the REFLEX and pentest arXiv papers, the AWS Strands Decider write-up, and the awesome-system-one list with its skeptic audit. New shared maths in `shared/decision.js` for the next two pages.
 - Encoder, decoder, or both page: the attention mask as a grid for bidirectional, decoder-only and encoder-decoder models (pair counts worked by hand), and a break showing why a bidirectional model cannot cache when made to write (sum of t² against sum of t). New `.mgrid` mask styles.
 - Accuracy pass over the four new pages: softened claims that were stronger than the sources (GPU memory against arithmetic, GQA purpose, GPT-4o vocabulary, "months" of memory), corrected the BPE history (neural machine translation, from compression), and removed a wrong line about file names in quantized models.

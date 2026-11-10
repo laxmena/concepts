@@ -34,7 +34,7 @@ Look, writing and checks live in [STYLE.md](STYLE.md). Read it before building o
 - `widget.js` exports the core maths as pure functions (no DOM, no globals) plus `mount(root, example)`.
   Tests import only the pure functions. `shared/lib.js` and `widget.js` must not touch `document` at import time.
 - `shared/style.css` (the only stylesheet), `shared/template.html`, `shared/lib.js` (helpers), `shared/boot.js`, `shared/home.js`.
-- `concepts.json` is the manifest: `slug, title, idea, area, posts[{title,url}], reviewed (YYYY-MM-DD)`, and optionally `start: true` for the first page of a series.
+- `concepts.json` is the manifest: `slug, title, idea, area, posts[{title,url}], added (YYYY-MM-DD; a "New" tag shows on the home page for 30 days), reviewed (YYYY-MM-DD)`, and optionally `start: true` for the first page of a series.
   The home page, each page's "Used in" list and its footer date all read from it. Only list pages that exist.
 - Helpers in `shared/lib.js`: `el`, `svg`, `slider`, `radios`, `segmented`, `initReveals` (declarative `.reveal` boxes), `barChart`, `stackedBar` (one bar in pieces, plus a thin blue comparison bar), `meter`, `editableList`.
   `shared/stats.js` has the maths several pages share (normal quantile and CDF, Wilson interval, seeded random numbers, `chooseRatio`).

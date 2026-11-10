@@ -473,3 +473,7 @@ tr.miss td { color: var(--ink-2); }
 .hc { aspect-ratio: 1; display: grid; place-items: center; font-size: .6875rem; line-height: 1; background: color-mix(in srgb, var(--orange) var(--a), var(--bg)); }
 .hc.neg { background: color-mix(in srgb, var(--blue) var(--a), var(--bg)); }
 .hms.two .hm { max-width: 12rem; }
+
+/* New tag on the home list */
+.tag.new { margin-left: .6rem; background: var(--orange); border-color: var(--orange); color: #2b2118; font-weight: 600; }
+.start .tag.new { margin-left: 0; }

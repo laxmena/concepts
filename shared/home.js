@@ -12,6 +12,16 @@ const link = (c) => {
   return a;
 };
 
+// A page counts as new for 30 days after its "added" date in concepts.json.
+const NEW_DAYS = 30;
+const isNew = (c) => c.added && (Date.now() - Date.parse(c.added)) / 864e5 <= NEW_DAYS;
+const newTag = () => {
+  const t = document.createElement('span');
+  t.className = 'tag new';
+  t.textContent = 'New';
+  return t;
+};
+
 // Groups by area, in alphabetical order. An entry marked "start" opens its area as a series:
 // it is listed first with a "Start here" tag, and the rest follow as a numbered reading order.
 const areas = [...new Set(concepts.map((c) => c.area))].sort();
@@ -33,6 +43,7 @@ for (const area of areas) {
     tag.className = 'tag';
     tag.textContent = 'Start here';
     p.append(link(start), tag);
+    if (isNew(start)) p.append(newTag());
     group.append(p);
   }
   const list = document.createElement(start ? 'ol' : 'ul');
@@ -40,6 +51,7 @@ for (const area of areas) {
   for (const c of rest) {
     const li = document.createElement('li');
     li.append(link(c));
+    if (isNew(c)) li.append(newTag());
     list.append(li);
   }
   group.append(list);

@@ -127,7 +127,8 @@
       "idea": "Attention lets each word in a sequence take a weighted mix of the other words, with the weights set by how well they match what it is looking for.",
       "area": "Machine learning",
       "posts": [],
-      "reviewed": "2026-11-03"
+      "reviewed": "2026-11-03",
+      "added": "2026-11-03"
     },
     {
       "slug": "reinforcement-learning",
@@ -135,7 +136,8 @@
       "idea": "An agent learns what to do by trying actions and seeing rewards, with credit for a late reward flowing back to the earlier steps that led to it.",
       "area": "Machine learning",
       "posts": [],
-      "reviewed": "2026-11-03"
+      "reviewed": "2026-11-03",
+      "added": "2026-11-03"
     },
     {
       "slug": "rlhf",
@@ -143,7 +145,8 @@
       "idea": "RLHF tunes a language model toward what people prefer by training a reward model on human comparisons, then pushing the model toward high reward while a KL penalty keeps it near where it started.",
       "area": "Machine learning",
       "posts": [],
-      "reviewed": "2026-11-03"
+      "reviewed": "2026-11-03",
+      "added": "2026-11-03"
     },
     {
       "slug": "lora",
@@ -151,7 +154,8 @@
       "idea": "LoRA fine-tunes a large model by freezing its weights and learning a small low-rank update, a product of two thin matrices, so far fewer numbers are trained.",
       "area": "Machine learning",
       "posts": [],
-      "reviewed": "2026-11-03"
+      "reviewed": "2026-11-03",
+      "added": "2026-11-03"
     }
   ]
 }

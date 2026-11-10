@@ -1,0 +1,6 @@
+{
+  "mode": "decoder",
+  "token": 3,
+  "tokens": { "single": ["The", "cat", "sat", "on", "the", "mat"], "source": ["The", "cat", "sleeps"], "target": ["Le", "chat", "dort"] },
+  "breaks": { "source": 50, "tokens": 100 }
+}

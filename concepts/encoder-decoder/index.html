@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Encoder, decoder, or both · Concepts</title>
+<meta name="description" content="Encoder-only, decoder-only and encoder-decoder transformers are the same attention with different masks that decide which tokens each token may look at, and that choice decides whether the model can write text.">
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="../../shared/style.css">
+</head>
+<body data-slug="encoder-decoder">
+<header class="site-head"><a href="../../">Concepts</a><a href="https://internals.laxmena.com">INTERNALS.md</a></header>
+<main>
+<div class="hero">
+<div class="hero-text">
+<h1>Encoder, decoder, or both</h1>
+<p class="what">The three shapes of transformer, and why the same attention can read, write, or translate.</p>
+<ul class="lede-list">
+<li>All three are built from the same attention. They differ in which tokens each token may look at.</li>
+<li>A bidirectional encoder lets every token look at every token, on both sides. It reads well but cannot write.</li>
+<li>A decoder-only model lets a token look only at the tokens before it. That is what lets it write one token at a time.</li>
+<li>An encoder-decoder reads the input both ways, then writes the output while looking back at that input.</li>
+</ul>
+<p class="try-this">Try this: switch between the three kinds and watch which cells in the grid are open for token 3.</p>
+</div>
+<section aria-labelledby="try">
+<h2 id="try" class="eyebrow">Try it</h2>
+<div class="widget" id="widget"><p>This page needs JavaScript.</p></div>
+</section>
+</div>
+
+<section aria-labelledby="happened">
+<h2 id="happened">What just happened</h2>
+<ol class="steps">
+<li>Each row of the grid is a token that is looking. Each column is a token it might look at. An orange cell means the pair is allowed. A blocked cell gets a score of minus infinity before the softmax, so its attention weight is exactly 0.</li>
+<li>In an encoder-only model nothing is blocked, so all <span data-bind="total"></span> pairs are open. The word “<span data-bind="word"></span>” is read with the words after it as well as before it. That is why encoders are good at understanding a text.</li>
+<li>In a decoder-only model only the lower triangle is open: <span data-bind="decPairs"></span> of <span data-bind="total"></span> pairs. Token <span data-bind="pos"></span> sees <span data-bind="decSees"></span> tokens, itself and the ones before it. A token never sees the future, so the model can be asked to predict the next token at every position at once, and when it writes, it can do it one token at a time.</li>
+<li>An encoder-decoder uses both. The first <span data-bind="s"></span> tokens are the input and read each other freely. Each output token sees the whole input and the outputs before it, <span data-bind="xPairs"></span> of <span data-bind="total"></span> pairs. The training task follows from the mask: guess hidden words, predict the next token, or turn an input into an output.</li>
+</ol>
+<details>
+<summary>What is simplified here</summary>
+<p class="shorter">In a real encoder-decoder the input goes through its own stack of layers, and each decoder layer has a second attention step, called cross-attention, that looks at the encoder’s final output. The single grid here shows the same permissions in one picture. The page uses six words so the grid fits, where a real model sees thousands of tokens.</p>
+</details>
+</section>
+
+<section aria-labelledby="meet">
+<h2 id="meet">Where you meet it</h2>
+<ul class="refs">
+<li>Encoders, from BERT onward, sit behind many classifiers and search embeddings. A cross-encoder reranker reads the query and a document together, both ways.</li>
+<li>Chat and code models are decoder-only. GPT-3 and Llama are examples.</li>
+<li>T5 and BART are encoder-decoders, used for translation, summarising and rewriting. The original Transformer was one too.</li>
+</ul>
+</section>
+
+<section aria-labelledby="breaks">
+<h2 id="breaks">Where it breaks</h2>
+<p class="shorter">Why not use the bidirectional one for everything, since it sees more? Try making it write. Every new token changes what the earlier tokens mean, so their vectors cannot be saved, and each step reads the whole text again.</p>
+<div class="widget" id="breaks-widget"></div>
+<p class="shorter">Counted in attention scores for one head in one layer, writing <span data-bind="bN"></span> tokens costs <span data-bind="bBi"></span> scores for the rereading model and <span data-bind="bDec"></span> for a decoder that keeps a KV cache, about <span data-bind="bRatio"></span> as much. An encoder-decoder with a <span data-bind="bS"></span>-token input needs <span data-bind="bEd"></span>. The decoder has its own cost: each token is read without knowing the words that come after it, so a word at the start of a prompt never benefits from the end of it.</p>
+</section>
+
+<section aria-labelledby="check">
+<h2 id="check">Check yourself</h2>
+<div class="qa"><p>In a decoder-only model, can the vector for the first token change when you add more words after it?</p>
+<div class="reveal"><button type="button" data-closed="Show answer">Show answer</button><div class="answer"><p>No. The first token sees only itself, so nothing after it can reach it. The same holds for every earlier token when a new one arrives. That is why their keys and values can be cached, and why writing stays cheap.</p></div></div></div>
+<div class="qa"><p>Why does BERT not write text?</p>
+<div class="reveal"><button type="button" data-closed="Show answer">Show answer</button><div class="answer"><p>It is trained to fill in hidden words using both sides, with no left-to-right order. Nothing in that training teaches it to continue a text, and every added word would change what the earlier words mean. It can be coaxed to produce text, but it is not shaped for it.</p></div></div></div>
+<div class="qa"><p>A decoder-only model can translate too, by reading the source as part of its prompt. What does an encoder-decoder add?</p>
+<div class="reveal"><button type="button" data-closed="Show answer">Show answer</button><div class="answer"><p>A two-way reading of the source: every source word is read with the words on both sides, before any output is written. A decoder-only model reads the source left to right, so early source words are not informed by later ones. In practice large decoder-only models make up for that with size and data.</p></div></div></div>
+</section>
+
+<section aria-labelledby="used">
+<h2 id="used">Used in</h2>
+<ul class="refs" id="used-in"><li>Loading…</li></ul>
+</section>
+
+<section aria-labelledby="deeper">
+<h2 id="deeper">Go deeper</h2>
+<ul class="refs">
+<li><a href="https://arxiv.org/abs/1706.03762">Vaswani and others, “Attention Is All You Need”</a> (2017). The encoder-decoder original, with the decoder’s masked attention.</li>
+<li><a href="https://arxiv.org/abs/1810.04805">Devlin and others, “BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding”</a> (2018). The encoder-only model trained to fill in hidden words.</li>
+<li><a href="https://arxiv.org/abs/1910.10683">Raffel and others, “Exploring the Limits of Transfer Learning with a Unified Text-to-Text Transformer”</a> (2019). T5, with the three kinds compared side by side.</li>
+</ul>
+</section>
+</main>
+<footer class="site-foot">Last reviewed <time id="reviewed"></time> · <a id="source" href="https://github.com/laxmena/concepts">Source for this page</a></footer>
+
+<script type="module">
+import { bootPage, bindFacts } from '../../shared/boot.js';
+import { mount, facts } from './widget.js';
+await bootPage();
+const example = await (await fetch('example.json')).json();
+bindFacts(facts(example));
+mount(document.getElementById('widget'), example);
+mount(document.getElementById('breaks-widget'), { ...example, breaksView: true });
+</script>
+</body>
+</html>

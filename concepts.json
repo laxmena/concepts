@@ -192,6 +192,15 @@
       "posts": [],
       "added": "2026-11-10",
       "reviewed": "2026-11-10"
+    },
+    {
+      "slug": "encoder-decoder",
+      "title": "Encoder, decoder, or both",
+      "idea": "Encoder-only, decoder-only and encoder-decoder transformers are the same attention with different masks that decide which tokens each token may look at, and that choice decides whether the model can write text.",
+      "area": "Machine learning",
+      "posts": [],
+      "added": "2026-11-10",
+      "reviewed": "2026-11-10"
     }
   ]
 }

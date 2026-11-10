@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Encoder, decoder, or both page: the attention mask as a grid for bidirectional, decoder-only and encoder-decoder models (pair counts worked by hand), and a break showing why a bidirectional model cannot cache when made to write (sum of t² against sum of t). New `.mgrid` mask styles.
 - Accuracy pass over the four new pages: softened claims that were stronger than the sources (GPU memory against arithmetic, GQA purpose, GPT-4o vocabulary, "months" of memory), corrected the BPE history (neural machine translation, from compression), and removed a wrong line about file names in quantized models.
 - Spaced repetition page (new area "Learning and memory"): a toy forgetting model (recall 0.9^(t/S), each review multiplies stability by 1 + 6(1 − recall)), cram against fixed gaps against just-in-time reviews, and a live break where one fixed gap fits a slippery fact badly. Tests are checked against an independent Python implementation. Sources checked: Cepeda and others (2006) and the Anki manual (default desired retention 90%).
 - Quantization page: absmax rounding of a made-up row of 64 weights to 2 to 8 bits, one scale for the row or per 32 or per 8 weights, model size for 7 billion weights, and a live outlier break (one large weight zeroes most of a row that shares its scale; smaller groups contain it and cost more bits). Tests are checked against an independent Python implementation. New `.cards.rl.q` phone layout.

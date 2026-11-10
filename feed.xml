@@ -8,6 +8,15 @@
   <updated>2026-11-10T00:00:00Z</updated>
   <author><name>laxmena</name></author>
   <entry>
+    <title>Encoder, decoder, or both</title>
+    <id>tag:concepts.laxmena.com,2026:encoder-decoder</id>
+    <link rel="alternate" type="text/html" href="https://concepts.laxmena.com/concepts/encoder-decoder/"/>
+    <updated>2026-11-10T00:00:00Z</updated>
+    <published>2026-11-10T00:00:00Z</published>
+    <category term="Machine learning"/>
+    <summary>Encoder-only, decoder-only and encoder-decoder transformers are the same attention with different masks that decide which tokens each token may look at, and that choice decides whether the model can write text.</summary>
+  </entry>
+  <entry>
     <title>Spaced repetition</title>
     <id>tag:concepts.laxmena.com,2026:spaced-repetition</id>
     <link rel="alternate" type="text/html" href="https://concepts.laxmena.com/concepts/spaced-repetition/"/>

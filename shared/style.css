@@ -495,3 +495,15 @@ tr.miss td { color: var(--ink-2); }
   .cards.rl.q > :first-child { grid-column: 1 / -1; }
   .chart.tall { max-height: 4.6rem; }
 }
+
+/* Attention mask grid (encoder-decoder page) */
+.mgrid { --c: 2.6rem; display: grid; grid-template-columns: auto repeat(var(--n), var(--c)); gap: 3px; align-items: center; justify-content: center; }
+.mc-label { font-size: var(--t-label); color: var(--ink-2); white-space: nowrap; text-align: center; }
+.mc-label.row { text-align: right; padding-right: .4rem; }
+.mc-label.row.on { font-weight: 700; color: var(--ink); }
+.mc-label.sep.row, .mc.sepr { margin-bottom: 7px; }
+.mc-label.sep.col, .mc.sepc { margin-right: 7px; }
+.mc { height: 1.8rem; display: flex; align-items: center; justify-content: center; font-size: var(--t-label); border: 1px solid var(--line); border-radius: 5px; background: var(--card); }
+.mc.yes { background: var(--orange); border-color: var(--orange); color: var(--ink); }
+.mc.sel { outline: 1.5px solid var(--ink); outline-offset: -1.5px; }
+@media (max-width: 40rem) { .mgrid { --c: 1.7rem; gap: 2px; } .mc { height: 1.45rem; } .mc-label { font-size: .6875rem; } }

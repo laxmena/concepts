@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tokenization · Concepts</title>
+<meta name="description" content="A tokenizer cuts text into pieces learned from data, so text it saw often becomes few tokens and text it rarely saw becomes many, which is why the same sentence costs more in some languages.">
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="../../shared/style.css">
+</head>
+<body data-slug="tokenization">
+<header class="site-head"><a href="../../">Concepts</a><a href="https://internals.laxmena.com">INTERNALS.md</a></header>
+<main>
+<div class="hero">
+<div class="hero-text">
+<h1>Tokenization</h1>
+<p class="what">How text becomes the pieces a language model reads, and why the same sentence can cost very different amounts.</p>
+<ul class="lede-list">
+<li>A model does not read letters or words. It reads tokens, pieces from a fixed list.</li>
+<li>The list is learned by merging the most common neighbouring pair again and again, starting from single bytes.</li>
+<li>Text that was common in the training data ends up as a few big tokens.</li>
+<li>Text that was rare stays in small pieces, and every piece costs money and context.</li>
+</ul>
+<p class="try-this">Try this: drag the merges from 0 to 60 and watch eleven bytes become two tokens.</p>
+</div>
+<section aria-labelledby="try">
+<h2 id="try" class="eyebrow">Try it</h2>
+<div class="widget" id="widget"><p>This page needs JavaScript.</p></div>
+</section>
+</div>
+
+<section aria-labelledby="happened">
+<h2 id="happened">What just happened</h2>
+<ol class="steps">
+<li>The tokenizer starts from bytes. “<span data-bind="enText"></span>” is <span data-bind="enBytes"></span> bytes, so with no merges it is <span data-bind="enTokens0"></span> tokens.</li>
+<li>It counts every neighbouring pair in the training text. The most common here is <span data-bind="firstMerges"></span>, seen <span data-bind="firstCount"></span> times for the first. That pair becomes one new token.</li>
+<li>It repeats. Each merge uses what the last one made, so “th” and “e” become “the”. After <span data-bind="merges"></span> merges, “<span data-bind="enText"></span>” is <span data-bind="enTokens"></span> tokens.</li>
+<li>To tokenize new text, it cuts the text into bytes and replays the merges in the order they were learned. The order is the whole tokenizer.</li>
+</ol>
+<details>
+<summary>What is simplified here</summary>
+<p class="shorter">The training text is about ninety words, so the page needs tens of merges where a real tokenizer makes around a hundred thousand. Words are split on spaces and the space itself costs nothing. Real tokenizers keep the space attached to the next word and first split text with a pattern, so merges never cross a word or number boundary. Byte-pair encoding was brought to neural language models by Sennrich and others in 2015, from a compression idea.</p>
+</details>
+</section>
+
+<section aria-labelledby="meet">
+<h2 id="meet">Where you meet it</h2>
+<p class="shorter">Everything a model API does is counted in tokens: the price, the context limit and the speed. When a prompt is “too long”, this is the unit that ran out. Two ways it shows up in practice:</p>
+<ul class="refs">
+<li>The same paragraph in two languages can fill very different amounts of the context window.</li>
+<li>Numbers, code and rare words split into many small pieces, which is why a model can be oddly bad at spelling or at counting letters.</li>
+</ul>
+</section>
+
+<section aria-labelledby="breaks">
+<h2 id="breaks">Where it breaks: why Tamil costs more</h2>
+<p class="shorter">Take the same greeting in English and in Tamil, “<span data-bind="enText"></span>” and “<span data-bind="taText"></span>”. The English is <span data-bind="enChars"></span> letters and <span data-bind="enBytes"></span> bytes. The Tamil is <span data-bind="taChars"></span> characters but <span data-bind="taBytes"></span> bytes. Start from English-only training and drag the merges up.</p>
+<div class="widget" id="breaks-widget"></div>
+<p class="shorter">After <span data-bind="bMerges"></span> merges on English text alone, the English greeting is <span data-bind="bEnTokens"></span> tokens and the Tamil is still <span data-bind="bTaTokensEn"></span>. None of the merges ever touched a Tamil byte. Switch to the training text that includes Tamil and the same budget gives <span data-bind="bTaTokensBoth"></span>.</p>
+<p class="shorter">Three things stack up. First, UTF-8 spends one byte on an English letter and three on a Tamil one. A written syllable like கா is two characters (க and ா), so six bytes. A tokenizer with no Tamil merges starts with three times as many pieces. Second, merges go to what is most common in the training text, and Tamil is a small share of it, so its merges come late or never. Notice that the first Tamil merges are the leading bytes every letter shares. Third, Tamil builds long words by adding endings to a root, so there are many word forms and fewer exact repeats for a merge to learn from.</p>
+<p class="shorter">Real tokenizers show the same effect. With <span data-bind="lib"></span>, the greeting is <span data-bind="realEn"></span> tokens in English and <span data-bind="realTa4"></span> in Tamil with GPT-4’s older vocabulary, about <span data-bind="realRatio"></span>. GPT-4o’s newer vocabulary has learned more Tamil, so it is <span data-bind="realTa4o"></span>, about <span data-bind="realRatio4o"></span>. This is one phrase, not a benchmark, but Petrov and others measured the same gap across many languages and found differences of up to 15 times.</p>
+</section>
+
+<section aria-labelledby="check">
+<h2 id="check">Check yourself</h2>
+<div class="qa"><p>A tokenizer is trained only on English. What happens when it meets Tamil?</p>
+<div class="reveal"><button type="button" data-closed="Show answer">Show answer</button><div class="answer"><p>It still works, because it can always fall back to single bytes. There are no merges for Tamil bytes, so each Tamil character becomes about three tokens. The text is read correctly and costs several times more.</p></div></div></div>
+<div class="qa"><p>Why not add every language and make the vocabulary huge?</p>
+<div class="reveal"><button type="button" data-closed="Show answer">Show answer</button><div class="answer"><p>Every token has a row in the model’s embedding table and in its output layer, so a bigger vocabulary means a bigger model and a slower softmax. The merges also share a fixed budget, so adding a language takes merges from the others. The usual fix is more training text for the languages that are short of it, plus a larger vocabulary, as GPT-4o’s did.</p></div></div></div>
+<div class="qa"><p>Does fewer tokens per sentence mean the model understands that language better?</p>
+<div class="reveal"><button type="button" data-closed="Show answer">Show answer</button><div class="answer"><p>No. Token count is cost and context, not skill. A model can read a language that tokenizes badly, and it will do it with less room and at a higher price. Quality depends on the model’s training data as well.</p></div></div></div>
+</section>
+
+<section aria-labelledby="used">
+<h2 id="used">Used in</h2>
+<ul class="refs" id="used-in"><li>Loading…</li></ul>
+</section>
+
+<section aria-labelledby="deeper">
+<h2 id="deeper">Go deeper</h2>
+<ul class="refs">
+<li><a href="https://arxiv.org/abs/1508.07909">Sennrich, Haddow and Birch, “Neural Machine Translation of Rare Words with Subword Units”</a> (2015). Byte-pair encoding for language models.</li>
+<li><a href="https://arxiv.org/abs/2305.15425">Petrov and others, “Language Model Tokenizers Introduce Unfairness Between Languages”</a> (2023). The same text can differ in token count by up to 15 times.</li>
+<li><a href="https://arxiv.org/abs/2305.13707">Ahia and others, “Do All Languages Cost the Same? Tokenization in the Era of Commercial Language Models”</a> (2023). What the gap means for API prices.</li>
+</ul>
+</section>
+</main>
+<footer class="site-foot">Last reviewed <time id="reviewed"></time> · <a id="source" href="https://github.com/laxmena/concepts">Source for this page</a></footer>
+
+<script type="module">
+import { bootPage, bindFacts } from '../../shared/boot.js';
+import { mount, facts } from './widget.js';
+await bootPage();
+const example = await (await fetch('example.json')).json();
+bindFacts(facts(example));
+mount(document.getElementById('widget'), example);
+mount(document.getElementById('breaks-widget'), { ...example, breaksView: true });
+</script>
+</body>
+</html>

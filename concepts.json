@@ -165,6 +165,15 @@
       "posts": [],
       "added": "2026-11-10",
       "reviewed": "2026-11-10"
+    },
+    {
+      "slug": "tokenization",
+      "title": "Tokenization",
+      "idea": "A tokenizer cuts text into pieces from a fixed vocabulary learned from data, so text it saw often becomes few tokens and text it rarely saw becomes many, which is why the same sentence costs more in some languages.",
+      "area": "Machine learning",
+      "posts": [],
+      "added": "2026-11-10",
+      "reviewed": "2026-11-10"
     }
   ]
 }

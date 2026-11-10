@@ -8,6 +8,15 @@
   <updated>2026-11-10T00:00:00Z</updated>
   <author><name>laxmena</name></author>
   <entry>
+    <title>Tokenization</title>
+    <id>tag:concepts.laxmena.com,2026:tokenization</id>
+    <link rel="alternate" type="text/html" href="https://concepts.laxmena.com/concepts/tokenization/"/>
+    <updated>2026-11-10T00:00:00Z</updated>
+    <published>2026-11-10T00:00:00Z</published>
+    <category term="Machine learning"/>
+    <summary>A tokenizer cuts text into pieces from a fixed vocabulary learned from data, so text it saw often becomes few tokens and text it rarely saw becomes many, which is why the same sentence costs more in some languages.</summary>
+  </entry>
+  <entry>
     <title>KV cache</title>
     <id>tag:concepts.laxmena.com,2026:kv-cache</id>
     <link rel="alternate" type="text/html" href="https://concepts.laxmena.com/concepts/kv-cache/"/>

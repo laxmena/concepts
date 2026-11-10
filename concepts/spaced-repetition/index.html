@@ -14,12 +14,12 @@
 <div class="hero">
 <div class="hero-text">
 <h1>Spaced repetition</h1>
-<p class="what">A way to schedule reviews so a fact stays in memory for months with a few minutes of effort, used in flashcard apps such as Anki.</p>
+<p class="what">A way to schedule reviews so a fact stays in memory with far fewer reviews, used in flashcard apps such as Anki.</p>
 <ul class="lede-list">
 <li>You forget a fact along a curve: quickly at first, then more slowly.</li>
 <li>Each review lifts recall back to 100% and makes the next fall slower.</li>
 <li>A review is worth the most when it comes just before you would forget.</li>
-<li>So the gaps between reviews can grow, and a handful of reviews is enough.</li>
+<li>So the gaps between reviews can grow, and far fewer reviews are needed.</li>
 </ul>
 <p class="try-this">Try this: pick Cram, then Just in time, with the same number of reviews, and compare recall on day 60.</p>
 </div>
@@ -49,7 +49,7 @@
 <p class="shorter">Flashcard apps use it to decide which card to show today. Anki asks you to choose a desired retention, the share of cards you want to remember when they come due, and its default is 90%. A higher number means more reviews per day.</p>
 <ul class="refs">
 <li>The just-in-time rule on this page is that setting: review a card when the chance of recalling it has fallen to your target.</li>
-<li>Apps estimate each card’s stability from how you answered before, since the right gap differs from card to card.</li>
+<li>Newer schedulers such as FSRS estimate each card’s stability from how you answered before, since the right gap differs from card to card.</li>
 </ul>
 </section>
 
@@ -57,7 +57,7 @@
 <h2 id="breaks">Where it breaks</h2>
 <p class="shorter">A fixed gap suits some facts and not others. Drag the slider to make the fact slipperier or stickier and watch the blue line, a review every 3 days, against the orange one.</p>
 <div class="widget" id="breaks-widget"></div>
-<p class="shorter">For a slippery fact that reaches 90% after <span data-bind="bS0"></span> days, a review every 3 days lets recall fall to <span data-bind="bFixedLow"></span> before the second review. Just in time never lets it go below <span data-bind="bExpLow"></span>. For a sticky fact the fixed gap is the opposite problem: recall stays near <span data-bind="bEasyLow"></span> and the reviews could have waited. The model also assumes every review succeeds. At 53% recall a real review often fails, and a failure usually costs you the stability you had built.</p>
+<p class="shorter">For a slippery fact that reaches 90% after <span data-bind="bS0"></span> days, a review every 3 days lets recall fall to <span data-bind="bFixedLow"></span> before the second review. Just in time never lets it go below <span data-bind="bExpLow"></span>. For a sticky fact the fixed gap is the opposite problem: recall stays near <span data-bind="bEasyLow"></span> and the reviews could have waited. The model also assumes every review succeeds. At <span data-bind="bFixedLow"></span> recall a real review often fails, and a failed review sets the stability back.</p>
 <p class="shorter">That is why real schedulers ask you to grade each answer. The grade is the data they use to estimate that one card’s stability and set its next gap.</p>
 </section>
 

@@ -39,7 +39,7 @@
 </ol>
 <details>
 <summary>What is simplified here</summary>
-<p class="shorter">The training text is about ninety words, so the page needs tens of merges where a real tokenizer makes around a hundred thousand. Words are split on spaces and the space itself costs nothing. Real tokenizers keep the space attached to the next word and first split text with a pattern, so merges never cross a word or number boundary. Byte-pair encoding was brought to neural language models by Sennrich and others in 2015, from a compression idea.</p>
+<p class="shorter">The training text is about ninety words, so the page needs tens of merges where a real tokenizer learns tens of thousands or more. Words are split on spaces and the space itself costs nothing. Many real tokenizers keep the space attached to the next word and first split text with a pattern, so merges do not cross word boundaries. Byte-pair encoding began as a data-compression method, and Sennrich and others brought it to neural machine translation in 2015.</p>
 </details>
 </section>
 
@@ -48,7 +48,7 @@
 <p class="shorter">Everything a model API does is counted in tokens: the price, the context limit and the speed. When a prompt is “too long”, this is the unit that ran out. Two ways it shows up in practice:</p>
 <ul class="refs">
 <li>The same paragraph in two languages can fill very different amounts of the context window.</li>
-<li>Numbers, code and rare words split into many small pieces, which is why a model can be oddly bad at spelling or at counting letters.</li>
+<li>Numbers, code and rare words split into many small pieces, which is one reason a model can be oddly bad at spelling or at counting letters.</li>
 </ul>
 </section>
 
@@ -58,13 +58,13 @@
 <div class="widget" id="breaks-widget"></div>
 <p class="shorter">After <span data-bind="bMerges"></span> merges on English text alone, the English greeting is <span data-bind="bEnTokens"></span> tokens and the Tamil is still <span data-bind="bTaTokensEn"></span>. None of the merges ever touched a Tamil byte. Switch to the training text that includes Tamil and the same budget gives <span data-bind="bTaTokensBoth"></span>.</p>
 <p class="shorter">Three things stack up. First, UTF-8 spends one byte on an English letter and three on a Tamil one. A written syllable like கா is two characters (க and ா), so six bytes. A tokenizer with no Tamil merges starts with three times as many pieces. Second, merges go to what is most common in the training text, and Tamil is a small share of it, so its merges come late or never. Notice that the first Tamil merges are the leading bytes every letter shares. Third, Tamil builds long words by adding endings to a root, so there are many word forms and fewer exact repeats for a merge to learn from.</p>
-<p class="shorter">Real tokenizers show the same effect. With <span data-bind="lib"></span>, the greeting is <span data-bind="realEn"></span> tokens in English and <span data-bind="realTa4"></span> in Tamil with GPT-4’s older vocabulary, about <span data-bind="realRatio"></span>. GPT-4o’s newer vocabulary has learned more Tamil, so it is <span data-bind="realTa4o"></span>, about <span data-bind="realRatio4o"></span>. This is one phrase, not a benchmark, but Petrov and others measured the same gap across many languages and found differences of up to 15 times.</p>
+<p class="shorter">Real tokenizers show the same effect. With <span data-bind="lib"></span>, the greeting is <span data-bind="realEn"></span> tokens in English and <span data-bind="realTa4"></span> in Tamil with GPT-4’s older vocabulary, about <span data-bind="realRatio"></span>. GPT-4o’s newer, larger vocabulary does much better, with <span data-bind="realTa4o"></span>, about <span data-bind="realRatio4o"></span>. This is one phrase, not a benchmark, but Petrov and others measured the same gap across many languages and found differences of up to 15 times.</p>
 </section>
 
 <section aria-labelledby="check">
 <h2 id="check">Check yourself</h2>
 <div class="qa"><p>A tokenizer is trained only on English. What happens when it meets Tamil?</p>
-<div class="reveal"><button type="button" data-closed="Show answer">Show answer</button><div class="answer"><p>It still works, because it can always fall back to single bytes. There are no merges for Tamil bytes, so each Tamil character becomes about three tokens. The text is read correctly and costs several times more.</p></div></div></div>
+<div class="reveal"><button type="button" data-closed="Show answer">Show answer</button><div class="answer"><p>A byte-level tokenizer still works, because it can always fall back to single bytes. There are no merges for Tamil bytes, so each Tamil character becomes about three tokens. The text is read correctly and costs several times more.</p></div></div></div>
 <div class="qa"><p>Why not add every language and make the vocabulary huge?</p>
 <div class="reveal"><button type="button" data-closed="Show answer">Show answer</button><div class="answer"><p>Every token has a row in the model’s embedding table and in its output layer, so a bigger vocabulary means a bigger model and a slower softmax. The merges also share a fixed budget, so adding a language takes merges from the others. The usual fix is more training text for the languages that are short of it, plus a larger vocabulary, as GPT-4o’s did.</p></div></div></div>
 <div class="qa"><p>Does fewer tokens per sentence mean the model understands that language better?</p>

@@ -46,16 +46,16 @@
 
 <section aria-labelledby="meet">
 <h2 id="meet">Where you meet it</h2>
-<p class="shorter">Every serving system for a transformer keeps a KV cache. The cache is why the first token of a reply takes a moment (the prompt is processed) and the rest stream quickly, and why a longer conversation costs more memory to serve.</p>
+<p class="shorter">Every serving system for a transformer keeps a KV cache. The first token of a reply takes a moment because the whole prompt has to be processed. The rest come quickly because they reuse the cache, and a longer conversation costs more memory to serve.</p>
 <ul class="refs">
-<li>Grouped-query attention exists to shrink the cache: several query heads share one key and value head.</li>
+<li>Grouped-query attention shrinks the cache: several query heads share one key and value head.</li>
 <li>vLLM’s PagedAttention stores the cache in small blocks, like pages of virtual memory, so little of it is wasted on unused space.</li>
 </ul>
 </section>
 
 <section aria-labelledby="breaks">
 <h2 id="breaks">Where it breaks</h2>
-<p class="shorter">The cache is per person and per token. A GPU serving many people at once runs out of memory long before it runs out of arithmetic. Drag the people and the length up, then switch the number of KV heads.</p>
+<p class="shorter">The cache is per person and per token. A GPU serving many people at once often runs out of memory before it runs out of arithmetic. Drag the people and the length up, then switch the number of KV heads.</p>
 <div class="widget" id="breaks-widget"></div>
 <p class="shorter">With <span data-bind="bContext"></span> tokens each, one person takes <span data-bind="oneUser"></span> of cache. On a <span data-bind="gpu"></span> GPU with <span data-bind="weights"></span> of weights, about <span data-bind="fitGrouped"></span> people fit with 8 KV heads and <span data-bind="fitFull"></span> with 32. Real servers also need room for other working memory, so the true numbers are lower.</p>
 </section>

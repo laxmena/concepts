@@ -16,6 +16,9 @@ jobs:
       - run: npm run links:external
   deploy:
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    concurrency:
+      group: pages
+      cancel-in-progress: false
     needs: test
     runs-on: ubuntu-latest
     permissions:

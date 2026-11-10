@@ -1,0 +1,6 @@
+{
+  "model": { "name": "a Llama 3 8B-style model", "layers": 32, "headDim": 128, "bytes": 2, "weightsGB": 16, "gpuGB": 80, "kvHeads": { "grouped": 8, "full": 32 } },
+  "heads": "grouped",
+  "tokens": 1000,
+  "breaks": { "users": 32, "context": 8192, "heads": "grouped" }
+}

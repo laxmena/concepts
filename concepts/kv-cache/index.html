@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>KV cache · Concepts</title>
+<meta name="description" content="A language model saves the keys and values of the tokens it has already read, so each new token costs one pass instead of a rerun, and pays for that in memory that grows with every token.">
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="../../shared/style.css">
+</head>
+<body data-slug="kv-cache">
+<header class="site-head"><a href="../../">Concepts</a><a href="https://internals.laxmena.com">INTERNALS.md</a></header>
+<main>
+<div class="hero">
+<div class="hero-text">
+<h1>KV cache</h1>
+<p class="what">The memory a language model keeps while it writes, so it does not reread everything for each new token.</p>
+<ul class="lede-list">
+<li>A model writes one token at a time, and each new token looks at every token before it.</li>
+<li>The keys and values of earlier tokens never change, so the model can save them.</li>
+<li>That saved pile is the KV cache. It makes the total work grow in a straight line instead of with the square.</li>
+<li>The price is memory, and it grows with every token and every person at once.</li>
+</ul>
+<p class="try-this">Try this: drag the tokens from 100 up to 4,000 and watch the blue bar run away while the orange one stays put.</p>
+</div>
+<section aria-labelledby="try">
+<h2 id="try" class="eyebrow">Try it</h2>
+<div class="widget" id="widget"><p>This page needs JavaScript.</p></div>
+</section>
+</div>
+
+<section aria-labelledby="happened">
+<h2 id="happened">What just happened</h2>
+<ol class="steps">
+<li>To write token number t, attention needs a key and a value from every earlier token, in every layer. A token’s key and value depend only on the tokens before it, so once computed they never change.</li>
+<li>Without a cache the model runs all t earlier tokens through itself again at every step. After <span data-bind="n"></span> tokens that adds up to <span data-bind="without"></span> token passes. With a cache it is <span data-bind="withCache"></span>, about <span data-bind="ratio"></span> less.</li>
+<li>With a cache, each step runs only the new token. It writes its own key and value into the cache and reads the saved ones. Attention still reads every saved entry, so a step gets a little slower as the text grows. The expensive rerun is gone.</li>
+<li>The cache holds a key and a value for every token, layer and head. For this model that is 2 × <span data-bind="layers"></span> layers × <span data-bind="kvHeads"></span> heads × <span data-bind="headDim"></span> numbers × <span data-bind="bytes"></span> bytes = <span data-bind="perTokenBytes"></span> bytes, about <span data-bind="perToken"></span>, for every token. At <span data-bind="n"></span> tokens that is <span data-bind="cache"></span>.</li>
+</ol>
+<details>
+<summary>The numbers behind it</summary>
+<p class="shorter">The model here is shaped like Llama 3 8B: 32 layers, 8 key/value heads shared by 32 query heads (grouped-query attention), 128 numbers per head, 16-bit numbers. Giving every head its own keys and values, as the original transformer did, would be 32 KV heads and <span data-bind="perTokenFull"></span> a token, four times as much.</p>
+<p class="shorter">The page leaves out the prompt. A real server runs the whole prompt through the model in one parallel pass, fills the cache, and then writes one token per step. Queries are never cached, because each query is used once, at its own step.</p>
+</details>
+</section>
+
+<section aria-labelledby="meet">
+<h2 id="meet">Where you meet it</h2>
+<p class="shorter">Every serving system for a transformer keeps a KV cache. The cache is why the first token of a reply takes a moment (the prompt is processed) and the rest stream quickly, and why a longer conversation costs more memory to serve.</p>
+<ul class="refs">
+<li>Grouped-query attention exists to shrink the cache: several query heads share one key and value head.</li>
+<li>vLLM’s PagedAttention stores the cache in small blocks, like pages of virtual memory, so little of it is wasted on unused space.</li>
+</ul>
+</section>
+
+<section aria-labelledby="breaks">
+<h2 id="breaks">Where it breaks</h2>
+<p class="shorter">The cache is per person and per token. A GPU serving many people at once runs out of memory long before it runs out of arithmetic. Drag the people and the length up, then switch the number of KV heads.</p>
+<div class="widget" id="breaks-widget"></div>
+<p class="shorter">With <span data-bind="bContext"></span> tokens each, one person takes <span data-bind="oneUser"></span> of cache. On a <span data-bind="gpu"></span> GPU with <span data-bind="weights"></span> of weights, about <span data-bind="fitGrouped"></span> people fit with 8 KV heads and <span data-bind="fitFull"></span> with 32. Real servers also need room for other working memory, so the true numbers are lower.</p>
+</section>
+
+<section aria-labelledby="check">
+<h2 id="check">Check yourself</h2>
+<div class="qa"><p>Why does the cache hold keys and values but not queries?</p>
+<div class="reveal"><button type="button" data-closed="Show answer">Show answer</button><div class="answer"><p>A query is used once, by the token that makes it, to look at the earlier tokens. No later token needs an old query. Every later token does need the old keys and values, so those are kept.</p></div></div></div>
+<div class="qa"><p>With a cache, is attention now free?</p>
+<div class="reveal"><button type="button" data-closed="Show answer">Show answer</button><div class="answer"><p>No. Each step still reads every saved key and value, so the cost of a step grows with the length. What the cache removes is running the earlier tokens through the whole model again.</p></div></div></div>
+<div class="qa"><p>Twice the people, or twice the tokens each. Which one needs more cache?</p>
+<div class="reveal"><button type="button" data-closed="Show answer">Show answer</button><div class="answer"><p>Neither. The cache is people × tokens × bytes per token, so both double it. Only the shape of the model changes the bytes per token.</p></div></div></div>
+</section>
+
+<section aria-labelledby="used">
+<h2 id="used">Used in</h2>
+<ul class="refs" id="used-in"><li>Loading…</li></ul>
+</section>
+
+<section aria-labelledby="deeper">
+<h2 id="deeper">Go deeper</h2>
+<ul class="refs">
+<li><a href="https://arxiv.org/abs/2305.13245">Ainslie and others, “GQA: Training Generalized Multi-Query Transformer Models from Multi-Head Checkpoints”</a> (2023). Fewer key/value heads to shrink the cache.</li>
+<li><a href="https://arxiv.org/abs/2309.06180">Kwon and others, “Efficient Memory Management for Large Language Model Serving with PagedAttention”</a> (2023). Why the cache is the memory problem in serving, and the block layout that fixes the waste.</li>
+<li><a href="https://arxiv.org/abs/2407.21783">Llama Team, “The Llama 3 Herd of Models”</a> (2024). The 8B model’s shape, including 8 key/value heads.</li>
+</ul>
+</section>
+</main>
+<footer class="site-foot">Last reviewed <time id="reviewed"></time> · <a id="source" href="https://github.com/laxmena/concepts">Source for this page</a></footer>
+
+<script type="module">
+import { bootPage, bindFacts } from '../../shared/boot.js';
+import { mount, facts } from './widget.js';
+await bootPage();
+const example = await (await fetch('example.json')).json();
+bindFacts(facts(example));
+mount(document.getElementById('widget'), example);
+mount(document.getElementById('breaks-widget'), { ...example, breaksView: true });
+</script>
+</body>
+</html>

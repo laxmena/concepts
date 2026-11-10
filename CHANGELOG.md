@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- KV cache page: tokens run per step and in total with and without a cache (n versus n(n+1)/2), cache bytes per token for a Llama 3 8B-shaped model, and a live break where many people at once fill a GPU, with 8 versus 32 key/value heads. Tests use hand-worked values.
 - Atom feed at `/feed.xml`, built from `concepts.json` by `npm run feed` (`shared/feed.js`). A test fails if `feed.xml` is out of date, so run the script after adding a page. The home page links it in the head and the footer.
 - "New" tag on the home list for 30 days after a page's `added` date in `concepts.json` (`new-concept.sh` sets it). Attention, RL, RLHF and LoRA carry it for now.
 - Home footer: "Notes I keep for myself, added as I learn", a link to GitHub issues for mistakes, and the source link.

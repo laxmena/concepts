@@ -201,6 +201,15 @@
       "posts": [],
       "added": "2026-11-10",
       "reviewed": "2026-11-10"
+    },
+    {
+      "slug": "decision-model",
+      "title": "Decision models (System One)",
+      "idea": "A decision model does not write text: it reads a situation and returns one probability for each option on a list you give it, in a single pass, so code can act on the answer.",
+      "area": "Machine learning",
+      "posts": [],
+      "added": "2026-11-10",
+      "reviewed": "2026-11-10"
     }
   ]
 }

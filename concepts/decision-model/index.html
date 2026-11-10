@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Decision models · Concepts</title>
+<meta name="description" content="A decision model does not write text. It reads a situation and returns one probability for each option on a list you give it, in a single pass, so code can act on the answer.">
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="../../shared/style.css">
+</head>
+<body data-slug="decision-model">
+<header class="site-head"><a href="../../">Concepts</a><a href="https://internals.laxmena.com">INTERNALS.md</a></header>
+<main>
+<div class="hero">
+<div class="hero-text">
+<h1>Decision models (System One)</h1>
+<p class="what">Small models that choose among options instead of writing text, used inside AI agents to route, check and gate actions.</p>
+<ul class="lede-list">
+<li>An agent makes many small choices: which tool, whether an action is safe, which path to take.</li>
+<li>A decision model takes the situation and a list of options and returns one probability per option, in a single pass.</li>
+<li>The answer is a number code can act on, not a sentence to parse.</li>
+<li>The name System One borrows the fast, automatic kind of thinking from Kahneman’s System 1 and System 2.</li>
+</ul>
+<p class="try-this">Try this: switch the request from Math to News and watch the orange bar move to another tool.</p>
+</div>
+<section aria-labelledby="try">
+<h2 id="try" class="eyebrow">Try it</h2>
+<div class="widget" id="widget"><p>This page needs JavaScript.</p></div>
+</section>
+</div>
+
+<section aria-labelledby="happened">
+<h2 id="happened">What just happened</h2>
+<ol class="steps">
+<li>The model is given the situation, here a request, and a typed question: which of <span data-bind="tools"></span> tools? The options are a fixed list that the developer writes.</li>
+<li>It gives every option a score in one forward pass, then a softmax turns the scores into probabilities that add up to 100%. For “What is 17% of 240?” the first option, Math, gets <span data-bind="topP"></span>.</li>
+<li>Code reads the probability directly. There is no sentence to parse, and the answer is always one of the options on the list.</li>
+<li>An LLM that answers in words writes something like “I would use the calculator, since the question is arithmetic.” That is <span data-bind="written"></span> tokens, one pass through the model each, and then code has to work out which tool it meant.</li>
+</ol>
+<details>
+<summary>What the models are, and a fair warning</summary>
+<p class="shorter">Jev from TypeSafe AI was the first named System One model. Others now exist, including Laya, Strands Decider from AWS and decision models from several large companies. They take typed questions: choose one option, a yes or no probability, or a score on a scale. How they read the answer out differs: some read option probabilities from an ordinary language model’s next-token scores, others add a dedicated output head that scores each option.</p>
+<p class="shorter">A community audit listed alongside these models finds that the typed readout alone gives no accuracy advantage over reading label probabilities from a comparable model. The gains it does find are in speed and cost, plus the fact that these models are trained to give probabilities that mean something. The scores on this page are made up, so it shows the shape of the answer, not how accurate any model is.</p>
+</details>
+</section>
+
+<section aria-labelledby="meet">
+<h2 id="meet">Where you meet it</h2>
+<ul class="refs">
+<li>Routing: pick the tool, the agent or the model that should handle a request.</li>
+<li>Gates: before an agent runs a tool, ask whether the arguments look right and whether to proceed, ask the user, or stop. AWS shows this with Strands Decider, a small model that runs locally.</li>
+<li>Cascades: let the cheap decision model handle what it is sure about, and send the rest to a large LLM.</li>
+</ul>
+</section>
+
+<section aria-labelledby="breaks">
+<h2 id="breaks">Where it breaks</h2>
+<p class="shorter">The probabilities add up to 100% over the list, so something always wins. Switch the request to No fit, with only the four tools offered.</p>
+<div class="widget" id="breaks-widget"></div>
+<p class="shorter">For “<span data-bind="bText"></span>” none of the tools is right, yet <span data-bind="bTop"></span> gets <span data-bind="bTopP"></span>. The probabilities must reach <span data-bind="bToolsSum"></span>, so the best of the wrong options takes the share. With an explicit “None” on the list, that option wins with <span data-bind="bNone"></span>. This is why the Jev documentation describes an “other” option. Whether a number like <span data-bind="bTopP"></span> can be trusted at all is a separate question, and the next pages take it up: calibration, and routing by confidence.</p>
+</section>
+
+<section aria-labelledby="check">
+<h2 id="check">Check yourself</h2>
+<div class="qa"><p>A decision model returns 67% for a tool. Does that mean it is right two times in three?</p>
+<div class="reveal"><button type="button" data-closed="Show answer">Show answer</button><div class="answer"><p>Only if the model is calibrated. A softmax always produces numbers that add to 100%, whether or not the model has earned them. Calibration is checked by counting how often the model is right when it says 67%, over many decisions.</p></div></div></div>
+<div class="qa"><p>Why not just ask an LLM to pick, and read the probability of each option’s first token?</p>
+<div class="reveal"><button type="button" data-closed="Show answer">Show answer</button><div class="answer"><p>You can, and some decision models are built exactly that way. It also takes one pass. What a purpose-built model adds is training for probabilities that mean something, a smaller and cheaper model, and an interface made for typed questions. The audit above found the readout alone gives no accuracy gain.</p></div></div></div>
+<div class="qa"><p>Which decisions should not be left to a model like this?</p>
+<div class="reveal"><button type="button" data-closed="Show answer">Show answer</button><div class="answer"><p>Ones that need knowledge the model does not have or that depend on writing. The Jev documentation says it only knows the state it is given and cannot look things up. For costly actions, use a high confidence bar and send the rest to a person or a stronger model.</p></div></div></div>
+</section>
+
+<section aria-labelledby="used">
+<h2 id="used">Used in</h2>
+<ul class="refs" id="used-in"><li>Loading…</li></ul>
+</section>
+
+<section aria-labelledby="deeper">
+<h2 id="deeper">Go deeper</h2>
+<ul class="refs">
+<li><a href="https://github.com/andyrewlee/awesome-system-one">awesome-system-one</a>. A list of decision models, benchmarks and tools, with a skeptic’s audit. A community list, not a primary source.</li>
+<li><a href="https://builder.aws.com/content/3KkFqSBRfZxjCnMBYzIkGabGBWc/act-when-certain-ask-when-not-building-safer-ai-agents-with-local-decision-models">AWS, “Act When Certain, Ask When Not”</a>. Using a small local decision model as a gate in an agent.</li>
+<li><a href="https://arxiv.org/abs/2609.26532">REFLEX with Jev for Efficient Selective Control in LLM Agents</a>. A decision model as the fast layer in front of a strong LLM, on a small benchmark.</li>
+</ul>
+</section>
+</main>
+<footer class="site-foot">Last reviewed <time id="reviewed"></time> · <a id="source" href="https://github.com/laxmena/concepts">Source for this page</a></footer>
+
+<script type="module">
+import { bootPage, bindFacts } from '../../shared/boot.js';
+import { mount, facts } from './widget.js';
+await bootPage();
+const example = await (await fetch('example.json')).json();
+bindFacts(facts(example));
+mount(document.getElementById('widget'), example);
+mount(document.getElementById('breaks-widget'), { ...example, breaksView: true });
+</script>
+</body>
+</html>

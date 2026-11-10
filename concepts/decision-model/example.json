@@ -1,0 +1,57 @@
+{
+  "request": 0,
+  "none": false,
+  "tools": [
+    "Math",
+    "Search",
+    "Email",
+    "Answer"
+  ],
+  "noneLabel": "None",
+  "requests": [
+    {
+      "short": "Math",
+      "text": "What is 17% of 240?",
+      "scores": [
+        4.2,
+        1.5,
+        -0.5,
+        -2.0
+      ],
+      "noneScore": -1.0,
+      "say": "I would use the calculator, since the question is arithmetic.",
+      "sayTokens": 12
+    },
+    {
+      "short": "News",
+      "text": "Who won the match last night?",
+      "scores": [
+        -1.0,
+        3.6,
+        -0.5,
+        0.4
+      ],
+      "noneScore": -1.0,
+      "say": "I would use web search, since the answer is recent news.",
+      "sayTokens": 13
+    },
+    {
+      "short": "No fit",
+      "text": "Book me a flight to Paris.",
+      "scores": [
+        0.2,
+        2.0,
+        -0.5,
+        0.6
+      ],
+      "noneScore": 3.0,
+      "say": "None of the tools fits, so I would answer directly and say so.",
+      "sayTokens": 15
+    }
+  ],
+  "tokenizer": "cl100k_base, counted with tiktoken 0.14.0",
+  "breaks": {
+    "request": 2,
+    "none": false
+  }
+}

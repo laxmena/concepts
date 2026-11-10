@@ -8,6 +8,15 @@
   <updated>2026-11-10T00:00:00Z</updated>
   <author><name>laxmena</name></author>
   <entry>
+    <title>Decision models (System One)</title>
+    <id>tag:concepts.laxmena.com,2026:decision-model</id>
+    <link rel="alternate" type="text/html" href="https://concepts.laxmena.com/concepts/decision-model/"/>
+    <updated>2026-11-10T00:00:00Z</updated>
+    <published>2026-11-10T00:00:00Z</published>
+    <category term="Machine learning"/>
+    <summary>A decision model does not write text: it reads a situation and returns one probability for each option on a list you give it, in a single pass, so code can act on the answer.</summary>
+  </entry>
+  <entry>
     <title>Encoder, decoder, or both</title>
     <id>tag:concepts.laxmena.com,2026:encoder-decoder</id>
     <link rel="alternate" type="text/html" href="https://concepts.laxmena.com/concepts/encoder-decoder/"/>

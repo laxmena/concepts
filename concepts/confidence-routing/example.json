@@ -1,0 +1,11 @@
+{
+  "count": 1000,
+  "spread": 5,
+  "trueT": 2,
+  "T": 2,
+  "threshold": 0.9,
+  "strongAccuracy": 0.97,
+  "cheapCost": 1,
+  "costRatio": 40,
+  "breaks": { "threshold": 0.9, "T": 1 }
+}

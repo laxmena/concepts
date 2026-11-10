@@ -9,7 +9,7 @@ import { normalQuantile } from './stats.js';
 export const sigmoid = (x) => 1 / (1 + Math.exp(-x));
 export const examples = (n, spread = 2) => Array.from({ length: n }, (_, i) => normalQuantile((i + 0.5) / n) * spread);
 /** The confidence the model reports in its own call: the larger of P(yes) and P(no). */
-export const confidence = (z, T) => { const p = sigmoid(z / T); return Math.max(p, 1 - p); };
+export const confidence = (z, T) => sigmoid(Math.abs(z) / T); // the larger of sigmoid(z/T) and 1 - sigmoid(z/T), written so that z and -z give identical numbers
 /** The real chance that the model's call is right. */
 export const chanceRight = (z, trueT) => sigmoid(Math.abs(z) / trueT);
 

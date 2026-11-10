@@ -219,6 +219,15 @@
       "posts": [],
       "added": "2026-11-10",
       "reviewed": "2026-11-10"
+    },
+    {
+      "slug": "confidence-routing",
+      "title": "Confidence routing",
+      "idea": "Confidence routing lets a cheap model decide when it is sure enough and hands the rest to an expensive model or a person, and the confidence threshold sets how much cost you save against how many mistakes you let through.",
+      "area": "Machine learning",
+      "posts": [],
+      "added": "2026-11-10",
+      "reviewed": "2026-11-10"
     }
   ]
 }

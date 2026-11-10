@@ -39,7 +39,7 @@
 </ol>
 <details>
 <summary>What the models are, and a fair warning</summary>
-<p class="shorter">Jev from TypeSafe AI was the first named System One model. Others now exist, including Laya, Strands Decider from AWS and decision models from several large companies. They take typed questions: choose one option, a yes or no probability, or a score on a scale. How they read the answer out differs: some read option probabilities from an ordinary language model’s next-token scores, others add a dedicated output head that scores each option.</p>
+<p class="shorter">Jev from TypeSafe AI was the first named System One model. Others now exist, including Laya, Strands Decider from AWS and decision models from several large companies. They take typed questions: choose one option, a yes or no probability, or a score on a scale. How they read the answer out differs: some read option probabilities from an ordinary language model’s next-token scores, others add a dedicated output head that scores each option, and some use encoders that read the whole input at once. The choice of backbone is the one described on the <a href="../encoder-decoder/">encoder and decoder page</a>.</p>
 <p class="shorter">A community audit listed alongside these models finds that the typed readout alone gives no accuracy advantage over reading label probabilities from a comparable model. The gains it does find are in speed and cost, plus the fact that these models are trained to give probabilities that mean something. The scores on this page are made up, so it shows the shape of the answer, not how accurate any model is.</p>
 </details>
 </section>

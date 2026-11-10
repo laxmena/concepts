@@ -8,6 +8,15 @@
   <updated>2026-11-10T00:00:00Z</updated>
   <author><name>laxmena</name></author>
   <entry>
+    <title>Confidence routing</title>
+    <id>tag:concepts.laxmena.com,2026:confidence-routing</id>
+    <link rel="alternate" type="text/html" href="https://concepts.laxmena.com/concepts/confidence-routing/"/>
+    <updated>2026-11-10T00:00:00Z</updated>
+    <published>2026-11-10T00:00:00Z</published>
+    <category term="Machine learning"/>
+    <summary>Confidence routing lets a cheap model decide when it is sure enough and hands the rest to an expensive model or a person, and the confidence threshold sets how much cost you save against how many mistakes you let through.</summary>
+  </entry>
+  <entry>
     <title>Calibration</title>
     <id>tag:concepts.laxmena.com,2026:calibration</id>
     <link rel="alternate" type="text/html" href="https://concepts.laxmena.com/concepts/calibration/"/>

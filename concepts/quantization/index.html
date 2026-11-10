@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Quantization · Concepts</title>
+<meta name="description" content="Quantization stores each weight in fewer bits by rounding it to the nearest of a few levels, trading a small error for a model that is several times smaller.">
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="../../shared/style.css">
+</head>
+<body data-slug="quantization">
+<header class="site-head"><a href="../../">Concepts</a><a href="https://internals.laxmena.com">INTERNALS.md</a></header>
+<main>
+<div class="hero">
+<div class="hero-text">
+<h1>Quantization</h1>
+<p class="what">Storing a model’s weights in fewer bits, so it is smaller and cheaper to run, at the cost of rounding error.</p>
+<ul class="lede-list">
+<li>Most model weights are stored as 16-bit numbers, and that is more precision than they need.</li>
+<li>Quantization rounds each weight to the nearest of a few levels and keeps a small whole number plus a shared scale.</li>
+<li>Fewer bits means a smaller file and less memory to read for every token.</li>
+<li>The price is rounding error, and it grows fast below about four bits.</li>
+</ul>
+<p class="try-this">Try this: drag the bits from 8 down to 2 and watch the blue dots drift away from the orange bars.</p>
+</div>
+<section aria-labelledby="try">
+<h2 id="try" class="eyebrow">Try it</h2>
+<div class="widget" id="widget"><p>This page needs JavaScript.</p></div>
+</section>
+</div>
+
+<section aria-labelledby="happened">
+<h2 id="happened">What just happened</h2>
+<ol class="steps">
+<li>Take a group of weights and find the largest. It sets the scale: the largest weight lands on the top level. At <span data-bind="bits"></span> bits there are <span data-bind="levels"></span> levels, the whole numbers from −7 to 7 and zero in between.</li>
+<li>Divide every weight by the scale and round to the nearest whole number. Store that small number, plus one 16-bit scale for the group.</li>
+<li>To use a weight, multiply its number by the scale. The gap between each blue dot and its orange bar is the error. At <span data-bind="bits"></span> bits it is about <span data-bind="rel"></span> of a typical weight.</li>
+<li>For a model with <span data-bind="params"></span> weights, 16 bits each is <span data-bind="size16"></span>. At <span data-bind="bits"></span> bits it is <span data-bind="size"></span>, <span data-bind="ratio"></span> smaller. Generating text is often limited by how fast weights can be read from memory, so a smaller model is usually faster too.</li>
+</ol>
+<details>
+<summary>The rule, and what real methods add</summary>
+<p class="shorter">The scale is s = max|w| / (2<sup>b−1</sup> − 1). A weight is stored as q = round(w / s) and read back as q × s. This page uses that plain rule, called absmax or round-to-nearest, on a made-up row of 64 weights.</p>
+<p class="shorter">Methods used in practice pick the scales and the rounding more carefully. GPTQ rounds each weight while adjusting the ones not yet rounded to cancel the error, using second-order information from a sample of data. The page also ignores the activations, the numbers the weights are multiplied with, which quantization can hurt as well.</p>
+</details>
+</section>
+
+<section aria-labelledby="meet">
+<h2 id="meet">Where you meet it</h2>
+<p class="shorter">Quantization is why a model that was trained on a rack of GPUs can run on one card or a laptop.</p>
+<ul class="refs">
+<li>Open models are shared as 8-bit and 4-bit files, and the file size in the name is the number of bits on disk.</li>
+<li>QLoRA fine-tunes a 4-bit base model by training small LoRA matrices on top of it.</li>
+<li>The KV cache can be quantized as well, to fit more people on one GPU.</li>
+</ul>
+</section>
+
+<section aria-labelledby="breaks">
+<h2 id="breaks">Where it breaks</h2>
+<p class="shorter">Weights are not all the same size. Here one weight is <span data-bind="outlier"></span> a typical weight. With one scale for the whole row, that weight sets the step for everyone. Switch the row to One large and watch the orange bars disappear.</p>
+<div class="widget" id="breaks-widget"></div>
+<p class="shorter">At <span data-bind="bBits"></span> bits the plain row loses <span data-bind="bClean"></span> of a typical weight. With the large weight and one scale for the row, that is <span data-bind="bRow"></span>, and <span data-bind="bZerosRow"></span> of the other <span data-bind="bSmall"></span> weights are rounded to zero. One scale for every 32 weights gives <span data-bind="bG32"></span> and one for every 8 gives <span data-bind="bG8"></span>, because the damage stays inside one group.</p>
+<p class="shorter">Small groups cost storage. Every scale is 16 bits, so one for every 8 weights makes <span data-bind="bBpw8"></span> bits per weight and <span data-bind="bSize8"></span> for the model, against <span data-bind="bSizeRow"></span>. Real large models have a few very large values in the same dimensions again and again, and Dettmers and others found they break plain 8-bit rounding. In that paper the large values are in the activations, not the weights. This page puts one in a weight to show the mechanism.</p>
+</section>
+
+<section aria-labelledby="check">
+<h2 id="check">Check yourself</h2>
+<div class="qa"><p>Going from 8 bits to 4 makes the model half the size. Does the error double?</p>
+<div class="reveal"><button type="button" data-closed="Show answer">Show answer</button><div class="answer"><p>No. Eight bits give 255 levels and four bits give 15, so each step is about 18 times wider. On this row the error goes from under 1% to about 14%. Size shrinks in a straight line and error does not.</p></div></div></div>
+<div class="qa"><p>A weight is 0.001 and the scale is 0.01. What is stored?</p>
+<div class="reveal"><button type="button" data-closed="Show answer">Show answer</button><div class="answer"><p>0.001 / 0.01 is 0.1, which rounds to 0. The weight is stored as zero and its value is gone. This is what the large weight does to its neighbours: it makes the scale big.</p></div></div></div>
+<div class="qa"><p>Why not give every weight its own scale?</p>
+<div class="reveal"><button type="button" data-closed="Show answer">Show answer</button><div class="answer"><p>A scale is a 16-bit number, so it would cost more than the weight it protects. One scale per 32 weights adds half a bit to each, so a 4-bit model is really 4.5 bits.</p></div></div></div>
+</section>
+
+<section aria-labelledby="used">
+<h2 id="used">Used in</h2>
+<ul class="refs" id="used-in"><li>Loading…</li></ul>
+</section>
+
+<section aria-labelledby="deeper">
+<h2 id="deeper">Go deeper</h2>
+<ul class="refs">
+<li><a href="https://arxiv.org/abs/2210.17323">Frantar and others, “GPTQ: Accurate Post-Training Quantization for Generative Pre-trained Transformers”</a> (2022). Rounding weights while correcting for the error.</li>
+<li><a href="https://arxiv.org/abs/2208.07339">Dettmers and others, “LLM.int8(): 8-bit Matrix Multiplication for Transformers at Scale”</a> (2022). Why a few large values break plain rounding, and how to handle them.</li>
+<li><a href="https://arxiv.org/abs/2305.14314">Dettmers and others, “QLoRA: Efficient Finetuning of Quantized LLMs”</a> (2023). Fine-tuning on top of a 4-bit model.</li>
+</ul>
+</section>
+</main>
+<footer class="site-foot">Last reviewed <time id="reviewed"></time> · <a id="source" href="https://github.com/laxmena/concepts">Source for this page</a></footer>
+
+<script type="module">
+import { bootPage, bindFacts } from '../../shared/boot.js';
+import { mount, facts } from './widget.js';
+await bootPage();
+const example = await (await fetch('example.json')).json();
+bindFacts(facts(example));
+mount(document.getElementById('widget'), example);
+mount(document.getElementById('breaks-widget'), { ...example, breaksView: true });
+</script>
+</body>
+</html>

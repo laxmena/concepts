@@ -488,3 +488,10 @@ tr.miss td { color: var(--ink-2); }
 .mrow .mono { font-family: var(--mono); }
 @media (max-width: 40rem) { .tok { padding: 0 3px; line-height: 17px; font-size: .6875rem; } .tw { gap: 1px; } }
 .key.tan { background: var(--sq); border: 1px solid var(--ink-2); }
+.wrows .num { white-space: nowrap; }
+/* Quantization: picture card across the top on phones, the other two side by side under it */
+@media (max-width: 40rem) {
+  .cards.rl.q, .cards.rl.q:has(> :nth-child(3):last-child) { grid-template-columns: 1fr 1fr; }
+  .cards.rl.q > :first-child { grid-column: 1 / -1; }
+  .chart.tall { max-height: 4.6rem; }
+}

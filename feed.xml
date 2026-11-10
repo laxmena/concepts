@@ -8,6 +8,15 @@
   <updated>2026-11-10T00:00:00Z</updated>
   <author><name>laxmena</name></author>
   <entry>
+    <title>Quantization</title>
+    <id>tag:concepts.laxmena.com,2026:quantization</id>
+    <link rel="alternate" type="text/html" href="https://concepts.laxmena.com/concepts/quantization/"/>
+    <updated>2026-11-10T00:00:00Z</updated>
+    <published>2026-11-10T00:00:00Z</published>
+    <category term="Machine learning"/>
+    <summary>Quantization stores each weight in fewer bits by rounding it to the nearest of a few levels, trading a small error for a model that is several times smaller.</summary>
+  </entry>
+  <entry>
     <title>Tokenization</title>
     <id>tag:concepts.laxmena.com,2026:tokenization</id>
     <link rel="alternate" type="text/html" href="https://concepts.laxmena.com/concepts/tokenization/"/>

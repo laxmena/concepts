@@ -417,7 +417,7 @@ export function mount(root, example, hub = createHub()) {
     results.replaceChildren(
       el('div', { class: 'cards three af-cards' }, cards),
       el('div', { class: 'af-sugg' }, el('h3', {}, 'What stands out'),
-        el('ul', {}, tips.map((s) => el('li', {}, s.text + ' ', el('a', { class: 'af-more', href: `${example.postUrl}#${s.id}` }, 'In the write-up →'))))));
+        el('ul', {}, tips.map((s) => el('li', {}, s.text + ' ', el('a', { class: 'af-more', href: example.postUrl }, 'In the write-up →'))))));
   }
   render();
   return { state, hub };

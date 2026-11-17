@@ -228,6 +228,15 @@
       "posts": [],
       "added": "2026-11-10",
       "reviewed": "2026-11-10"
+    },
+    {
+      "slug": "claude-md-census",
+      "title": "What's in CLAUDE.md and AGENTS.md files",
+      "idea": "Check your own CLAUDE.md or AGENTS.md against the files in public repos.",
+      "area": "AI tools",
+      "posts": [],
+      "added": "2026-11-17",
+      "reviewed": "2026-11-17"
     }
   ]
 }

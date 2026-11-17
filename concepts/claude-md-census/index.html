@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>What's in 39,535 CLAUDE.md and AGENTS.md files · Concepts</title>
+<meta name="description" content="Check your own CLAUDE.md or AGENTS.md against the files in public repos. The check runs in your browser.">
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="../../shared/style.css">
+</head>
+<body data-slug="claude-md-census">
+<header class="site-head"><a href="../../">Concepts</a><a href="https://internals.laxmena.com">INTERNALS.md</a></header>
+<main>
+<div class="hero">
+<div class="hero-text">
+<h1>What’s in <span data-bind="files">39,535</span> CLAUDE.md and AGENTS.md files</h1>
+<p class="what">The instruction files coding agents read at the start of every session, measured across public GitHub repos. <a id="post-link" href="#">Read the full write-up →</a></p>
+<ul class="lede-list">
+<li>The median CLAUDE.md is about <span data-bind="medianTokens">1,379</span> tokens, loaded every session.</li>
+<li>Files that kept the <code>/init</code> opening spend far more of that on overviews.</li>
+<li>Paste yours to see where it sits. It runs in your browser.</li>
+</ul>
+<p class="try-this">Try this: replace the sample with your file and read the cards.</p>
+</div>
+<section aria-labelledby="try">
+<h2 id="try" class="eyebrow">Check your own file</h2>
+<div class="widget" id="widget"><p>This page needs JavaScript.</p></div>
+</section>
+</div>
+
+<section aria-labelledby="size">
+<h2 id="size">How big are they?</h2>
+<p class="shorter">Share of repos whose file is a given size or smaller. Popular repos (10+ stars) and small, personal ones (0 to 9 stars) are drawn separately. The median CLAUDE.md is <span data-bind="medianTokens"></span> tokens and the 90th percentile is <span data-bind="p90Tokens"></span>. The median AGENTS.md is <span data-bind="agentsMedianTokens"></span>. Your file appears as a dashed line.</p>
+<div class="widget" id="size-widget"></div>
+</section>
+
+<section aria-labelledby="fills">
+<h2 id="fills">What fills the file</h2>
+<p class="shorter">Two things the agent can find by itself: a section that says what the project is, and a pasted directory tree. Bars show the share of files that have them, and the share of all tokens they take.</p>
+<div class="widget" id="fills-widget"></div>
+</section>
+
+<section aria-labelledby="init">
+<h2 id="init">Files that kept the <code>/init</code> start</h2>
+<p class="shorter"><span data-bind="sigShare"></span> of CLAUDE.md files still open with the line <code>/init</code> writes. They have an overview section <span data-bind="sigOverview"></span> of the time, against <span data-bind="nosigOverview"></span> for the rest. The line is found by text match, so a file that kept the line may have been edited since.</p>
+<div class="widget" id="init-widget"></div>
+</section>
+
+<section aria-labelledby="two">
+<h2 id="two">Two names, one file</h2>
+<p class="shorter">Repos that have both a CLAUDE.md and an AGENTS.md. <span data-bind="linkedAny"></span> link one to the other, <span data-bind="nearCopy"></span> keep a near copy, and <span data-bind="independent"></span> write two separate files.</p>
+<div class="widget" id="links-widget"></div>
+</section>
+
+<section aria-labelledby="hooks">
+<h2 id="hooks">Hooks: when they run</h2>
+<p class="shorter">A hook is a command a repo asks the agent to run at a fixed moment, such as before a tool call. Only <span data-bind="hooksShare"></span> of repos commit one, so every share below is among repos that have hooks.</p>
+<div class="widget" id="hooks-widget"></div>
+</section>
+
+<section aria-labelledby="cmds">
+<h2 id="cmds">Commands people write down</h2>
+<p class="shorter">Commands named in the files, grouped by toolchain. Each bar is the share of repos in that group that name the command.</p>
+<div class="widget" id="commands-widget"></div>
+</section>
+
+<section aria-labelledby="limits">
+<h2 id="limits">What this cannot tell you</h2>
+<ul class="refs">
+<li>It counts what is in the files, not whether the file helps an agent. A short file can be worse than a long one.</li>
+<li>Public repos that GitHub code search indexes, as of <span data-bind="snapshot"></span>. Private repos are not here, and <span data-bind="smallShare"></span> of the repos are small or personal, which is why popular repos are shown beside them.</li>
+<li>Your token count is an estimate: characters divided by <span data-bind="ratio"></span>, the median characters per token across the census files, measured with an o200k tokenizer. It is approximate, not Claude’s tokenizer, and it leaves out imports.</li>
+<li>Overview sections, directory trees and the <code>/init</code> line use the same rules as the census. Commands, imports and “don’t” rules in the checker use simpler matching, so treat those three as approximate.</li>
+</ul>
+<details>
+<summary>Method, in two sentences</summary>
+<p class="shorter">The census sampled public repos through GitHub code search by file size, weighted each repo by how likely it was to be picked, and drew 95% intervals by resampling repos. Only counts and shares were kept, with no file text, repo names or paths.</p>
+<p class="shorter">Numbers are on the <a id="repo-link" href="#">neri repository</a>. The derived numbers are shared under CC BY 4.0.</p>
+</details>
+</section>
+
+<section aria-labelledby="used">
+<h2 id="used">Used in</h2>
+<ul class="refs" id="used-in"><li>Loading…</li></ul>
+</section>
+</main>
+<footer class="site-foot">Last reviewed <time id="reviewed"></time> · <a id="source" href="https://github.com/laxmena/concepts">Source for this page</a> · By Laxmena</footer>
+
+<script type="module">
+import { bootPage, bindFacts } from '../../shared/boot.js';
+import { mount, mountSize, mountFills, mountInit, mountLinks, mountHooks, mountCommands, createHub, facts } from './widget.js';
+await bootPage();
+const names = ['calibration', 'ecdf', 'numbers', 'percentiles', 'top_commands'];
+const [example, ...parts] = await Promise.all([fetch('example.json').then((r) => r.json()), ...names.map((n) => fetch(`data/${n}.json`).then((r) => r.json()))]);
+example.data = Object.fromEntries(names.map((n, i) => [n, parts[i]]));
+bindFacts(facts(example));
+const q = (id) => document.getElementById(id);
+for (const id of ['post-link']) { q(id).href = example.postUrl; }
+q('repo-link').href = example.repoUrl;
+const hub = createHub();
+mount(q('widget'), example, hub);
+mountSize(q('size-widget'), example, hub);
+mountFills(q('fills-widget'), example);
+mountInit(q('init-widget'), example);
+mountLinks(q('links-widget'), example);
+mountHooks(q('hooks-widget'), example);
+mountCommands(q('commands-widget'), example);
+</script>
+</body>
+</html>

@@ -1,0 +1,937 @@
+{
+ "generated": "2026-11-16 21:10:47",
+ "bootstrap": 1000,
+ "definitions": {
+  "overall": "Weighted 'overall' = the candidate population covered by the sampled buckets (repos that code search returned through the randomly selected size buckets of CLAUDE.md and AGENTS.md files), scaled to GitHub-wide via inclusion probabilities: each repo is weighted by 1 / (P(it entered the candidate pool) x P(it was drawn within its stratum)). 'GitHub-wide' means public, active, non-archived repositories that code search indexes (see limitations).",
+  "strata": "established = stars >= 10; long_tail = stars 0-9; both: not a fork, not archived, pushed within 180 days, size 200 B-100 KB, non-dev."
+ },
+ "totals": {
+  "snapshot_date": "2026-11-15",
+  "n_files_total": 39535,
+  "n_claude_files": 17960,
+  "n_agents_files": 21575,
+  "n_repos_overall": 33762,
+  "n_repos_popular": 3754,
+  "n_repos_small_personal": 30008,
+  "n_claude_files_popular": 1720,
+  "n_claude_files_small_personal": 16240,
+  "n_agents_files_popular": 2689,
+  "n_agents_files_small_personal": 18886,
+  "population_popular_repos": 3761,
+  "population_small_personal_repos": 30055
+ },
+ "numbers": {
+  "claude.established.a8.overview.share_files": {
+   "value": 0.5351534638338522,
+   "ci_lo": 0.5074762441184102,
+   "ci_hi": 0.5625609913714642,
+   "n": 1720,
+   "unweighted": 0.49883720930232556,
+   "low_n": false
+  },
+  "claude.established.a8.overview.token_share": {
+   "value": 0.21020107751525044,
+   "ci_lo": 0.18949373453939702,
+   "ci_hi": 0.23270892884337605,
+   "n": 1720,
+   "unweighted": 0.1861741070770772,
+   "low_n": false
+  },
+  "claude.established.a8.tree_dump.share_files": {
+   "value": 0.21478888304857377,
+   "ci_lo": 0.19220112235293127,
+   "ci_hi": 0.23516080294543204,
+   "n": 1720,
+   "unweighted": 0.21453488372093024,
+   "low_n": false
+  },
+  "claude.established.a8.tree_dump.token_share": {
+   "value": 0.03514417656693833,
+   "ci_lo": 0.029639736312159402,
+   "ci_hi": 0.04130572400945954,
+   "n": 1720,
+   "unweighted": 0.03724195853654943,
+   "low_n": false
+  },
+  "claude.established.a1.always_loaded_tokens.median": {
+   "value": 1550.0,
+   "ci_lo": 1450.0,
+   "ci_hi": 1646.05,
+   "n": 1541,
+   "unweighted": 1573.0,
+   "low_n": false
+  },
+  "claude.established.a1.always_loaded_tokens.p90": {
+   "value": 4832.0,
+   "ci_lo": 4398.0,
+   "ci_hi": 5547.0,
+   "n": 1541,
+   "unweighted": 5547.0,
+   "low_n": false
+  },
+  "claude.established.a1.lines.median": {
+   "value": 103.0,
+   "ci_lo": 99.0,
+   "ci_hi": 109.0,
+   "n": 1720,
+   "unweighted": 104.0,
+   "low_n": false
+  },
+  "claude.long_tail.a8.overview.share_files": {
+   "value": 0.4219192520879511,
+   "ci_lo": 0.41375333897214706,
+   "ci_hi": 0.4306921365318156,
+   "n": 16240,
+   "unweighted": 0.40369458128078817,
+   "low_n": false
+  },
+  "claude.long_tail.a8.overview.token_share": {
+   "value": 0.16484317673710444,
+   "ci_lo": 0.1574217335139244,
+   "ci_hi": 0.17215000397292074,
+   "n": 16240,
+   "unweighted": 0.15406125438330448,
+   "low_n": false
+  },
+  "claude.long_tail.a8.tree_dump.share_files": {
+   "value": 0.1731544923377115,
+   "ci_lo": 0.16665694546903398,
+   "ci_hi": 0.17960067267460686,
+   "n": 16240,
+   "unweighted": 0.17149014778325122,
+   "low_n": false
+  },
+  "claude.long_tail.a8.tree_dump.token_share": {
+   "value": 0.030352284516660683,
+   "ci_lo": 0.028493745581336234,
+   "ci_hi": 0.032088469348124656,
+   "n": 16240,
+   "unweighted": 0.031357834056323454,
+   "low_n": false
+  },
+  "claude.long_tail.a1.always_loaded_tokens.median": {
+   "value": 1361.0,
+   "ci_lo": 1323.0,
+   "ci_hi": 1397.0,
+   "n": 14968,
+   "unweighted": 1337.0,
+   "low_n": false
+  },
+  "claude.long_tail.a1.always_loaded_tokens.p90": {
+   "value": 4440.0,
+   "ci_lo": 4318.0,
+   "ci_hi": 4539.05,
+   "n": 14968,
+   "unweighted": 4623.0,
+   "low_n": false
+  },
+  "claude.long_tail.a1.lines.median": {
+   "value": 85.0,
+   "ci_lo": 84.0,
+   "ci_hi": 87.0,
+   "n": 16240,
+   "unweighted": 84.0,
+   "low_n": false
+  },
+  "claude.overall.a8.overview.share_files": {
+   "value": 0.4314244502838983,
+   "ci_lo": 0.4233892736208127,
+   "ci_hi": 0.4391911255719766,
+   "n": 17960,
+   "unweighted": 0.4128062360801782,
+   "low_n": false
+  },
+  "claude.overall.a8.overview.token_share": {
+   "value": 0.16903351414888101,
+   "ci_lo": 0.16180732332315956,
+   "ci_hi": 0.17665906980558554,
+   "n": 17960,
+   "unweighted": 0.1575657052229868,
+   "low_n": false
+  },
+  "claude.overall.a8.tree_dump.share_files": {
+   "value": 0.17664940018731357,
+   "ci_lo": 0.17070626522220908,
+   "ci_hi": 0.18276695509691235,
+   "n": 17960,
+   "unweighted": 0.17561247216035636,
+   "low_n": false
+  },
+  "claude.overall.a8.tree_dump.token_share": {
+   "value": 0.03079497794353876,
+   "ci_lo": 0.02898601241647024,
+   "ci_hi": 0.03265700517024461,
+   "n": 17960,
+   "unweighted": 0.03199996402129919,
+   "low_n": false
+  },
+  "claude.overall.a1.always_loaded_tokens.median": {
+   "value": 1379.0,
+   "ci_lo": 1345.975,
+   "ci_hi": 1410.0,
+   "n": 16509,
+   "unweighted": 1361.0,
+   "low_n": false
+  },
+  "claude.overall.a1.always_loaded_tokens.p90": {
+   "value": 4469.0,
+   "ci_lo": 4353.0,
+   "ci_hi": 4585.0,
+   "n": 16509,
+   "unweighted": 4700.0,
+   "low_n": false
+  },
+  "claude.overall.a1.lines.median": {
+   "value": 86.0,
+   "ci_lo": 85.0,
+   "ci_hi": 88.0,
+   "n": 17960,
+   "unweighted": 86.0,
+   "low_n": false
+  },
+  "agents.established.a8.overview.share_files": {
+   "value": 0.3360527092685857,
+   "ci_lo": 0.31494708313717884,
+   "ci_hi": 0.354589338253558,
+   "n": 2689,
+   "unweighted": 0.3410189661584232,
+   "low_n": false
+  },
+  "agents.established.a8.overview.token_share": {
+   "value": 0.09615924428342067,
+   "ci_lo": 0.08275793020795856,
+   "ci_hi": 0.11232922933368411,
+   "n": 2689,
+   "unweighted": 0.09099874888785196,
+   "low_n": false
+  },
+  "agents.established.a8.tree_dump.share_files": {
+   "value": 0.12588974392129293,
+   "ci_lo": 0.11217471902660689,
+   "ci_hi": 0.14078198569316785,
+   "n": 2689,
+   "unweighted": 0.13722573447378208,
+   "low_n": false
+  },
+  "agents.established.a8.tree_dump.token_share": {
+   "value": 0.02470494866493417,
+   "ci_lo": 0.019447799724983388,
+   "ci_hi": 0.031104234626428858,
+   "n": 2689,
+   "unweighted": 0.024321449271097032,
+   "low_n": false
+  },
+  "agents.established.a1.always_loaded_tokens.median": {
+   "value": 1318.0,
+   "ci_lo": 1264.975,
+   "ci_hi": 1380.0,
+   "n": 2548,
+   "unweighted": 1515.0,
+   "low_n": false
+  },
+  "agents.established.a1.always_loaded_tokens.p90": {
+   "value": 4269.0,
+   "ci_lo": 3946.925,
+   "ci_hi": 4806.0,
+   "n": 2548,
+   "unweighted": 5433.0,
+   "low_n": false
+  },
+  "agents.established.a1.lines.median": {
+   "value": 90.0,
+   "ci_lo": 84.975,
+   "ci_hi": 93.0,
+   "n": 2689,
+   "unweighted": 99.0,
+   "low_n": false
+  },
+  "agents.long_tail.a8.overview.share_files": {
+   "value": 0.269920185929418,
+   "ci_lo": 0.26283898525905663,
+   "ci_hi": 0.2769205268434154,
+   "n": 18886,
+   "unweighted": 0.27210632214338665,
+   "low_n": false
+  },
+  "agents.long_tail.a8.overview.token_share": {
+   "value": 0.07883615144774153,
+   "ci_lo": 0.07445124940684632,
+   "ci_hi": 0.0838732861145034,
+   "n": 18886,
+   "unweighted": 0.0756442796044212,
+   "low_n": false
+  },
+  "agents.long_tail.a8.tree_dump.share_files": {
+   "value": 0.11205740839954031,
+   "ci_lo": 0.10663724096276207,
+   "ci_hi": 0.11739658155010943,
+   "n": 18886,
+   "unweighted": 0.11950651276077517,
+   "low_n": false
+  },
+  "agents.long_tail.a8.tree_dump.token_share": {
+   "value": 0.024328702608884333,
+   "ci_lo": 0.022469629600817748,
+   "ci_hi": 0.02605585819367311,
+   "n": 18886,
+   "unweighted": 0.024465529525842182,
+   "low_n": false
+  },
+  "agents.long_tail.a1.always_loaded_tokens.median": {
+   "value": 963.0,
+   "ci_lo": 943.0,
+   "ci_hi": 990.0,
+   "n": 17660,
+   "unweighted": 1083.0,
+   "low_n": false
+  },
+  "agents.long_tail.a1.always_loaded_tokens.p90": {
+   "value": 3377.0,
+   "ci_lo": 3308.975,
+   "ci_hi": 3441.0,
+   "n": 17660,
+   "unweighted": 3694.0,
+   "low_n": false
+  },
+  "agents.long_tail.a1.lines.median": {
+   "value": 63.0,
+   "ci_lo": 62.0,
+   "ci_hi": 65.0,
+   "n": 18886,
+   "unweighted": 70.0,
+   "low_n": false
+  },
+  "agents.overall.a8.overview.share_files": {
+   "value": 0.2772176833280117,
+   "ci_lo": 0.2708049581869634,
+   "ci_hi": 0.2836608205204695,
+   "n": 21575,
+   "unweighted": 0.2806952491309386,
+   "low_n": false
+  },
+  "agents.overall.a8.overview.token_share": {
+   "value": 0.08120669380025294,
+   "ci_lo": 0.07693538948343849,
+   "ci_hi": 0.08569133334842627,
+   "n": 21575,
+   "unweighted": 0.0780513562170239,
+   "low_n": false
+  },
+  "agents.overall.a8.tree_dump.share_files": {
+   "value": 0.1135837592385787,
+   "ci_lo": 0.10893292586826439,
+   "ci_hi": 0.11848058536794555,
+   "n": 21575,
+   "unweighted": 0.12171494785631518,
+   "low_n": false
+  },
+  "agents.overall.a8.tree_dump.token_share": {
+   "value": 0.024380189212303928,
+   "ci_lo": 0.022606228874654292,
+   "ci_hi": 0.026282886049903857,
+   "n": 21575,
+   "unweighted": 0.02444294247283937,
+   "low_n": false
+  },
+  "agents.overall.a1.always_loaded_tokens.median": {
+   "value": 1009.0,
+   "ci_lo": 985.975,
+   "ci_hi": 1030.025,
+   "n": 20208,
+   "unweighted": 1137.0,
+   "low_n": false
+  },
+  "agents.overall.a1.always_loaded_tokens.p90": {
+   "value": 3472.0,
+   "ci_lo": 3409.0,
+   "ci_hi": 3544.0,
+   "n": 20208,
+   "unweighted": 3835.0,
+   "low_n": false
+  },
+  "agents.overall.a1.lines.median": {
+   "value": 66.0,
+   "ci_lo": 64.0,
+   "ci_hi": 67.0,
+   "n": 21575,
+   "unweighted": 74.0,
+   "low_n": false
+  },
+  "claude.established.g.sig.share": {
+   "value": 0.34967958353436823,
+   "ci_lo": 0.3237769746688773,
+   "ci_hi": 0.3740880230656659,
+   "n": 1661,
+   "unweighted": 0.3040337146297411,
+   "low_n": false
+  },
+  "claude.established.g.sig.overview.share_files": {
+   "value": 0.9220008175499922,
+   "ci_lo": 0.8979771806599496,
+   "ci_hi": 0.9469698146646623,
+   "n": 505,
+   "unweighted": 0.9188118811881189,
+   "low_n": false
+  },
+  "claude.established.g.sig.overview.token_share": {
+   "value": 0.43168924389918134,
+   "ci_lo": 0.3921675896968381,
+   "ci_hi": 0.4715961325616165,
+   "n": 505,
+   "unweighted": 0.402680430637897,
+   "low_n": false
+  },
+  "claude.established.g.sig.tokens.median": {
+   "value": 1730.0,
+   "ci_lo": 1603.0,
+   "ci_hi": 1827.05,
+   "n": 505,
+   "unweighted": 1854.0,
+   "low_n": false
+  },
+  "claude.established.g.nosig.overview.share_files": {
+   "value": 0.3296545082569827,
+   "ci_lo": 0.29787918560296095,
+   "ci_hi": 0.3619989335800123,
+   "n": 1156,
+   "unweighted": 0.314878892733564,
+   "low_n": false
+  },
+  "claude.established.g.nosig.overview.token_share": {
+   "value": 0.08933912513210975,
+   "ci_lo": 0.07443953705331542,
+   "ci_hi": 0.1052083242444111,
+   "n": 1156,
+   "unweighted": 0.08236752250195811,
+   "low_n": false
+  },
+  "claude.established.g.nosig.tokens.median": {
+   "value": 1279.0,
+   "ci_lo": 1145.0,
+   "ci_hi": 1413.0,
+   "n": 1156,
+   "unweighted": 1263.0,
+   "low_n": false
+  },
+  "repo.established.link.class.symlink": {
+   "value": 0.4042417926842234,
+   "ci_lo": 0.36416224813073983,
+   "ci_hi": 0.4438953458534598,
+   "n": 918,
+   "unweighted": 0.28649237472766886,
+   "low_n": false
+  },
+  "repo.established.link.class.import_bridge": {
+   "value": 0.08895930922683827,
+   "ci_lo": 0.07138426216445716,
+   "ci_hi": 0.10825412768598384,
+   "n": 918,
+   "unweighted": 0.12200435729847495,
+   "low_n": false
+  },
+  "repo.established.link.class.prose_pointer": {
+   "value": 0.17195910010080956,
+   "ci_lo": 0.14719886003698446,
+   "ci_hi": 0.19893618018074763,
+   "n": 918,
+   "unweighted": 0.20806100217864923,
+   "low_n": false
+  },
+  "repo.established.link.class.near_copy": {
+   "value": 0.09642572637995549,
+   "ci_lo": 0.07750868688940458,
+   "ci_hi": 0.1157982754419618,
+   "n": 918,
+   "unweighted": 0.10348583877995643,
+   "low_n": false
+  },
+  "repo.established.link.class.independent": {
+   "value": 0.23841407160817313,
+   "ci_lo": 0.20799873719075201,
+   "ci_hi": 0.2710620848727968,
+   "n": 918,
+   "unweighted": 0.27995642701525053,
+   "low_n": false
+  },
+  "repo.established.link.linked_any": {
+   "value": 0.6651602020118713,
+   "ci_lo": 0.6297251913587382,
+   "ci_hi": 0.6966971523526393,
+   "n": 918,
+   "unweighted": 0.616557734204793,
+   "low_n": false
+  },
+  "repo.established.h.any.share_of_repos": {
+   "value": 0.045106099879767915,
+   "ci_lo": 0.03871531832647982,
+   "ci_hi": 0.05179926648642295,
+   "n": 3754,
+   "unweighted": 0.07432072456046883,
+   "low_n": false
+  },
+  "repo.established.h.ev.PreToolUse.share_of_repos_with_hooks": {
+   "value": 0.49640375070050613,
+   "ci_lo": 0.42433994576410217,
+   "ci_hi": 0.5705872096429622,
+   "n": 279,
+   "unweighted": 0.5519713261648745,
+   "low_n": false
+  },
+  "repo.established.h.ev.PostToolUse.share_of_repos_with_hooks": {
+   "value": 0.44158135529318854,
+   "ci_lo": 0.3678113250590552,
+   "ci_hi": 0.5133703153946749,
+   "n": 279,
+   "unweighted": 0.4874551971326165,
+   "low_n": false
+  },
+  "repo.established.h.ev.UserPromptSubmit.share_of_repos_with_hooks": {
+   "value": 0.11000435614402554,
+   "ci_lo": 0.06350740170233621,
+   "ci_hi": 0.1575080351624776,
+   "n": 279,
+   "unweighted": 0.12186379928315412,
+   "low_n": false
+  },
+  "repo.established.h.ev.SessionStart.share_of_repos_with_hooks": {
+   "value": 0.4329560001682925,
+   "ci_lo": 0.3660493420178813,
+   "ci_hi": 0.5055529076646951,
+   "n": 279,
+   "unweighted": 0.45878136200716846,
+   "low_n": false
+  },
+  "repo.established.h.ev.SessionEnd.share_of_repos_with_hooks": {
+   "value": 0.04558054429987518,
+   "ci_lo": 0.01957670682189017,
+   "ci_hi": 0.07890713990781498,
+   "n": 279,
+   "unweighted": 0.06093189964157706,
+   "low_n": false
+  },
+  "repo.established.h.ev.Stop.share_of_repos_with_hooks": {
+   "value": 0.25659604059497415,
+   "ci_lo": 0.19414111764162076,
+   "ci_hi": 0.32035120828103203,
+   "n": 279,
+   "unweighted": 0.25806451612903225,
+   "low_n": false
+  },
+  "repo.established.h.ev.SubagentStop.share_of_repos_with_hooks": {
+   "value": 0.07126593765585254,
+   "ci_lo": 0.03384570320720572,
+   "ci_hi": 0.11410863424011833,
+   "n": 279,
+   "unweighted": 0.06810035842293907,
+   "low_n": false
+  },
+  "repo.established.h.ev.Notification.share_of_repos_with_hooks": {
+   "value": 0.03344806485180664,
+   "ci_lo": 0.008839692552837067,
+   "ci_hi": 0.06372417137113907,
+   "n": 279,
+   "unweighted": 0.03225806451612903,
+   "low_n": false
+  },
+  "repo.established.h.ev.PreCompact.share_of_repos_with_hooks": {
+   "value": 0.06149763712051679,
+   "ci_lo": 0.027861218998444102,
+   "ci_hi": 0.10087384904714562,
+   "n": 279,
+   "unweighted": 0.05017921146953405,
+   "low_n": false
+  },
+  "claude.long_tail.g.sig.share": {
+   "value": 0.2549809919918579,
+   "ci_lo": 0.24750802745981404,
+   "ci_hi": 0.2624855242247465,
+   "n": 16014,
+   "unweighted": 0.23248407643312102,
+   "low_n": false
+  },
+  "claude.long_tail.g.sig.overview.share_files": {
+   "value": 0.8610927576650613,
+   "ci_lo": 0.8504298484778396,
+   "ci_hi": 0.8719612605741398,
+   "n": 3723,
+   "unweighted": 0.8525382755842063,
+   "low_n": false
+  },
+  "claude.long_tail.g.sig.overview.token_share": {
+   "value": 0.4116971031737675,
+   "ci_lo": 0.3923880061042995,
+   "ci_hi": 0.4295655969025985,
+   "n": 3723,
+   "unweighted": 0.3911997888810932,
+   "low_n": false
+  },
+  "claude.long_tail.g.sig.tokens.median": {
+   "value": 1580.0,
+   "ci_lo": 1549.0,
+   "ci_hi": 1606.0,
+   "n": 3723,
+   "unweighted": 1602.0,
+   "low_n": false
+  },
+  "claude.long_tail.g.nosig.overview.share_files": {
+   "value": 0.2716182208169607,
+   "ci_lo": 0.2627803666347918,
+   "ci_hi": 0.28079487745439774,
+   "n": 12291,
+   "unweighted": 0.2671060125294931,
+   "low_n": false
+  },
+  "claude.long_tail.g.nosig.overview.token_share": {
+   "value": 0.07245258491322738,
+   "ci_lo": 0.06725489190321211,
+   "ci_hi": 0.0783469234133989,
+   "n": 12291,
+   "unweighted": 0.072030079430837,
+   "low_n": false
+  },
+  "claude.long_tail.g.nosig.tokens.median": {
+   "value": 1180.0,
+   "ci_lo": 1149.95,
+   "ci_hi": 1206.0,
+   "n": 12291,
+   "unweighted": 1143.0,
+   "low_n": false
+  },
+  "repo.long_tail.link.class.symlink": {
+   "value": 0.21656671153014925,
+   "ci_lo": 0.20270804219752042,
+   "ci_hi": 0.22993524376745259,
+   "n": 5945,
+   "unweighted": 0.1391084945332212,
+   "low_n": false
+  },
+  "repo.long_tail.link.class.import_bridge": {
+   "value": 0.1488000803951044,
+   "ci_lo": 0.14011653466458063,
+   "ci_hi": 0.15707534955391758,
+   "n": 5945,
+   "unweighted": 0.1633305298570227,
+   "low_n": false
+  },
+  "repo.long_tail.link.class.prose_pointer": {
+   "value": 0.20159971129917703,
+   "ci_lo": 0.1911021117334987,
+   "ci_hi": 0.21289335582902602,
+   "n": 5945,
+   "unweighted": 0.22169890664423886,
+   "low_n": false
+  },
+  "repo.long_tail.link.class.near_copy": {
+   "value": 0.12458754465538616,
+   "ci_lo": 0.11604555119684946,
+   "ci_hi": 0.13361464611442123,
+   "n": 5945,
+   "unweighted": 0.1312026913372582,
+   "low_n": false
+  },
+  "repo.long_tail.link.class.independent": {
+   "value": 0.3084459521201831,
+   "ci_lo": 0.296278604827419,
+   "ci_hi": 0.3199498458002251,
+   "n": 5945,
+   "unweighted": 0.34465937762825904,
+   "low_n": false
+  },
+  "repo.long_tail.link.linked_any": {
+   "value": 0.5669665032244308,
+   "ci_lo": 0.5543657737891664,
+   "ci_hi": 0.581521731158433,
+   "n": 5945,
+   "unweighted": 0.5241379310344828,
+   "low_n": false
+  },
+  "repo.long_tail.h.any.share_of_repos": {
+   "value": 0.04044069056105981,
+   "ci_lo": 0.038350321874216664,
+   "ci_hi": 0.04268859531982781,
+   "n": 30008,
+   "unweighted": 0.058517728605705144,
+   "low_n": false
+  },
+  "repo.long_tail.h.ev.PreToolUse.share_of_repos_with_hooks": {
+   "value": 0.5263773770306168,
+   "ci_lo": 0.5007451687038418,
+   "ci_hi": 0.5547502165708801,
+   "n": 1756,
+   "unweighted": 0.5455580865603644,
+   "low_n": false
+  },
+  "repo.long_tail.h.ev.PostToolUse.share_of_repos_with_hooks": {
+   "value": 0.44755230217775027,
+   "ci_lo": 0.42031575779703445,
+   "ci_hi": 0.4740795621128908,
+   "n": 1756,
+   "unweighted": 0.47494305239179957,
+   "low_n": false
+  },
+  "repo.long_tail.h.ev.UserPromptSubmit.share_of_repos_with_hooks": {
+   "value": 0.12849289216924525,
+   "ci_lo": 0.10926746945873933,
+   "ci_hi": 0.14578409448963825,
+   "n": 1756,
+   "unweighted": 0.13382687927107062,
+   "low_n": false
+  },
+  "repo.long_tail.h.ev.SessionStart.share_of_repos_with_hooks": {
+   "value": 0.40236408669257445,
+   "ci_lo": 0.3760384522950075,
+   "ci_hi": 0.4293306719065544,
+   "n": 1756,
+   "unweighted": 0.4276765375854214,
+   "low_n": false
+  },
+  "repo.long_tail.h.ev.SessionEnd.share_of_repos_with_hooks": {
+   "value": 0.055540507147002746,
+   "ci_lo": 0.04314590618312959,
+   "ci_hi": 0.06857714695004372,
+   "n": 1756,
+   "unweighted": 0.05580865603644647,
+   "low_n": false
+  },
+  "repo.long_tail.h.ev.Stop.share_of_repos_with_hooks": {
+   "value": 0.2967828934667503,
+   "ci_lo": 0.2716238553767944,
+   "ci_hi": 0.31999408694425,
+   "n": 1756,
+   "unweighted": 0.30296127562642367,
+   "low_n": false
+  },
+  "repo.long_tail.h.ev.SubagentStop.share_of_repos_with_hooks": {
+   "value": 0.049498586330997185,
+   "ci_lo": 0.039000793918467766,
+   "ci_hi": 0.06014283743943834,
+   "n": 1756,
+   "unweighted": 0.06264236902050115,
+   "low_n": false
+  },
+  "repo.long_tail.h.ev.Notification.share_of_repos_with_hooks": {
+   "value": 0.032670341815305336,
+   "ci_lo": 0.023799292237538863,
+   "ci_hi": 0.04227484787077571,
+   "n": 1756,
+   "unweighted": 0.03644646924829157,
+   "low_n": false
+  },
+  "repo.long_tail.h.ev.PreCompact.share_of_repos_with_hooks": {
+   "value": 0.06330076792835461,
+   "ci_lo": 0.05094817724823609,
+   "ci_hi": 0.07587262402441448,
+   "n": 1756,
+   "unweighted": 0.07175398633257403,
+   "low_n": false
+  },
+  "claude.overall.g.sig.share": {
+   "value": 0.2627700503753343,
+   "ci_lo": 0.25568531157666463,
+   "ci_hi": 0.2699511832146556,
+   "n": 17675,
+   "unweighted": 0.2392079207920792,
+   "low_n": false
+  },
+  "claude.overall.g.sig.overview.share_files": {
+   "value": 0.8677594531358046,
+   "ci_lo": 0.8564030600913808,
+   "ci_hi": 0.8791525386743926,
+   "n": 4228,
+   "unweighted": 0.8604541154210028,
+   "low_n": false
+  },
+  "claude.overall.g.sig.overview.token_share": {
+   "value": 0.4140255865674431,
+   "ci_lo": 0.398225574500194,
+   "ci_hi": 0.42957315805647955,
+   "n": 4228,
+   "unweighted": 0.39273866660899626,
+   "low_n": false
+  },
+  "claude.overall.g.sig.tokens.median": {
+   "value": 1589.0,
+   "ci_lo": 1557.975,
+   "ci_hi": 1622.0,
+   "n": 4228,
+   "unweighted": 1634.0,
+   "low_n": false
+  },
+  "claude.overall.g.nosig.overview.share_files": {
+   "value": 0.2758290292217765,
+   "ci_lo": 0.2679287224646373,
+   "ci_hi": 0.2840747859909068,
+   "n": 13447,
+   "unweighted": 0.27121290994273817,
+   "low_n": false
+  },
+  "claude.overall.g.nosig.overview.token_share": {
+   "value": 0.07378897052099168,
+   "ci_lo": 0.0688039285785656,
+   "ci_hi": 0.07901559122457233,
+   "n": 13447,
+   "unweighted": 0.07302326360275903,
+   "low_n": false
+  },
+  "claude.overall.g.nosig.tokens.median": {
+   "value": 1183.0,
+   "ci_lo": 1152.0,
+   "ci_hi": 1213.0,
+   "n": 13447,
+   "unweighted": 1153.0,
+   "low_n": false
+  },
+  "repo.overall.link.class.symlink": {
+   "value": 0.24092357013927404,
+   "ci_lo": 0.22812451642560463,
+   "ci_hi": 0.2543723595866174,
+   "n": 6863,
+   "unweighted": 0.15882267230074312,
+   "low_n": false
+  },
+  "repo.overall.link.class.import_bridge": {
+   "value": 0.14103382185164934,
+   "ci_lo": 0.13211102429507307,
+   "ci_hi": 0.14997965293630575,
+   "n": 6863,
+   "unweighted": 0.15780271018505027,
+   "low_n": false
+  },
+  "repo.overall.link.class.prose_pointer": {
+   "value": 0.19775289172351912,
+   "ci_lo": 0.1880656647334357,
+   "ci_hi": 0.20713879642144686,
+   "n": 6863,
+   "unweighted": 0.21987469036864346,
+   "low_n": false
+  },
+  "repo.overall.link.class.near_copy": {
+   "value": 0.12093264587131472,
+   "ci_lo": 0.11337170302262055,
+   "ci_hi": 0.128150722484268,
+   "n": 6863,
+   "unweighted": 0.12749526446160572,
+   "low_n": false
+  },
+  "repo.overall.link.class.independent": {
+   "value": 0.29935707041424264,
+   "ci_lo": 0.2877638401883978,
+   "ci_hi": 0.3106850066803502,
+   "n": 6863,
+   "unweighted": 0.33600466268395746,
+   "low_n": false
+  },
+  "repo.overall.link.linked_any": {
+   "value": 0.5797102837144424,
+   "ci_lo": 0.567343457123036,
+   "ci_hi": 0.592734012251326,
+   "n": 6863,
+   "unweighted": 0.5365000728544368,
+   "low_n": false
+  },
+  "repo.overall.h.any.share_of_repos": {
+   "value": 0.04090442299315499,
+   "ci_lo": 0.03888159300798932,
+   "ci_hi": 0.04306834223883263,
+   "n": 33762,
+   "unweighted": 0.060274865233102305,
+   "low_n": false
+  },
+  "repo.overall.h.ev.PreToolUse.share_of_repos_with_hooks": {
+   "value": 0.5230920242335783,
+   "ci_lo": 0.4976269757317424,
+   "ci_hi": 0.5480677498878097,
+   "n": 2035,
+   "unweighted": 0.5464373464373464,
+   "low_n": false
+  },
+  "repo.overall.h.ev.PostToolUse.share_of_repos_with_hooks": {
+   "value": 0.4468978379220036,
+   "ci_lo": 0.4208427790130542,
+   "ci_hi": 0.47178332589706073,
+   "n": 2035,
+   "unweighted": 0.47665847665847666,
+   "low_n": false
+  },
+  "repo.overall.h.ev.UserPromptSubmit.share_of_repos_with_hooks": {
+   "value": 0.12646639851530292,
+   "ci_lo": 0.10982564062758492,
+   "ci_hi": 0.1440535737208068,
+   "n": 2035,
+   "unweighted": 0.1321867321867322,
+   "low_n": false
+  },
+  "repo.overall.h.ev.SessionStart.share_of_repos_with_hooks": {
+   "value": 0.40571720878055,
+   "ci_lo": 0.3822069324662925,
+   "ci_hi": 0.43175409520611274,
+   "n": 2035,
+   "unweighted": 0.43194103194103195,
+   "low_n": false
+  },
+  "repo.overall.h.ev.SessionEnd.share_of_repos_with_hooks": {
+   "value": 0.054448814355552246,
+   "ci_lo": 0.043280278338978836,
+   "ci_hi": 0.06666604469237201,
+   "n": 2035,
+   "unweighted": 0.056511056511056514,
+   "low_n": false
+  },
+  "repo.overall.h.ev.Stop.share_of_repos_with_hooks": {
+   "value": 0.2923780881211307,
+   "ci_lo": 0.26860056661118825,
+   "ci_hi": 0.3142893172005238,
+   "n": 2035,
+   "unweighted": 0.2968058968058968,
+   "low_n": false
+  },
+  "repo.overall.h.ev.SubagentStop.share_of_repos_with_hooks": {
+   "value": 0.05188446476197632,
+   "ci_lo": 0.04192104292940425,
+   "ci_hi": 0.06299660668473833,
+   "n": 2035,
+   "unweighted": 0.06339066339066339,
+   "low_n": false
+  },
+  "repo.overall.h.ev.Notification.share_of_repos_with_hooks": {
+   "value": 0.032755586574319505,
+   "ci_lo": 0.02482247557207853,
+   "ci_hi": 0.042357396931285825,
+   "n": 2035,
+   "unweighted": 0.03587223587223587,
+   "low_n": false
+  },
+  "repo.overall.h.ev.PreCompact.share_of_repos_with_hooks": {
+   "value": 0.0631031301524741,
+   "ci_lo": 0.05188572735591996,
+   "ci_hi": 0.07567848171075892,
+   "n": 2035,
+   "unweighted": 0.0687960687960688,
+   "low_n": false
+  },
+  "repo.overall.stack.has_agents_md": {
+   "value": 0.6782339339412005,
+   "ci_lo": 0.6732548714998123,
+   "ci_hi": 0.6834608491065881,
+   "n": 33762,
+   "unweighted": 0.6883478466915467,
+   "low_n": false
+  },
+  "repo.overall.stack.has_claude_md": {
+   "value": 0.5678249607450672,
+   "ci_lo": 0.5616507482621097,
+   "ci_hi": 0.5735476274401634,
+   "n": 33762,
+   "unweighted": 0.6542562644393105,
+   "low_n": false
+  },
+  "repo.overall.pop.small_personal_share": {
+   "value": 0.9006019835739529,
+   "ci_lo": 0.896969061166924,
+   "ci_hi": 0.9041598233392472,
+   "n": 33762,
+   "unweighted": 0.8888099046265032,
+   "low_n": false
+  }
+ }
+}

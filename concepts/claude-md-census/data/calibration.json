@@ -1,0 +1,14 @@
+{
+ "n": 17960,
+ "weighted": {
+  "p25": 3.7170542635658914,
+  "median": 3.952314165497896,
+  "p75": 4.168566286742651
+ },
+ "unweighted": {
+  "p25": 3.7182533129102002,
+  "median": 3.9579808073144083,
+  "p75": 4.18769647664789
+ },
+ "note": "characters per token (o200k_base proxy) of the primary CLAUDE.md of each repo; estimate tokens in the browser as ceil(chars / median). Weighted by repo weight."
+}

@@ -1,0 +1,277 @@
+{
+ "npm / pnpm / yarn": {
+  "n_repos": 13222,
+  "top": [
+   {
+    "cmd": "npm:build",
+    "share_weighted": 0.2549186211693306,
+    "n_repos": 3284
+   },
+   {
+    "cmd": "npm:dev",
+    "share_weighted": 0.19470987372635032,
+    "n_repos": 2540
+   },
+   {
+    "cmd": "npm:test",
+    "share_weighted": 0.18175124659361816,
+    "n_repos": 2402
+   },
+   {
+    "cmd": "npm:lint",
+    "share_weighted": 0.14253730717426794,
+    "n_repos": 1886
+   },
+   {
+    "cmd": "npm:install",
+    "share_weighted": 0.11315341694014572,
+    "n_repos": 1519
+   },
+   {
+    "cmd": "pnpm:build",
+    "share_weighted": 0.09150209111542659,
+    "n_repos": 1363
+   },
+   {
+    "cmd": "pnpm:test",
+    "share_weighted": 0.07255748991954712,
+    "n_repos": 1170
+   },
+   {
+    "cmd": "npm:typecheck",
+    "share_weighted": 0.07228202044371283,
+    "n_repos": 951
+   },
+   {
+    "cmd": "pnpm:dev",
+    "share_weighted": 0.07149525656512327,
+    "n_repos": 1073
+   },
+   {
+    "cmd": "pnpm:lint",
+    "share_weighted": 0.06909274495635835,
+    "n_repos": 1075
+   }
+  ]
+ },
+ "Python (uv, poetry, pip)": {
+  "n_repos": 4935,
+  "top": [
+   {
+    "cmd": "pytest",
+    "share_weighted": 0.24705994296450506,
+    "n_repos": 1260
+   },
+   {
+    "cmd": "pip:install",
+    "share_weighted": 0.1654194271446933,
+    "n_repos": 838
+   },
+   {
+    "cmd": "uv:sync",
+    "share_weighted": 0.14293150543619518,
+    "n_repos": 726
+   },
+   {
+    "cmd": "uv:pytest",
+    "share_weighted": 0.14030919021258811,
+    "n_repos": 719
+   },
+   {
+    "cmd": "uv:ruff",
+    "share_weighted": 0.0892663945701352,
+    "n_repos": 451
+   },
+   {
+    "cmd": "ruff:check",
+    "share_weighted": 0.08495049359710893,
+    "n_repos": 443
+   },
+   {
+    "cmd": "uv:python",
+    "share_weighted": 0.0793750747960353,
+    "n_repos": 411
+   },
+   {
+    "cmd": "ruff:format",
+    "share_weighted": 0.049666266095377706,
+    "n_repos": 254
+   },
+   {
+    "cmd": "make:test",
+    "share_weighted": 0.04921783194197371,
+    "n_repos": 269
+   },
+   {
+    "cmd": "git:push",
+    "share_weighted": 0.04842870878792099,
+    "n_repos": 282
+   }
+  ]
+ },
+ "Rust (cargo)": {
+  "n_repos": 1382,
+  "top": [
+   {
+    "cmd": "cargo:test",
+    "share_weighted": 0.5814216264712047,
+    "n_repos": 815
+   },
+   {
+    "cmd": "cargo:clippy",
+    "share_weighted": 0.44547071211966055,
+    "n_repos": 626
+   },
+   {
+    "cmd": "cargo:fmt",
+    "share_weighted": 0.4362794294932675,
+    "n_repos": 604
+   },
+   {
+    "cmd": "cargo:build",
+    "share_weighted": 0.3622737685900775,
+    "n_repos": 501
+   },
+   {
+    "cmd": "cargo:run",
+    "share_weighted": 0.26942915787723803,
+    "n_repos": 382
+   },
+   {
+    "cmd": "cargo:check",
+    "share_weighted": 0.15123023612103792,
+    "n_repos": 223
+   },
+   {
+    "cmd": "git:push",
+    "share_weighted": 0.054569726658122146,
+    "n_repos": 88
+   },
+   {
+    "cmd": "cargo:install",
+    "share_weighted": 0.05243513752938342,
+    "n_repos": 79
+   },
+   {
+    "cmd": "cargo:xtask",
+    "share_weighted": 0.04614750011575349,
+    "n_repos": 77
+   },
+   {
+    "cmd": "git:diff",
+    "share_weighted": 0.0445951781270661,
+    "n_repos": 70
+   }
+  ]
+ },
+ "Go": {
+  "n_repos": 1137,
+  "top": [
+   {
+    "cmd": "go:test",
+    "share_weighted": 0.5315241570172428,
+    "n_repos": 607
+   },
+   {
+    "cmd": "go:build",
+    "share_weighted": 0.31999569500173675,
+    "n_repos": 370
+   },
+   {
+    "cmd": "go:vet",
+    "share_weighted": 0.2497611977190839,
+    "n_repos": 278
+   },
+   {
+    "cmd": "make:test",
+    "share_weighted": 0.2479469493539419,
+    "n_repos": 300
+   },
+   {
+    "cmd": "gofmt",
+    "share_weighted": 0.20074797717842863,
+    "n_repos": 232
+   },
+   {
+    "cmd": "go:run",
+    "share_weighted": 0.1803038825036551,
+    "n_repos": 205
+   },
+   {
+    "cmd": "make:build",
+    "share_weighted": 0.1691911059939536,
+    "n_repos": 217
+   },
+   {
+    "cmd": "make:lint",
+    "share_weighted": 0.1310207204237936,
+    "n_repos": 168
+   },
+   {
+    "cmd": "golangci-lint",
+    "share_weighted": 0.12578340176377176,
+    "n_repos": 154
+   },
+   {
+    "cmd": "go:mod",
+    "share_weighted": 0.10850369905988974,
+    "n_repos": 128
+   }
+  ]
+ },
+ "make / just only": {
+  "n_repos": 1039,
+  "top": [
+   {
+    "cmd": "make:test",
+    "share_weighted": 0.2202016254797277,
+    "n_repos": 217
+   },
+   {
+    "cmd": "make:(default)",
+    "share_weighted": 0.17461110980734063,
+    "n_repos": 174
+   },
+   {
+    "cmd": "make:check",
+    "share_weighted": 0.10924277134520514,
+    "n_repos": 117
+   },
+   {
+    "cmd": "make:clean",
+    "share_weighted": 0.09806728445550753,
+    "n_repos": 90
+   },
+   {
+    "cmd": "make:lint",
+    "share_weighted": 0.09240445007660189,
+    "n_repos": 110
+   },
+   {
+    "cmd": "docker:compose",
+    "share_weighted": 0.07331906347274425,
+    "n_repos": 76
+   },
+   {
+    "cmd": "make:build",
+    "share_weighted": 0.06987837588077381,
+    "n_repos": 67
+   },
+   {
+    "cmd": "npm:build",
+    "share_weighted": 0.06463459798398603,
+    "n_repos": 73
+   },
+   {
+    "cmd": "just:(default)",
+    "share_weighted": 0.05307165507596389,
+    "n_repos": 52
+   },
+   {
+    "cmd": "make:install",
+    "share_weighted": 0.0521401718121659,
+    "n_repos": 59
+   }
+  ]
+ }
+}
